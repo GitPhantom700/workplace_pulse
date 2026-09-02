@@ -1,0 +1,101 @@
+/opt/homebrew/share/google-cloud-sdk/lib/third_party/urllib3/connectionpool.py:1113: InsecureRequestWarning: Unverified HTTPS request is being made to host 'serviceusage.googleapis.com'. Adding certificate verification is strongly advised. See: https://urllib3.readthedocs.io/en/latest/advanced-usage.html#tls-warnings
+  warnings.warn(
+/opt/homebrew/share/google-cloud-sdk/lib/third_party/urllib3/connectionpool.py:1113: InsecureRequestWarning: Unverified HTTPS request is being made to host 'serviceusage.googleapis.com'. Adding certificate verification is strongly advised. See: https://urllib3.readthedocs.io/en/latest/advanced-usage.html#tls-warnings
+  warnings.warn(
+/opt/homebrew/share/google-cloud-sdk/lib/third_party/urllib3/connectionpool.py:1113: InsecureRequestWarning: Unverified HTTPS request is being made to host 'serviceusage.googleapis.com'. Adding certificate verification is strongly advised. See: https://urllib3.readthedocs.io/en/latest/advanced-usage.html#tls-warnings
+  warnings.warn(
+/opt/homebrew/share/google-cloud-sdk/lib/third_party/urllib3/connectionpool.py:1113: InsecureRequestWarning: Unverified HTTPS request is being made to host 'us-central1-run.googleapis.com'. Adding certificate verification is strongly advised. See: https://urllib3.readthedocs.io/en/latest/advanced-usage.html#tls-warnings
+  warnings.warn(
+/opt/homebrew/share/google-cloud-sdk/lib/third_party/urllib3/connectionpool.py:1113: InsecureRequestWarning: Unverified HTTPS request is being made to host 'artifactregistry.googleapis.com'. Adding certificate verification is strongly advised. See: https://urllib3.readthedocs.io/en/latest/advanced-usage.html#tls-warnings
+  warnings.warn(
+/opt/homebrew/share/google-cloud-sdk/lib/third_party/urllib3/connectionpool.py:1113: InsecureRequestWarning: Unverified HTTPS request is being made to host 'cloudbuild.googleapis.com'. Adding certificate verification is strongly advised. See: https://urllib3.readthedocs.io/en/latest/advanced-usage.html#tls-warnings
+  warnings.warn(
+/opt/homebrew/share/google-cloud-sdk/lib/third_party/urllib3/connectionpool.py:1113: InsecureRequestWarning: Unverified HTTPS request is being made to host 'iam.googleapis.com'. Adding certificate verification is strongly advised. See: https://urllib3.readthedocs.io/en/latest/advanced-usage.html#tls-warnings
+  warnings.warn(
+Building using Dockerfile and deploying container to Cloud Run service [workplace-pulse-app] in project [workplacepulse] region [us-central1]
+Building and deploying new service...
+Validating configuration..../opt/homebrew/share/google-cloud-sdk/lib/third_party/urllib3/connectionpool.py:1113: InsecureRequestWarning: Unverified HTTPS request is being made to host 'us-central1-run.googleapis.com'. Adding certificate verification is strongly advised. See: https://urllib3.readthedocs.io/en/latest/advanced-usage.html#tls-warnings
+  warnings.warn(
+.................done
+Uploading sources..../opt/homebrew/share/google-cloud-sdk/lib/third_party/urllib3/connectionpool.py:1113: InsecureRequestWarning: Unverified HTTPS request is being made to host 'storage.googleapis.com'. Adding certificate verification is strongly advised. See: https://urllib3.readthedocs.io/en/latest/advanced-usage.html#tls-warnings
+  warnings.warn(
+.../opt/homebrew/share/google-cloud-sdk/lib/third_party/urllib3/connectionpool.py:1113: InsecureRequestWarning: Unverified HTTPS request is being made to host 'storage.googleapis.com'. Adding certificate verification is strongly advised. See: https://urllib3.readthedocs.io/en/latest/advanced-usage.html#tls-warnings
+  warnings.warn(
+........./opt/homebrew/share/google-cloud-sdk/lib/third_party/urllib3/connectionpool.py:1113: InsecureRequestWarning: Unverified HTTPS request is being made to host 'storage.googleapis.com'. Adding certificate verification is strongly advised. See: https://urllib3.readthedocs.io/en/latest/advanced-usage.html#tls-warnings
+  warnings.warn(
+......................................done
+/opt/homebrew/share/google-cloud-sdk/lib/third_party/urllib3/connectionpool.py:1113: InsecureRequestWarning: Unverified HTTPS request is being made to host 'us-central1-run.googleapis.com'. Adding certificate verification is strongly advised. See: https://urllib3.readthedocs.io/en/latest/advanced-usage.html#tls-warnings
+  warnings.warn(
+Building Container...../opt/homebrew/share/google-cloud-sdk/lib/third_party/urllib3/connectionpool.py:1113: InsecureRequestWarning: Unverified HTTPS request is being made to host 'cloudbuild.googleapis.com'. Adding certificate verification is strongly advised. See: https://urllib3.readthedocs.io/en/latest/advanced-usage.html#tls-warnings
+  warnings.warn(
+......................../opt/homebrew/share/google-cloud-sdk/lib/third_party/urllib3/connectionpool.py:1113: InsecureRequestWarning: Unverified HTTPS request is being made to host 'cloudbuild.googleapis.com'. Adding certificate verification is strongly advised. See: https://urllib3.readthedocs.io/en/latest/advanced-usage.html#tls-warnings
+  warnings.warn(
+......................./opt/homebrew/share/google-cloud-sdk/lib/third_party/urllib3/connectionpool.py:1113: InsecureRequestWarning: Unverified HTTPS request is being made to host 'cloudbuild.googleapis.com'. Adding certificate verification is strongly advised. See: https://urllib3.readthedocs.io/en/latest/advanced-usage.html#tls-warnings
+  warnings.warn(
+......................../opt/homebrew/share/google-cloud-sdk/lib/third_party/urllib3/connectionpool.py:1113: InsecureRequestWarning: Unverified HTTPS request is being made to host 'cloudbuild.googleapis.com'. Adding certificate verification is strongly advised. See: https://urllib3.readthedocs.io/en/latest/advanced-usage.html#tls-warnings
+  warnings.warn(
+......................./opt/homebrew/share/google-cloud-sdk/lib/third_party/urllib3/connectionpool.py:1113: InsecureRequestWarning: Unverified HTTPS request is being made to host 'cloudbuild.googleapis.com'. Adding certificate verification is strongly advised. See: https://urllib3.readthedocs.io/en/latest/advanced-usage.html#tls-warnings
+  warnings.warn(
+......................./opt/homebrew/share/google-cloud-sdk/lib/third_party/urllib3/connectionpool.py:1113: InsecureRequestWarning: Unverified HTTPS request is being made to host 'cloudbuild.googleapis.com'. Adding certificate verification is strongly advised. See: https://urllib3.readthedocs.io/en/latest/advanced-usage.html#tls-warnings
+  warnings.warn(
+......................../opt/homebrew/share/google-cloud-sdk/lib/third_party/urllib3/connectionpool.py:1113: InsecureRequestWarning: Unverified HTTPS request is being made to host 'cloudbuild.googleapis.com'. Adding certificate verification is strongly advised. See: https://urllib3.readthedocs.io/en/latest/advanced-usage.html#tls-warnings
+  warnings.warn(
+......................./opt/homebrew/share/google-cloud-sdk/lib/third_party/urllib3/connectionpool.py:1113: InsecureRequestWarning: Unverified HTTPS request is being made to host 'cloudbuild.googleapis.com'. Adding certificate verification is strongly advised. See: https://urllib3.readthedocs.io/en/latest/advanced-usage.html#tls-warnings
+  warnings.warn(
+......................./opt/homebrew/share/google-cloud-sdk/lib/third_party/urllib3/connectionpool.py:1113: InsecureRequestWarning: Unverified HTTPS request is being made to host 'cloudbuild.googleapis.com'. Adding certificate verification is strongly advised. See: https://urllib3.readthedocs.io/en/latest/advanced-usage.html#tls-warnings
+  warnings.warn(
+......................./opt/homebrew/share/google-cloud-sdk/lib/third_party/urllib3/connectionpool.py:1113: InsecureRequestWarning: Unverified HTTPS request is being made to host 'cloudbuild.googleapis.com'. Adding certificate verification is strongly advised. See: https://urllib3.readthedocs.io/en/latest/advanced-usage.html#tls-warnings
+  warnings.warn(
+......................./opt/homebrew/share/google-cloud-sdk/lib/third_party/urllib3/connectionpool.py:1113: InsecureRequestWarning: Unverified HTTPS request is being made to host 'cloudbuild.googleapis.com'. Adding certificate verification is strongly advised. See: https://urllib3.readthedocs.io/en/latest/advanced-usage.html#tls-warnings
+  warnings.warn(
+......................./opt/homebrew/share/google-cloud-sdk/lib/third_party/urllib3/connectionpool.py:1113: InsecureRequestWarning: Unverified HTTPS request is being made to host 'cloudbuild.googleapis.com'. Adding certificate verification is strongly advised. See: https://urllib3.readthedocs.io/en/latest/advanced-usage.html#tls-warnings
+  warnings.warn(
+......................./opt/homebrew/share/google-cloud-sdk/lib/third_party/urllib3/connectionpool.py:1113: InsecureRequestWarning: Unverified HTTPS request is being made to host 'cloudbuild.googleapis.com'. Adding certificate verification is strongly advised. See: https://urllib3.readthedocs.io/en/latest/advanced-usage.html#tls-warnings
+  warnings.warn(
+......................../opt/homebrew/share/google-cloud-sdk/lib/third_party/urllib3/connectionpool.py:1113: InsecureRequestWarning: Unverified HTTPS request is being made to host 'cloudbuild.googleapis.com'. Adding certificate verification is strongly advised. See: https://urllib3.readthedocs.io/en/latest/advanced-usage.html#tls-warnings
+  warnings.warn(
+......................../opt/homebrew/share/google-cloud-sdk/lib/third_party/urllib3/connectionpool.py:1113: InsecureRequestWarning: Unverified HTTPS request is being made to host 'cloudbuild.googleapis.com'. Adding certificate verification is strongly advised. See: https://urllib3.readthedocs.io/en/latest/advanced-usage.html#tls-warnings
+  warnings.warn(
+......................./opt/homebrew/share/google-cloud-sdk/lib/third_party/urllib3/connectionpool.py:1113: InsecureRequestWarning: Unverified HTTPS request is being made to host 'cloudbuild.googleapis.com'. Adding certificate verification is strongly advised. See: https://urllib3.readthedocs.io/en/latest/advanced-usage.html#tls-warnings
+  warnings.warn(
+......................./opt/homebrew/share/google-cloud-sdk/lib/third_party/urllib3/connectionpool.py:1113: InsecureRequestWarning: Unverified HTTPS request is being made to host 'cloudbuild.googleapis.com'. Adding certificate verification is strongly advised. See: https://urllib3.readthedocs.io/en/latest/advanced-usage.html#tls-warnings
+  warnings.warn(
+......................./opt/homebrew/share/google-cloud-sdk/lib/third_party/urllib3/connectionpool.py:1113: InsecureRequestWarning: Unverified HTTPS request is being made to host 'cloudbuild.googleapis.com'. Adding certificate verification is strongly advised. See: https://urllib3.readthedocs.io/en/latest/advanced-usage.html#tls-warnings
+  warnings.warn(
+......................./opt/homebrew/share/google-cloud-sdk/lib/third_party/urllib3/connectionpool.py:1113: InsecureRequestWarning: Unverified HTTPS request is being made to host 'cloudbuild.googleapis.com'. Adding certificate verification is strongly advised. See: https://urllib3.readthedocs.io/en/latest/advanced-usage.html#tls-warnings
+  warnings.warn(
+......................./opt/homebrew/share/google-cloud-sdk/lib/third_party/urllib3/connectionpool.py:1113: InsecureRequestWarning: Unverified HTTPS request is being made to host 'cloudbuild.googleapis.com'. Adding certificate verification is strongly advised. See: https://urllib3.readthedocs.io/en/latest/advanced-usage.html#tls-warnings
+  warnings.warn(
+......................./opt/homebrew/share/google-cloud-sdk/lib/third_party/urllib3/connectionpool.py:1113: InsecureRequestWarning: Unverified HTTPS request is being made to host 'cloudbuild.googleapis.com'. Adding certificate verification is strongly advised. See: https://urllib3.readthedocs.io/en/latest/advanced-usage.html#tls-warnings
+  warnings.warn(
+........................../opt/homebrew/share/google-cloud-sdk/lib/third_party/urllib3/connectionpool.py:1113: InsecureRequestWarning: Unverified HTTPS request is being made to host 'cloudbuild.googleapis.com'. Adding certificate verification is strongly advised. See: https://urllib3.readthedocs.io/en/latest/advanced-usage.html#tls-warnings
+  warnings.warn(
+......................../opt/homebrew/share/google-cloud-sdk/lib/third_party/urllib3/connectionpool.py:1113: InsecureRequestWarning: Unverified HTTPS request is being made to host 'cloudbuild.googleapis.com'. Adding certificate verification is strongly advised. See: https://urllib3.readthedocs.io/en/latest/advanced-usage.html#tls-warnings
+  warnings.warn(
+....................../opt/homebrew/share/google-cloud-sdk/lib/third_party/urllib3/connectionpool.py:1113: InsecureRequestWarning: Unverified HTTPS request is being made to host 'cloudbuild.googleapis.com'. Adding certificate verification is strongly advised. See: https://urllib3.readthedocs.io/en/latest/advanced-usage.html#tls-warnings
+  warnings.warn(
+............./opt/homebrew/share/google-cloud-sdk/lib/third_party/urllib3/connectionpool.py:1113: InsecureRequestWarning: Unverified HTTPS request is being made to host 'cloudbuild.googleapis.com'. Adding certificate verification is strongly advised. See: https://urllib3.readthedocs.io/en/latest/advanced-usage.html#tls-warnings
+  warnings.warn(
+......................../opt/homebrew/share/google-cloud-sdk/lib/third_party/urllib3/connectionpool.py:1113: InsecureRequestWarning: Unverified HTTPS request is being made to host 'cloudbuild.googleapis.com'. Adding certificate verification is strongly advised. See: https://urllib3.readthedocs.io/en/latest/advanced-usage.html#tls-warnings
+  warnings.warn(
+............./opt/homebrew/share/google-cloud-sdk/lib/third_party/urllib3/connectionpool.py:1113: InsecureRequestWarning: Unverified HTTPS request is being made to host 'cloudbuild.googleapis.com'. Adding certificate verification is strongly advised. See: https://urllib3.readthedocs.io/en/latest/advanced-usage.html#tls-warnings
+  warnings.warn(
+................./opt/homebrew/share/google-cloud-sdk/lib/third_party/urllib3/connectionpool.py:1113: InsecureRequestWarning: Unverified HTTPS request is being made to host 'cloudbuild.googleapis.com'. Adding certificate verification is strongly advised. See: https://urllib3.readthedocs.io/en/latest/advanced-usage.html#tls-warnings
+  warnings.warn(
+........................./opt/homebrew/share/google-cloud-sdk/lib/third_party/urllib3/connectionpool.py:1113: InsecureRequestWarning: Unverified HTTPS request is being made to host 'cloudbuild.googleapis.com'. Adding certificate verification is strongly advised. See: https://urllib3.readthedocs.io/en/latest/advanced-usage.html#tls-warnings
+  warnings.warn(
+................../opt/homebrew/share/google-cloud-sdk/lib/third_party/urllib3/connectionpool.py:1113: InsecureRequestWarning: Unverified HTTPS request is being made to host 'cloudbuild.googleapis.com'. Adding certificate verification is strongly advised. See: https://urllib3.readthedocs.io/en/latest/advanced-usage.html#tls-warnings
+  warnings.warn(
+............................./opt/homebrew/share/google-cloud-sdk/lib/third_party/urllib3/connectionpool.py:1113: InsecureRequestWarning: Unverified HTTPS request is being made to host 'cloudbuild.googleapis.com'. Adding certificate verification is strongly advised. See: https://urllib3.readthedocs.io/en/latest/advanced-usage.html#tls-warnings
+  warnings.warn(
+............................../opt/homebrew/share/google-cloud-sdk/lib/third_party/urllib3/connectionpool.py:1113: InsecureRequestWarning: Unverified HTTPS request is being made to host 'cloudbuild.googleapis.com'. Adding certificate verification is strongly advised. See: https://urllib3.readthedocs.io/en/latest/advanced-usage.html#tls-warnings
+  warnings.warn(
+.........................../opt/homebrew/share/google-cloud-sdk/lib/third_party/urllib3/connectionpool.py:1113: InsecureRequestWarning: Unverified HTTPS request is being made to host 'cloudbuild.googleapis.com'. Adding certificate verification is strongly advised. See: https://urllib3.readthedocs.io/en/latest/advanced-usage.html#tls-warnings
+  warnings.warn(
+.................................../opt/homebrew/share/google-cloud-sdk/lib/third_party/urllib3/connectionpool.py:1113: InsecureRequestWarning: Unverified HTTPS request is being made to host 'cloudbuild.googleapis.com'. Adding certificate verification is strongly advised. See: https://urllib3.readthedocs.io/en/latest/advanced-usage.html#tls-warnings
+  warnings.warn(
+...................................../opt/homebrew/share/google-cloud-sdk/lib/third_party/urllib3/connectionpool.py:1113: InsecureRequestWarning: Unverified HTTPS request is being made to host 'cloudbuild.googleapis.com'. Adding certificate verification is strongly advised. See: https://urllib3.readthedocs.io/en/latest/advanced-usage.html#tls-warnings
+  warnings.warn(
+..............failed
+Deployment failed
+ERROR: (gcloud.run.deploy) Build failed; check build logs for details

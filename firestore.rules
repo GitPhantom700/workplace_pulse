@@ -1,0 +1,36 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // Task 34: Deny all reads/writes by default (Zero Trust)
+    match /{document=**} {
+      allow read, write: if false; 
+    }
+
+    // Task 33: Strict User Isolation Enforced
+    // Users can only access their own specific sub-collection sandbox
+    match /users/{userId}/forecast_logs/{logId} {
+      // Allow read and create only if the JWT auth token matches the userId path
+      allow read, create: if request.auth != null && request.auth.uid == userId;
+      // Task 35: Make AI Runbooks & Output Logs Immutable (No updating or deleting allowed)
+      allow update, delete: if false; 
+    }
+
+    // Webhook Destinations Configuration
+    match /users/{userId}/webhooks/{webhookId} {
+      allow read, write: if request.auth != null && request.auth.uid == userId;
+    }
+
+    // Webhook Delivery Logs (Immutable Audit Trail)
+    match /users/{userId}/webhook_logs/{deliveryId} {
+      allow read, create: if request.auth != null && request.auth.uid == userId;
+      allow update, delete: if false;
+    }
+
+    // Runbook Execution Logs (Immutable Audit Trail)
+    match /users/{userId}/runbook_logs/{executionId} {
+      allow read, create: if request.auth != null && request.auth.uid == userId;
+      allow update, delete: if false;
+    }
+  }
+}

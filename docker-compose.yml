@@ -1,0 +1,69 @@
+version: "3.8"
+
+# ==============================================================================
+# WorkplacePulse — Multi-Service Docker Compose Orchestration
+# Google Cloud Run AI Challenge 
+# ==============================================================================
+
+services:
+  # ---------------------------------------------------------------------------
+  # 1. Main Application Service (FastAPI + Tailwind UI + Gemini AI Client)
+  # ---------------------------------------------------------------------------
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: workplace_pulse_app
+    ports:
+      - "${PORT:-8080}:8080"
+    environment:
+      - PORT=8080
+      - ENV=development
+      - DEMO_MODE=${DEMO_MODE:-true}
+      - GEMINI_API_KEY=${GEMINI_API_KEY:-}
+      - GOOGLE_CLOUD_PROJECT=${GOOGLE_CLOUD_PROJECT:-workplace-pulse-dev}
+      - ALLOWED_ORIGINS=http://localhost:8080,http://127.0.0.1:8080
+      - WEBHOOK_SIGNING_SECRET=${WEBHOOK_SIGNING_SECRET:-pulse_dev_webhook_signing_secret}
+      # To route to local firestore emulator if enabled:
+      # - FIRESTORE_EMULATOR_HOST=firestore-emulator:8085
+    env_file:
+      - path: .env
+        required: false
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "python3 -c \"import urllib.request; urllib.request.urlopen('http://localhost:8080/api/health')\" || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 5s
+
+  # ---------------------------------------------------------------------------
+  # 2. Local Google Cloud Firestore Emulator (Optional local emulation)
+  # Spin up with: docker compose --profile emulator up
+  # ---------------------------------------------------------------------------
+  firestore-emulator:
+    image: gcr.io/google.com/cloudsdktool/google-cloud-cli:emulators
+    container_name: workplace_pulse_firestore_emulator
+    profiles: ["emulator", "full"]
+    ports:
+      - "8085:8085"
+    command: gcloud beta emulators firestore start --host-port=0.0.0.0:8085
+    restart: unless-stopped
+
+  # ---------------------------------------------------------------------------
+  # 3. Hermetic 4-Tier Automated Test Runner Container
+  # Execute with: docker compose run --rm test-runner
+  # ---------------------------------------------------------------------------
+  test-runner:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: workplace_pulse_tests
+    profiles: ["test"]
+    entrypoint: ["python3", "run_tests.py"]
+    environment:
+      - DEMO_MODE=true
+      - ENV=test
+      - GEMINI_API_KEY=test-mock-gemini-api-key-12345
+      - GOOGLE_CLOUD_PROJECT=test-pulse-project
+      - ALLOWED_ORIGINS=http://localhost:8080
