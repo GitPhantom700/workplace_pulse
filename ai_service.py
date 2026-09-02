@@ -642,29 +642,36 @@ def generate_multi_turn_forecast(
         parts=[genai_types.Part(text=user_message)]
     ))
 
+    clients_to_try = []
     if active_key:
-        client = genai.Client(api_key=active_key)
-    else:
-        client = genai.Client(vertexai=True, project="workplacepulse", location="us-central1")
-
-    for model_name in models_to_try:
         try:
-            logging.info(f"Attempting live inference with model: {model_name}")
-            response = client.models.generate_content(
-                model=model_name,
-                contents=contents,
-                config=genai_types.GenerateContentConfig(
-                    system_instruction=system_instruction,
-                    temperature=0.3,
-                    max_output_tokens=1024,
-                )
-            )
-            if response and response.text:
-                logging.info(f"Live response received from {model_name}")
-                return response.text
+            clients_to_try.append(("API_KEY", genai.Client(api_key=active_key)))
         except Exception as e:
-            logging.warning(f"Model {model_name} failed: {e}. Trying next...")
-            continue
+            logging.warning(f"Failed to create API key client: {e}")
+    try:
+        clients_to_try.append(("VERTEX_AI", genai.Client(vertexai=True, project="workplacepulse", location="us-central1")))
+    except Exception as e:
+        logging.warning(f"Failed to create Vertex AI client: {e}")
+
+    for client_type, client in clients_to_try:
+        for model_name in models_to_try:
+            try:
+                logging.info(f"Attempting live inference with ({client_type}) model: {model_name}")
+                response = client.models.generate_content(
+                    model=model_name,
+                    contents=contents,
+                    config=genai_types.GenerateContentConfig(
+                        system_instruction=system_instruction,
+                        temperature=0.3,
+                        max_output_tokens=1024,
+                    )
+                )
+                if response and response.text:
+                    logging.info(f"Live response received from {client_type} {model_name}")
+                    return response.text
+            except Exception as e:
+                logging.warning(f"({client_type}) Model {model_name} failed: {e}. Trying next...")
+                continue
 
     # All models failed — fall back to simulation
     logging.warning("All live models failed. Returning smart simulation.")
