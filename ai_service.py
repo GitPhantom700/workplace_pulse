@@ -153,6 +153,23 @@ def _generate_smart_simulation_response(scenario_id: str, user_message: str, gro
     if not _is_meaningful_query(msg_low):
         return _GIBBERISH_RESPONSE
 
+    # Date / Time inquiries
+    if any(w in msg_low for w in ["date", "time", "day", "today", "year", "month"]):
+        from datetime import datetime
+        now_str = datetime.now().strftime("%A, %B %d, %Y")
+        return f"Today is **{now_str}**. Sentinel intelligence engines are online and actively monitoring your fleet telemetry."
+
+    # Platform status / Capabilities inquiries
+    if any(w in msg_low for w in ["who are you", "what can you do", "help", "capabilities", "what are you"]):
+        return (
+            "I am **WorkplacePulse Gemini Copilot**, an enterprise IT Operations & FinOps intelligence assistant.\n\n"
+            "Here is what I can help you with:\n"
+            "- 💡 **SaaS License Optimization** — Reclaim unused licenses across Figma, Zoom, and Okta.\n"
+            "- 💻 **Jamf Hardware Lifecycle** — Identify failing laptop batteries and warranty expirations.\n"
+            "- 🎫 **ITSM Surge Forecasting** — Predict and mitigate Month-End ticket surges with automated SOX runbooks.\n"
+            "- 🚨 **Incident Dispatch** — Send HMAC-verified alerts to enterprise Slack channels."
+        )
+
     if scenario_id == "saas_finops":
         # 1. Slack / Alert / Block Kit (Specific check FIRST)
         if any(w in msg_low for w in ["slack", "notification", "block", "kit", "alert", "json"]):
