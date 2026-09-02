@@ -84,7 +84,7 @@ SYSTEM_PROMPTS = {
 
 
 def _build_system_instruction(scenario_id: str, grounding_context: str) -> str:
-    """Builds a contextualized system prompt combining the persona and telemetry context."""
+    """Builds a contextualized system prompt combining the persona, telemetry context, and guidance rules."""
     if scenario_id == "saas_finops":
         persona = SAAS_FINOPS_PERSONA
     elif scenario_id == "itsm_surge":
@@ -96,7 +96,15 @@ def _build_system_instruction(scenario_id: str, grounding_context: str) -> str:
     else:
         persona = "You are an expert Enterprise IT Operations and Autonomous Remediation AI Assistant."
         
-    return f"{persona}\n\n[ENTERPRISE CONTEXT AND TELEMETRY LOGS]\n{grounding_context}\n\nDeliver clear, executive-grade responses in Markdown format."
+    guidance_rules = (
+        "\n\n[CONVERSATIONAL & GUIDANCE DIRECTIVES]\n"
+        "1. For specific operational inquiries, provide precise, quantified analysis referencing the telemetry.\n"
+        "2. If the user query is vague, generic, or non-contextual (e.g., 'what do you do?', 'what is happening today?', 'help me', 'tell me something', 'what is this?'), "
+        "politely introduce your specialized role for this module and advise the user on how to prompt effectively, offering 3 to 4 concrete, actionable example prompts.\n"
+        "3. Always format your output with clean Markdown bolding, bullet points, and headers."
+    )
+
+    return f"{persona}\n\n[ENTERPRISE CONTEXT AND TELEMETRY LOGS]\n{grounding_context}{guidance_rules}"
 
 
 def _is_meaningful_query(text: str) -> bool:
@@ -253,8 +261,13 @@ def _generate_smart_simulation_response(scenario_id: str, user_message: str, gro
             )
         else:
             return (
-                "Got it! Based on current Okta and SaaS telemetry, our biggest opportunity right now is reclaiming **130 idle Figma Enterprise licenses** to recover **$56,400/yr** in wasted spend. "
-                "Let me know if you want to drill into specific user lists, review the automated SCIM runbook, or test the webhook alerts."
+                "I am your **SaaS FinOps Copilot**, monitoring Okta Single-Sign-On and SaaS seat utilization to help you eliminate software waste and optimize contract spend.\n\n"
+                "To get started with an actionable analysis, try asking questions like:\n\n"
+                "- 💡 **Analyze Top ROI Actions:** *\"What are our highest SaaS cost optimization opportunities right now?\"*\n"
+                "- 📄 **Remediation Runbook:** *\"Draft an automated SCIM deprovisioning runbook for Figma.\"*\n"
+                "- 🚨 **Incident Dispatch:** *\"Draft a Slack incident alert for idle SaaS licenses.\"*\n"
+                "- 👥 **Zombie Account Discovery:** *\"Who are the dormant users with inactive seats over 60 days?\"*\n\n"
+                "> 💡 *Tip:* You can also click any of the suggested prompt pills above the chat!"
             )
 
     elif scenario_id == "hardware_lifecycle":
@@ -318,8 +331,13 @@ def _generate_smart_simulation_response(scenario_id: str, user_message: str, gro
             )
         else:
             return (
-                "Overall fleet health is at **92.4% Optimal** across 650 machines, but we have 18 units needing immediate battery servicing and 32 approaching warranty expiration. "
-                "What would you like to investigate?"
+                "I am your **Hardware Fleet Copilot**, monitoring Jamf Pro MDM endpoint health across 650 devices to mitigate hardware risks and optimize refresh cycles.\n\n"
+                "To run a fleet investigation, try asking:\n\n"
+                "- 🔋 **Battery Risk Inspection:** *\"Which MacBook units have swollen batteries or cycle counts >800?\"*\n"
+                "- 📦 **CapEx Budget Forecasting:** *\"Forecast our hardware refresh budget for expiring warranties.\"*\n"
+                "- 📄 **Quarantine Runbook:** *\"Draft an automated Jamf hardware recall runbook.\"*\n"
+                "- 🚨 **Slack Alert:** *\"Draft a Slack incident notification for hazardous battery degradation.\"*\n\n"
+                "> 💡 *Tip:* You can also click any of the suggested prompt pills above the chat!"
             )
 
     elif scenario_id == "itsm_surge":
