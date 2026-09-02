@@ -170,6 +170,21 @@ def _generate_smart_simulation_response(scenario_id: str, user_message: str, gro
             "- 🚨 **Incident Dispatch** — Send HMAC-verified alerts to enterprise Slack channels."
         )
 
+    # Humor / Jokes
+    if any(w in msg_low for w in ["joke", "funny", "laugh", "humor"]):
+        return (
+            "😄 *Why do IT engineers love dark mode?*\n\n"
+            "Because light attracts bugs! 🐛\n\n"
+            "Now back to business: Sentinel is standing by to squash SaaS license waste and keep your fleet running smoothly."
+        )
+
+    # Greetings
+    if any(w in msg_low for w in ["hi", "hello", "hey", "good morning", "good afternoon", "howdy", "sup"]) and len(msg_low) < 25:
+        return (
+            "Hello! 👋 I'm your **WorkplacePulse Gemini Copilot**. "
+            "I'm continuously analyzing active enterprise telemetry across Okta, Figma, Jamf, and Jira. How can I assist your operations today?"
+        )
+
     if scenario_id == "saas_finops":
         # 1. Slack / Alert / Block Kit (Specific check FIRST)
         if any(w in msg_low for w in ["slack", "notification", "block", "kit", "alert", "json"]):
