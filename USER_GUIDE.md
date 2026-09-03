@@ -417,7 +417,7 @@ WorkplacePulse autonomously bridges predictive intelligence into your team's eve
 
 <br>
 
-<img src="./assets/screenshots/webhook-test-ping-success.png" width="560" alt="Webhook Test Ping Dispatch & Audit" />
+<img src="./assets/screenshots/webhook-test-ping-success-v2.png" width="560" alt="Webhook Test Ping Dispatch & Audit" />
 
 <br>
 <br>
