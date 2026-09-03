@@ -18,7 +18,7 @@
 <br>
 
 ### 📑 Table of Contents
-* [👨‍⚖️ **2-Minute Evaluator & Judge Walkthrough**](#-2-minute-evaluator--judge-walkthrough-guide)
+* [🧭 **2-Minute Enterprise Feature Tour & Architecture Walkthrough**](#-2-minute-enterprise-feature-tour--architecture-walkthrough)
 * [🔬 **Enterprise Mechanics & Synthetic Telemetry Engine**](#-enterprise-mechanics-how-synthetic-telemetry-maps-to-production)
 * [🛡️ **Autonomous Remediation & SOC 2 Compliance Attestation**](#️-autonomous-remediation--executive-compliance-attestation)
 * [⚡ **60-Second Instant Quickstart (Zero GCP Setup Required)**](#-60-second-instant-quickstart-zero-gcp-setup-required)
@@ -30,9 +30,9 @@
 
 ---
 
-## 👨‍⚖️ 2-Minute Evaluator & Judge Walkthrough Guide
+## 🧭 2-Minute Enterprise Feature Tour & Architecture Walkthrough
 
-If you are evaluating this submission asynchronously, here is the fastest way to experience all 5 challenge pillars in under 2 minutes:
+If you are exploring this application, here is the fastest way to experience all 5 core enterprise capabilities in under 2 minutes:
 
 1. **📊 Switch Core Intelligence Modules (Left Sidebar):**
    - Click **`SaaS FinOps`**, **`Jamf Fleet`**, or **`ITSM Surge`** to watch the real-time Pydantic telemetry engine recompute charts, tables, and AI grounding contexts dynamically.
@@ -246,9 +246,9 @@ sequenceDiagram
 
 ---
 
-## 🏆 "Accelerate AI with Cloud Run" Compliance Matrix
+## 🏆 ["Accelerate AI with Cloud Run" Compliance Matrix](https://hack2skill.com/event/apac-genaiacademy?tab=cohort3&utm_source=hack2skill&utm_medium=homepage)
 
-WorkplacePulse is built from the ground up to exceed all criteria of **(Accelerate AI with Cloud Run)**:
+WorkplacePulse is built from the ground up to exceed all criteria of the [Google Cloud GenAI Academy — Accelerate AI with Cloud Run Challenge](https://hack2skill.com/event/apac-genaiacademy?tab=cohort3&utm_source=hack2skill&utm_medium=homepage):
 
 | Challenge Requirement | Architectural Implementation | Implementation Files | Security / Isolation Guarantee |
 |---|---|---|---|
