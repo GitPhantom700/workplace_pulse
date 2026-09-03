@@ -69,6 +69,22 @@ To protect corporate data and ensure 100% deterministic testability without requ
 - **Formulas:** +42% ticket surge modeling during Month-End close cutoff, Mean Time to Resolution (MTTR) risk scoring ($1	ext{–}10$), and SOX dual-approval bottleneck discovery.
 - **Autonomous Remediation:** Pre-stages Tier-2 Identity Engineers and triggers temporary emergency RBAC bypass runbooks.
 
+### 4. Predictive Forecasting & Trend Velocity Engine
+WorkplacePulse evaluates forward-looking risk trajectory by analyzing **velocity indicators** across SaaS seat accumulation, endpoint battery wear, and ITSM queue rates:
+
+| Module | Metric | Calculation / Velocity Indicator | Trajectory Output |
+|---|---|---|---|
+| **SaaS FinOps** | License Sprawl Rate | Dormant seats ($>60\text{d}$) vs Active Logins ($30\text{d}$) | `↗ +35% Waste` (Spike), `↗ +22% Waste` (Rising), `→ Stable` |
+| **Jamf Fleet** | Hardware Wear Rate | Battery cycles ($>800\text{c}$) & AppleCare expirations ($<60\text{d}$) | `↗ 58 Units Risk` (Spike), `↗ 35 Expiring`, `🟢 98% Healthy` |
+| **ITSM Surge** | Month-End Surge Rate| Accounting close queue volume vs Historical daily baseline | `⚡ 7.0x Surge` (ERP Access), `↗ 2.7x Spike` (MFA Resets) |
+
+**Micro-SVG Sparkline Indicators:**
+- 🔴 **Spike / Accelerated Risk (`#e11d48`):** Steep upward curve for unmanaged growth or critical failure clusters ($>+25\%$).
+- 🟠 **Moderate Rise (`#f59e0b`):** Upward curve for steady accumulation ($+15\%\text{–}+24\%$).
+- ⚪ **Stable (`#64748b`):** Flat trajectory for healthy utilization within quota limits.
+- 🟢 **Optimized / Improving (`#10b981`):** Downward curve for active deprovisioning and reclaimed spend.
+
+
 ---
 
 ## ⚡ 60-Second Instant Quickstart (Zero GCP Setup Required)
