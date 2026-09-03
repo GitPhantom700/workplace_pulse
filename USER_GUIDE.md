@@ -66,7 +66,7 @@ At the top of the dashboard, you will find real-time KPI metrics assessing:
 You can filter the data visualizations using the left-hand **Scenario Navigation** bar:
 *   **SaaS FinOps (Okta/Figma/Zoom):** Visualizes license utilization versus spend.
 
-    ![SaaS FinOps Telemetry](./assets/screenshots/saas-finops-telemetry.png)
+    ![SaaS FinOps Telemetry](./assets/screenshots/saas-finops-distribution.png)
 
 *   **Hardware Lifecycle (Jamf):** Maps battery degradation and OS compliance.
 
