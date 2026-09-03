@@ -219,7 +219,7 @@ By default, the platform runs with a resilient multi-client ladder. To test with
 
 <br>
 
-![Gemini Copilot Panel](./assets/screenshots/gemini-copilot-panel.png)
+![Gemini Copilot Panel](./assets/screenshots/gemini-copilot-panel-v2.png)
 
 <br>
 <br>
