@@ -305,11 +305,17 @@ Click **`📄 View Executive Report`** in the log stream header to review the co
 <br>
 <br>
 
-### Pre-Built Runbook Catalog Across All 3 Modules:
+### 📋 Pre-Built Runbook Catalog Across All 3 Modules:
 
-*   **SaaS FinOps (`act_saas_reclaim_01`):** *Okta SCIM License Deprovisioner* — Scans for $>60\text{d}$ dormant seats across Figma, Zoom, and Notion, revokes licenses via SCIM 2.0 without disrupting user file permissions, and recovers up to **$56,400.00/yr**.
-*   **Hardware Lifecycle (`act_hardware_quarantine_02`):** *Jamf Pro Battery Quarantine & Refresh* — Automatically flags endpoint devices with battery cycles >800 or health <75%, creates warranty RMA tickets in ERP, and mitigates **42 catastrophic battery swelling failures**.
-*   **ITSM Surge (`act_itsm_sox_fasttrack_03`):** *Emergency SOX Fast-Track Approval Matrix* — Activates a 72-hour pre-approved dual-signer matrix for Month-End Close access requests, unblocking accounting staff and slashing MTTR from **3.8 hours to 12 minutes**.
+Each scenario module is equipped with a specialized, automated runbook designed to resolve the specific operational bottleneck discovered by the telemetry engine:
+
+<br>
+
+| Module / Domain | Runbook Name & Target API | Anomaly Trigger Condition | Automated Remediation Action | Quantified Enterprise Impact |
+| :--- | :--- | :--- | :--- | :--- |
+| **💰 SaaS FinOps** | **Okta SCIM License Deprovisioner**<br>*(Okta SCIM 2.0 / SSO)* | Discovers users with no SSO logins for **60+ consecutive days** | Revokes provisioned Editor entitlements via SCIM 2.0 while preserving document view access | **Recovers up to $56,400/yr** in recurring SaaS waste across Figma, Zoom & Notion |
+| **💻 Jamf Fleet** | **Jamf Pro Battery Quarantine & Refresh**<br>*(Jamf Pro MDM / ERP)* | Flags laptops with **battery cycle count >800** or health **<75%** | Pushes maintenance profiles via MDM and automatically submits warranty RMA tickets | **Mitigates 42 battery failure hazards** and prevents unplanned employee downtime |
+| **🎫 ITSM Surge** | **Emergency SOX Fast-Track Approval**<br>*(Jira Service Management)* | Month-End close cutoff spikes ERP access requests by **700%** | Temporarily activates pre-approved dual-signer matrix for 72-hour window | **Reduces MTTR from 3.8 hrs to 12 mins**, unblocking finance teams for accounting close |
 
 <br>
 <br>
