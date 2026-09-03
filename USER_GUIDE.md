@@ -219,7 +219,7 @@ By default, the platform runs with a resilient multi-client ladder. To test with
 
 <br>
 
-![Gemini Copilot Panel](./assets/screenshots/gemini-copilot-panel-v2.png)
+<img src="./assets/screenshots/gemini-copilot-panel-retina.png" width="280" alt="Gemini Copilot Panel" />
 
 <br>
 <br>
@@ -300,7 +300,7 @@ Click **`📄 View Executive Report`** in the log stream header to review the co
 
 <br>
 
-![Step 3: Executive Incident Remediation & Compliance Audit](./assets/screenshots/runbook-workflow-step3-report-v2.png)
+<img src="./assets/screenshots/runbook-workflow-step3-report-retina.png" width="380" alt="Executive Incident Remediation & Compliance Audit" />
 
 <br>
 <br>
