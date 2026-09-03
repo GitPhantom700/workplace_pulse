@@ -245,6 +245,10 @@ By default, the platform runs with a resilient multi-client ladder. To test with
 4. The system validates your key in session memory and switches the telemetry badges to <span style="color:green">Live Data</span>.
 
 <br>
+
+![Live Data Badge Active](./assets/screenshots/copilot-live-data-badge.png)
+
+<br>
 <br>
 
 ---
