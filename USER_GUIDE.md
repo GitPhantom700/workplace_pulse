@@ -188,6 +188,12 @@ The **Detailed Telemetry Matrix** in each module includes a forward-looking **Q4
 *   **Micro-Sparklines:** Inline SVG Bézier curves visually indicate trajectory at a glance (🔴 High Risk Spike, 🟠 Moderate Growth, ⚪ Stable, 🟢 Optimized).
 
 <br>
+
+| SaaS FinOps Sparklines | Hardware Lifecycle Sparklines | ITSM Surge Sparklines |
+| :---: | :---: | :---: |
+| ![SaaS Sparklines](./assets/screenshots/sparklines-saas.png) | ![Hardware Sparklines](./assets/screenshots/sparklines-hardware.png) | ![ITSM Sparklines](./assets/screenshots/sparklines-itsm.png) |
+
+<br>
 <br>
 
 ---
