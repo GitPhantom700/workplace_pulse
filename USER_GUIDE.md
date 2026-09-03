@@ -58,6 +58,9 @@ At the top of the dashboard, you will find real-time KPI metrics assessing:
 You can filter the data visualizations using the left-hand **Scenario Navigation** bar:
 *   **SaaS FinOps (Okta/Figma/Zoom):** Visualizes license utilization versus spend.
 *   **Hardware Lifecycle (Jamf):** Maps battery degradation and OS compliance.
+
+    ![Hardware Lifecycle (Jamf)](./assets/screenshots/hardware-lifecycle-jamf.png)
+
 *   **ITSM Surge (Jira):** Details support ticket spikes and resolution times.
 
 <br>
