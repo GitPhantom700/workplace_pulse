@@ -5,7 +5,7 @@ Executes automated, one-click remediation runbooks across enterprise IT scenario
 
 import uuid
 import logging
-from datetime import datetime, timezone
+from datetime import datetime, timezone, timedelta
 from enum import Enum
 from typing import List, Dict, Any, Optional
 
@@ -83,7 +83,7 @@ RUNBOOK_CATALOG: Dict[str, RunbookAction] = {
         description="Scans simulated SaaS directories for inactive seats (>60 days), revokes provisioned entitlements via SCIM 2.0, and notifies department heads.",
         target_system="Okta Universal Directory / SCIM 2.0 API",
         remediation_type=RunbookRemediationType.ONE_CLICK_APPROVAL,
-        estimated_impact="Recovers up to $56,400.00/yr in recurring SaaS waste across Figma, Zoom, and Notion.",
+        estimated_impact="Recovers up to $118,260.00/yr in recurring SaaS waste across Figma, Zoom, and Notion.",
         parameters_schema={
             "inactive_days_threshold": {"type": "integer", "default": 60, "minimum": 30},
             "target_apps": {"type": "array", "items": {"type": "string"}, "default": ["Figma", "Zoom", "Notion"]},
@@ -190,18 +190,28 @@ async def execute_runbook(
     if action_id == "act_saas_reclaim_01":
         days_thresh = params.get("inactive_days_threshold", 60)
         apps = params.get("target_apps", ["Figma", "Zoom", "Notion"])
-        execution_log.append(f"[{timestamp}] Initializing SCIM 2.0 connector to Okta Universal Directory...")
-        execution_log.append(f"[{timestamp}] Querying active directories for inactive seat threshold > {days_thresh} days...")
-        execution_log.append(f"[{timestamp}] Discovered 128 inactive licenses across target applications: {', '.join(apps)}.")
-        execution_log.append(f"[{timestamp}] Executing SCIM revoke entitlements: DELETE /scim/v2/Users/[id]/entitlements...")
-        execution_log.append(f"[{timestamp}] Revoked 45 Figma Enterprise seats ($2,025/mo saved).")
-        execution_log.append(f"[{timestamp}] Revoked 53 Zoom Pro seats ($1,060/mo saved).")
-        execution_log.append(f"[{timestamp}] Revoked 30 Notion Enterprise seats ($1,620/mo saved).")
+        base_time = datetime.now(timezone.utc)
+        
+        t0 = base_time.isoformat()
+        t1 = (base_time + timedelta(milliseconds=120)).isoformat()
+        t2 = (base_time + timedelta(milliseconds=280)).isoformat()
+        t3 = (base_time + timedelta(milliseconds=450)).isoformat()
+        t4 = (base_time + timedelta(milliseconds=620)).isoformat()
+        t5 = (base_time + timedelta(milliseconds=790)).isoformat()
+        t6 = (base_time + timedelta(milliseconds=940)).isoformat()
+        t7 = (base_time + timedelta(milliseconds=1120)).isoformat()
+
+        execution_log.append(f"[{t0}] Initializing SCIM 2.0 connector to Okta Universal Directory...")
+        execution_log.append(f"[{t1}] Querying active enterprise directories for inactive seat threshold > {days_thresh} days...")
+        execution_log.append(f"[{t2}] Discovered 365 inactive licenses across 3 target applications: {', '.join(apps)}.")
+        execution_log.append(f"[{t3}] [Stage 1/3] Revoking 65 dormant Figma Enterprise seats @ $75.00/mo ($4,875.00/mo • $58,500.00/yr saved).")
+        execution_log.append(f"[{t4}] [Stage 2/3] Transitioning 160 unutilized Zoom Pro hosts @ $18.00/mo ($2,880.00/mo • $34,560.00/yr saved).")
+        execution_log.append(f"[{t5}] [Stage 3/3] Reclaiming 140 idle Notion Team seats @ $15.00/mo ($2,100.00/mo • $25,200.00/yr saved).")
         if params.get("send_manager_notice", True):
-            execution_log.append(f"[{timestamp}] Dispatched automated seat reclaim notices to 14 departmental billing owners.")
-        execution_log.append(f"[{timestamp}] Emitted immutable audit log to Cloud Firestore and SIEM.")
-        impact_summary = "Successfully reclaimed 128 inactive licenses, realizing $56,460.00/yr in recurring savings."
-        remediated_items_count = 128
+            execution_log.append(f"[{t6}] Dispatched automated seat reclaim notices to 14 departmental billing owners via Okta Event Hooks.")
+        execution_log.append(f"[{t7}] Emitted immutable audit log to Cloud Firestore Native and SIEM.")
+        impact_summary = "Successfully reclaimed 365 inactive licenses across Figma, Zoom, and Notion, realizing $118,260.00/yr in recurring savings."
+        remediated_items_count = 365
 
     elif action_id == "act_hardware_quarantine_02":
         cycle_thresh = params.get("battery_cycle_threshold", 800)

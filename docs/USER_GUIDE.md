@@ -333,7 +333,7 @@ Each scenario module is equipped with a specialized, automated runbook designed 
 
 | Module / Domain | Runbook Name & Target API | Anomaly Trigger Condition | Automated Remediation Action | Quantified Enterprise Impact |
 | :--- | :--- | :--- | :--- | :--- |
-| **💰 SaaS FinOps** | **Okta SCIM License Deprovisioner**<br>*(Okta SCIM 2.0 / SSO)* | Discovers users with no SSO logins for **60+ consecutive days** | Revokes provisioned Editor entitlements via SCIM 2.0 while preserving document view access | **Recovers up to $56,400/yr** in recurring SaaS waste across Figma, Zoom & Notion |
+| **💰 SaaS FinOps** | **Okta SCIM License Deprovisioner**<br>*(Okta SCIM 2.0 / SSO)* | Discovers users with no SSO logins for **60+ consecutive days** | Revokes provisioned Editor entitlements via SCIM 2.0 while preserving document view access | **Recovers up to $118,260/yr** in recurring SaaS waste across Figma, Zoom & Notion |
 | **💻 Jamf Fleet** | **Jamf Pro Battery Quarantine & Refresh**<br>*(Jamf Pro MDM / ERP)* | Flags laptops with **battery cycle count >800** or health **<75%** | Pushes maintenance profiles via MDM and automatically submits warranty RMA tickets | **Mitigates 42 battery failure hazards** and prevents unplanned employee downtime |
 | **🎫 ITSM Surge** | **Emergency SOX Fast-Track Approval**<br>*(Jira Service Management)* | Month-End close cutoff spikes ERP access requests by **700%** | Temporarily activates pre-approved dual-signer matrix for 72-hour window | **Reduces MTTR from 3.8 hrs to 12 mins**, unblocking finance teams for accounting close |
 

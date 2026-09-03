@@ -141,8 +141,8 @@ def test_format_slack_block_kit():
     """Test Slack Block Kit JSON structure."""
     blocks = format_slack_block_kit(
         title="High SaaS Waste Alert",
-        message="Predicted 128 inactive seats costing $56,400/yr.",
-        runbook_data={"action_id": "act_saas_reclaim_01", "impact_summary": "Reclaimed 128 seats"},
+        message="Predicted 365 inactive seats costing $118,260/yr.",
+        runbook_data={"action_id": "act_saas_reclaim_01", "impact_summary": "Reclaimed 365 seats"},
         event_type="saas.threshold_breach"
     )
     assert "blocks" in blocks
@@ -214,8 +214,8 @@ async def test_execute_saas_reclaim_runbook():
         dispatch_webhooks=False
     )
     assert result.status == "success"
-    assert result.remediated_items_count == 128
-    assert "56,460" in result.impact_summary or "56,400" in result.impact_summary
+    assert result.remediated_items_count == 365
+    assert "118,260" in result.impact_summary
     assert len(result.execution_log) >= 5
 
 
@@ -253,9 +253,9 @@ async def test_execute_itsm_sox_fasttrack_runbook():
 # Tier 2: REST Endpoints Dynamic Tests
 # =========================================================
 
-def test_api_get_runbooks_200(client):
+def test_api_get_runbooks_200(client, demo_auth_headers):
     """Test GET /api/runbooks returns the 3 catalog runbooks."""
-    res = client.get("/api/runbooks")
+    res = client.get("/api/runbooks", headers=demo_auth_headers)
     assert res.status_code == 200
     data = res.json()
     assert isinstance(data, list)

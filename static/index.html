@@ -153,14 +153,17 @@
                 <!-- Demo Mode Toggle -->
                 <button onclick="toggleDemoMode()" id="btn-demo-mode" class="text-xs font-semibold bg-slate-50 hover:bg-slate-100 text-slate-600 px-4 py-2 rounded-full border border-slate-200 transition flex items-center space-x-2">
                     <span>Demo Mode</span>
-                    <span id="demo-status" class="text-emerald-600 font-bold">ON</span>
+                    <span id="demo-status" class="text-amber-600 font-bold">OFF</span>
                 </button>
 
                 <!-- Auth Panels -->
-                <div id="auth-signed-out">
-                    <button onclick="signInWithGoogle()" class="flex items-center space-x-2 bg-white border border-slate-200 hover:bg-slate-50 px-4 py-2 rounded-full text-xs font-semibold shadow-sm transition text-slate-700">
+                <div id="auth-signed-out" class="flex items-center space-x-2">
+                    <button onclick="signInAnonymously()" title="Full access. Real Firebase authentication, no Google account required." class="flex items-center space-x-1.5 bg-indigo-600 hover:bg-indigo-700 px-4 py-2 rounded-full text-xs font-semibold text-white shadow-sm transition">
+                        <span>Continue as Guest</span>
+                    </button>
+                    <button onclick="signInWithGoogle()" class="flex items-center space-x-2 bg-white border border-slate-200 hover:bg-slate-50 px-3.5 py-2 rounded-full text-xs font-semibold shadow-xs transition text-slate-700">
                         <svg class="w-4 h-4" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"/></svg>
-                        <span>Sign In</span>
+                        <span>Sign in with Google</span>
                     </button>
                 </div>
                 <div id="auth-signed-in" class="hidden flex items-center space-x-3 border-l border-slate-200 pl-4">
@@ -182,6 +185,7 @@
                 <div class="mb-4">
                     <h2 class="text-3xl font-bold text-slate-900 tracking-tight">Enterprise Operations Console</h2>
                     <p class="text-sm text-slate-500 mt-1">Predictive AI telemetry grounding connected to autonomous incident remediation.</p>
+                    <p class="text-xs text-indigo-700 bg-indigo-50/70 border border-indigo-100 px-3 py-1.5 rounded-lg inline-block mt-2">🛡️ Sign in with Google, or continue as a guest — both issue verified Firebase tokens and create an isolated tenant workspace.</p>
                 </div>
                 <!-- TIER 1: KPI Cards -->
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mt-6">
@@ -212,7 +216,7 @@
                                 <p class="kpi-label text-sm font-semibold text-blue-800/80">Inactive Seats</p>
                                 <span class="text-[8px] bg-amber-100 text-amber-700 px-1.5 py-0.5 rounded font-bold uppercase tracking-wide border border-amber-200">Dummy Data</span>
                             </div>
-                            <h3 class="kpi-value text-2xl font-bold text-blue-900">465</h3>
+                            <h3 class="kpi-value text-2xl font-bold text-blue-900">482</h3>
                             <p class="kpi-sub text-xs text-blue-600/70 mt-1">Users idle 60+ days across all apps</p>
                         </div>
                         <div class="h-12 w-12 rounded-full bg-blue-100 flex items-center justify-center text-xl text-blue-600">
@@ -338,7 +342,7 @@
                                     <div>
                                         <p class="text-[10px] font-bold text-emerald-800 uppercase tracking-wider">Projected Benefit</p>
                                         <p id="runbook-impact" class="text-xs font-bold text-emerald-900 leading-tight">
-                                            Recovers $56,400/yr in recurring waste
+                                            Recovers $118,260.00/yr in recurring waste
                                         </p>
                                     </div>
                                 </div>
@@ -382,14 +386,14 @@
                     <div class="lg:col-span-4 flex flex-col bg-white border border-slate-100 rounded-[1.25rem] shadow-[0_2px_10px_-3px_rgba(6,81,237,0.1)] overflow-hidden h-[860px]">
                         
                         <!-- Header -->
-                        <div class="p-6 border-b border-slate-50 flex items-center justify-between">
-                            <div class="flex items-center space-x-2">
-                                <h3 class="text-lg font-bold text-slate-800">Gemini Copilot</h3>
-                                <span id="ai-data-badge" class="text-[10px] bg-amber-100 text-amber-700 px-2 py-0.5 rounded font-bold uppercase tracking-wide">Dummy Data</span>
+                        <div class="px-5 py-3.5 border-b border-slate-100 bg-white">
+                            <div class="flex items-center justify-between mb-1.5">
+                                <h3 class="text-base font-bold text-slate-800 whitespace-nowrap">Gemini Copilot</h3>
                             </div>
-                            <div class="flex items-center space-x-2">
-                                <span id="api-key-status-label" class="text-[10px] bg-slate-100 text-slate-500 border border-slate-200 px-2.5 py-1 rounded-full font-bold tracking-wide">Not Connected</span>
-                                <span class="text-[10px] bg-indigo-50 text-indigo-600 px-2.5 py-1 rounded-full font-bold tracking-wide">AI ACTIVE</span>
+                            <div class="flex items-center gap-1.5 flex-wrap">
+                                <span id="ai-data-badge" class="text-[9px] bg-slate-100 text-slate-600 border border-slate-200 px-2 py-0.5 rounded-full font-semibold whitespace-nowrap shrink-0">Synthetic data</span>
+                                <span id="api-key-status-label" class="text-[9px] bg-slate-100 text-slate-600 border border-slate-200 px-2 py-0.5 rounded-full font-semibold whitespace-nowrap shrink-0">Server key</span>
+                                <span class="text-[9px] bg-indigo-50 text-indigo-700 border border-indigo-200 px-2 py-0.5 rounded-full font-semibold whitespace-nowrap shrink-0">gemini-3.6-flash</span>
                             </div>
                         </div>
 
@@ -456,7 +460,7 @@
                             <div id="api-creds-form" class="hidden mt-4 space-y-3">
                                 <div class="grid grid-cols-2 gap-3">
                                     <div class="col-span-2">
-                                        <label class="block text-[10px] font-bold text-slate-700 uppercase mb-1 flex justify-between"><span>API Key</span> <span class="text-rose-500">Required (Live AI)</span></label>
+                                        <label class="block text-[10px] font-bold text-slate-700 uppercase mb-1 flex justify-between"><span>API Key</span> <span class="text-slate-500 font-semibold">OPTIONAL — Server Key Active</span></label>
                                         <div class="flex items-center space-x-2">
                                             <input type="password" id="api-key-input" placeholder="AIzaSy..." class="flex-1 bg-white border border-slate-200 rounded-lg px-3 py-2 text-xs focus:outline-none focus:ring-2 focus:ring-indigo-500">
                                         </div>
@@ -526,7 +530,7 @@
                     </div>
                     <div class="mt-4 flex items-center justify-end space-x-3 border-t border-slate-100 pt-4">
                         <p class="text-xs text-slate-500 mr-auto">Step 1: Generate or enter your enterprise credentials, then save the configuration to enable data source connections below.</p>
-                        <span id="ds-save-status" class="text-xs text-emerald-600 font-bold hidden">✓ Credentials Verified & Saved</span>
+                        <span id="ds-save-status" class="text-xs text-emerald-600 font-bold hidden">✓ Configuration saved (simulated)</span>
                         <button onclick="saveDataCredentials(this)" class="bg-slate-800 hover:bg-slate-900 text-white px-4 py-2 rounded-lg text-xs font-bold transition shadow-sm">Save Configuration</button>
                     </div>
                 </div>
@@ -701,11 +705,13 @@
                         
                         <div class="bg-indigo-50 rounded-xl p-6 border border-indigo-100 shadow-sm">
                             <h3 class="font-bold text-indigo-900 mb-2 text-lg">Create a Ticket</h3>
-                            <p class="text-xs text-indigo-700 mb-4">Need human assistance? Open an ITSM ticket directly.</p>
-                            <form onsubmit="event.preventDefault(); alert('Ticket submitted successfully!');" class="space-y-3">
-                                <input type="text" placeholder="Subject" class="w-full bg-white border border-indigo-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500">
-                                <textarea placeholder="Describe your issue..." rows="3" class="w-full bg-white border border-indigo-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"></textarea>
-                                <button type="submit" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded-lg text-sm transition shadow-sm">Submit Ticket</button>
+                            <form id="support-ticket-form" onsubmit="handleSupportTicketSubmit(event)" class="space-y-3">
+                                <input type="text" id="ticket-subject" placeholder="Subject" class="w-full bg-white border border-indigo-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                                <textarea id="ticket-desc" placeholder="Describe your issue..." rows="3" class="w-full bg-white border border-indigo-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"></textarea>
+                                <div class="flex items-center justify-between">
+                                    <button type="submit" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded-lg text-sm transition shadow-sm">Submit Ticket</button>
+                                    <span id="ticket-submit-status" class="text-xs font-bold hidden"></span>
+                                </div>
                             </form>
                         </div>
                     </div>
@@ -788,7 +794,7 @@
                             </button>
                             <div id="support-api-creds-form" class="hidden mt-4 space-y-3">
                                 <div>
-                                    <label class="block text-[10px] font-bold text-slate-700 uppercase mb-1 flex justify-between"><span>API Key</span> <span class="text-rose-500">Required (Live)</span></label>
+                                    <label class="block text-[10px] font-bold text-slate-700 uppercase mb-1 flex justify-between"><span>API Key</span> <span class="text-slate-500 font-semibold">OPTIONAL — Server Key Active</span></label>
                                     <input type="password" id="support-api-key-input" placeholder="AIzaSy..." class="w-full bg-white border border-slate-200 rounded-lg px-3 py-2 text-xs focus:outline-none focus:ring-2 focus:ring-indigo-500">
                                     <p id="support-api-key-error" class="hidden text-[10px] text-rose-600 font-medium mt-1 bg-rose-50 border border-rose-200 p-2 rounded"></p>
                                     <p class="text-[10px] text-slate-800 font-medium mt-2 bg-yellow-50 border border-yellow-200 p-2 rounded">
@@ -1185,7 +1191,7 @@
                         </div>
                         <div class="h-full bg-slate-50/90 p-4 rounded-xl border border-slate-200/80 flex flex-col justify-center items-center text-center">
                             <div class="text-slate-400 text-xs font-semibold uppercase tracking-wider mb-1.5">Financial / Ops Impact</div>
-                            <div class="text-sm font-bold text-indigo-600 break-words leading-snug" id="report-modal-impact">Recovers up to $56,400.00/yr in recurring SaaS waste</div>
+                            <div class="text-sm font-bold text-indigo-600 break-words leading-snug" id="report-modal-impact">Recovers up to $118,260.00/yr in recurring SaaS waste</div>
                         </div>
                         <div class="h-full bg-slate-50/90 p-4 rounded-xl border border-slate-200/80 flex flex-col justify-center items-center text-center">
                             <div class="text-slate-400 text-xs font-semibold uppercase tracking-wider mb-1.5">Authorized Auditor</div>
@@ -1268,33 +1274,33 @@
                     </h3>
                     
                     <div class="overflow-x-auto border border-slate-200 rounded-xl">
-                        <table class="w-full text-left text-xs">
+                        <table class="w-full text-left text-xs table-auto">
                             <thead class="bg-slate-50 border-b border-slate-200 text-slate-500 font-bold uppercase text-[10px]">
                                 <tr>
-                                    <th class="py-3 px-4">Control ID</th>
-                                    <th class="py-3 px-4">Framework Criteria</th>
+                                    <th class="py-3 px-4 w-28 whitespace-nowrap">Control ID</th>
+                                    <th class="py-3 px-4 w-52 whitespace-nowrap">Framework Criteria</th>
                                     <th class="py-3 px-4">Implementation Evidence</th>
-                                    <th class="py-3 px-4 text-right">Audit Status</th>
+                                    <th class="py-3 px-4 text-right w-28 whitespace-nowrap">Audit Status</th>
                                 </tr>
                             </thead>
                             <tbody class="divide-y divide-slate-100 text-slate-700">
                                 <tr>
-                                    <td class="py-3 px-4 font-mono font-bold text-indigo-600">SOC2-CC6.1</td>
-                                    <td class="py-3 px-4 font-semibold">User Authentication & IAM</td>
+                                    <td class="py-3 px-4 font-mono font-bold text-indigo-600 whitespace-nowrap">SOC2-CC6.1</td>
+                                    <td class="py-3 px-4 font-semibold whitespace-nowrap">User Authentication & IAM</td>
                                     <td class="py-3 px-4 text-slate-500">Firebase JWT Google Sign-In with isolated token verification</td>
-                                    <td class="py-3 px-4 text-right"><span class="px-2.5 py-1 rounded-full bg-emerald-100 text-emerald-800 font-bold text-[10px]">PASS ✅</span></td>
+                                    <td class="py-3 px-4 text-right whitespace-nowrap"><span class="px-2.5 py-1 rounded-full bg-emerald-100 text-emerald-800 font-bold text-[10px] whitespace-nowrap inline-block">PASS ✅</span></td>
                                 </tr>
                                 <tr>
-                                    <td class="py-3 px-4 font-mono font-bold text-indigo-600">SOC2-CC6.2</td>
-                                    <td class="py-3 px-4 font-semibold">Multi-Tenant Data Isolation</td>
-                                    <td class="py-3 px-4 text-slate-500">Cloud Firestore user-scoped security rules (<code class="text-[10px] bg-slate-100 px-1 py-0.5 rounded font-mono">/users/{uid}/*</code>)</td>
-                                    <td class="py-3 px-4 text-right"><span class="px-2.5 py-1 rounded-full bg-emerald-100 text-emerald-800 font-bold text-[10px]">PASS ✅</span></td>
+                                    <td class="py-3 px-4 font-mono font-bold text-indigo-600 whitespace-nowrap">SOC2-CC6.2</td>
+                                    <td class="py-3 px-4 font-semibold whitespace-nowrap">Multi-Tenant Data Isolation</td>
+                                    <td class="py-3 px-4 text-slate-500 leading-relaxed">Backend ADC-authenticated tenant scoping (<code class="text-[10px] bg-slate-100 px-1 py-0.5 rounded font-mono">/users/{uid}/*</code>) with immutable audit logging</td>
+                                    <td class="py-3 px-4 text-right whitespace-nowrap"><span class="px-2.5 py-1 rounded-full bg-emerald-100 text-emerald-800 font-bold text-[10px] whitespace-nowrap inline-block">PASS ✅</span></td>
                                 </tr>
                                 <tr>
-                                    <td class="py-3 px-4 font-mono font-bold text-indigo-600">SOC2-CC6.3</td>
-                                    <td class="py-3 px-4 font-semibold">Secret Protection & Zero Hardcoding</td>
+                                    <td class="py-3 px-4 font-mono font-bold text-indigo-600 whitespace-nowrap">SOC2-CC6.3</td>
+                                    <td class="py-3 px-4 font-semibold whitespace-nowrap">Secret Protection & Zero Hardcoding</td>
                                     <td class="py-3 px-4 text-slate-500">Google Cloud Secret Manager runtime ADC resolution</td>
-                                    <td class="py-3 px-4 text-right"><span class="px-2.5 py-1 rounded-full bg-emerald-100 text-emerald-800 font-bold text-[10px]">PASS ✅</span></td>
+                                    <td class="py-3 px-4 text-right whitespace-nowrap"><span class="px-2.5 py-1 rounded-full bg-emerald-100 text-emerald-800 font-bold text-[10px] whitespace-nowrap inline-block">PASS ✅</span></td>
                                 </tr>
                             </tbody>
                         </table>
@@ -1318,10 +1324,10 @@
                             <div>
                                 <div class="flex items-center justify-between mb-2">
                                     <span class="text-[9px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full border bg-emerald-50 text-emerald-700 border-emerald-200">FinOps Policy</span>
-                                    <span class="text-[11px] font-extrabold text-emerald-600">+$56,400 / yr Recovered</span>
+                                    <span class="text-[11px] font-extrabold text-emerald-600">+$58,500 / yr Recovered</span>
                                 </div>
                                 <h4 class="font-bold text-slate-800 text-xs mb-1.5 leading-snug">Automate Okta SCIM Role Reclassification</h4>
-                                <p class="text-slate-600 text-[11px] leading-relaxed">Reclassify 130 Figma Enterprise seats with >60d inactivity to Viewer-Restricted without disrupting file access.</p>
+                                <p class="text-slate-600 text-[11px] leading-relaxed">Reclassify 65 Figma Enterprise seats with >60d inactivity to Viewer-Restricted without disrupting file access.</p>
                             </div>
                             <button onclick="applyRecommendation(this, 'Automate Okta SCIM Role Reclassification')" class="w-full bg-white hover:bg-indigo-50 text-indigo-700 border border-indigo-200 font-bold py-2 px-3 rounded-lg text-xs transition shadow-2xs flex items-center justify-center space-x-1">
                                 <span>⚡ Apply SCIM Policy</span>
@@ -1331,10 +1337,10 @@
                             <div>
                                 <div class="flex items-center justify-between mb-2">
                                     <span class="text-[9px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full border bg-indigo-50 text-indigo-700 border-indigo-200">Workflow Automation</span>
-                                    <span class="text-[11px] font-extrabold text-indigo-600">Zero License Bloat</span>
+                                    <span class="text-[11px] font-extrabold text-indigo-600">+$34,560 / yr Recovered</span>
                                 </div>
                                 <h4 class="font-bold text-slate-800 text-xs mb-1.5 leading-snug">Enforce 45-Day Inactivity Auto-Reclaim Rule</h4>
-                                <p class="text-slate-600 text-[11px] leading-relaxed">Deploy an automated Sentinel lifecycle policy to prevent seat bloat by reclaiming licenses before upcoming Q3 renewals.</p>
+                                <p class="text-slate-600 text-[11px] leading-relaxed">Transition 160 unutilized Zoom Pro host licenses to basic profile tiers before upcoming renewal.</p>
                             </div>
                             <button onclick="applyRecommendation(this, 'Enforce 45-Day Inactivity Auto-Reclaim Rule')" class="w-full bg-white hover:bg-indigo-50 text-indigo-700 border border-indigo-200 font-bold py-2 px-3 rounded-lg text-xs transition shadow-2xs flex items-center justify-center space-x-1">
                                 <span>⚡ Deploy Auto-Rule</span>
@@ -1344,10 +1350,10 @@
                             <div>
                                 <div class="flex items-center justify-between mb-2">
                                     <span class="text-[9px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full border bg-purple-50 text-purple-700 border-purple-200">Procurement Strategy</span>
-                                    <span class="text-[11px] font-extrabold text-purple-600">15% Extra Savings</span>
+                                    <span class="text-[11px] font-extrabold text-purple-600">+$25,200 / yr Recovered</span>
                                 </div>
                                 <h4 class="font-bold text-slate-800 text-xs mb-1.5 leading-snug">Pre-Negotiate Enterprise Tier True-Down</h4>
-                                <p class="text-slate-600 text-[11px] leading-relaxed">Export verified usage telemetry to Figma procurement to lock in tier volume discounts ahead of contract renewal.</p>
+                                <p class="text-slate-600 text-[11px] leading-relaxed">Consolidate 140 idle Notion Team seats ahead of upcoming contract renewal.</p>
                             </div>
                             <button onclick="applyRecommendation(this, 'Pre-Negotiate Enterprise Tier True-Down')" class="w-full bg-white hover:bg-indigo-50 text-indigo-700 border border-indigo-200 font-bold py-2 px-3 rounded-lg text-xs transition shadow-2xs flex items-center justify-center space-x-1">
                                 <span>⚡ Generate Audit Deck</span>
@@ -1406,9 +1412,9 @@
         let currentScenarioPayload = null;
         let chartInstance = null;
         let chatHistory = [];
-        let isDemoMode = true;
+        let isDemoMode = false;
         let currentUser = null;
-        let userAuthToken = "demo-sandbox-token";
+        let userAuthToken = null;
         let availableRunbooks = [];
         let registeredWebhooks = [];
 
@@ -1416,7 +1422,7 @@
         // Firebase Client Configuration
         // ---------------------------------------------------------
         const firebaseConfig = {
-            apiKey: "AIzaSy_mock_client_app_id_key_0000000000",
+            apiKey: "AIzaSyADmB0e0VhrEtIbbCRCZ4he7HC8PKmRUfA",
             authDomain: "workplacepulse-dev.firebaseapp.com",
             projectId: "workplacepulse-dev",
             storageBucket: "workplacepulse-dev.firebasestorage.app",
@@ -1436,6 +1442,7 @@
                         userAuthToken = token;
                         updateAuthUI(true, user);
                         loadWebhooks();
+                        fetchRunbooks();
                     });
                 } else {
                     currentUser = null;
@@ -1450,22 +1457,22 @@
         }
 
         function signInWithGoogle() {
-            if (isDemoMode) {
-                currentUser = {
-                    displayName: "Chandraprakash Hingal",
-                    email: "chandrahin@floqast.com",
-                    photoURL: "https://ui-avatars.com/api/?name=Chandraprakash+Hingal&background=4f46e5&color=fff"
-                };
-                userAuthToken = "demo-mock-jwt-token";
-                updateAuthUI(true, currentUser);
-                loadWebhooks();
-                return;
-            }
             const provider = new firebase.auth.GoogleAuthProvider();
             firebase.auth().signInWithPopup(provider).catch((err) => {
                 alert("Firebase Login Failed: " + err.message);
                 console.error(err);
             });
+        }
+
+        function signInAnonymously() {
+            firebase.auth().signInAnonymously()
+                .then((result) => {
+                    console.log("Signed in anonymously with Firebase:", result.user.uid);
+                })
+                .catch((err) => {
+                    console.error("Anonymous auth error:", err);
+                    alert("Guest Sign-In Notice: " + err.message);
+                });
         }
 
         function signOut() {
@@ -1475,15 +1482,26 @@
             currentUser = null;
             if (!isDemoMode) userAuthToken = null;
             updateAuthUI(false, null);
+            fetchRunbooks();
+        }
+
+        function updateDemoModeUI() {
+            const statusEl = document.getElementById('demo-status');
+            if (statusEl) {
+                statusEl.innerText = isDemoMode ? "ON" : "OFF";
+                statusEl.className = isDemoMode ? "text-emerald-600 font-bold" : "text-amber-600 font-bold";
+            }
         }
 
         function toggleDemoMode() {
             isDemoMode = !isDemoMode;
-            document.getElementById('demo-status').innerText = isDemoMode ? "ON" : "OFF";
-            document.getElementById('demo-status').className = isDemoMode ? "text-emerald-600 font-bold" : "text-amber-600 font-bold";
+            updateDemoModeUI();
             if (isDemoMode && !currentUser) {
                 userAuthToken = "demo-sandbox-token";
+            } else if (!isDemoMode && !currentUser) {
+                userAuthToken = null;
             }
+            fetchRunbooks();
         }
 
         function updateAuthUI(isSignedIn, user) {
@@ -1492,9 +1510,14 @@
             if (isSignedIn && user) {
                 outBox.classList.add('hidden');
                 inBox.classList.remove('hidden');
-                document.getElementById('user-avatar').src = user.photoURL || `https://ui-avatars.com/api/?name=${encodeURIComponent(user.displayName || 'User')}`;
-                document.getElementById('user-name').innerText = user.displayName || "Authenticated Engineer";
-                document.getElementById('user-email').innerText = user.email || "";
+                const isAnon = user.isAnonymous || false;
+                const name = isAnon ? "Guest Auditor" : (user.displayName || "Authenticated Engineer");
+                const email = isAnon ? `UID: ${user.uid.substring(0, 10)}...` : (user.email || "");
+                document.getElementById('user-avatar').src = isAnon
+                    ? "https://ui-avatars.com/api/?name=Guest+Auditor&background=6366f1&color=fff"
+                    : (user.photoURL || `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}`);
+                document.getElementById('user-name').innerText = name;
+                document.getElementById('user-email').innerText = email;
             } else {
                 inBox.classList.add('hidden');
                 outBox.classList.remove('hidden');
@@ -1538,7 +1561,7 @@
             const tiles = {
                 saas_finops: [
                     { label: 'Idle SaaS Capital',  value: '$170,700', sub: 'Wasted spend on unused licenses',       icon: '💸' },
-                    { label: 'Inactive Seats',      value: '465',      sub: 'Users idle 60+ days across all apps',   icon: '👤' },
+                    { label: 'Inactive Seats',      value: '482',      sub: 'Users idle 60+ days across all apps',   icon: '👤' },
                     { label: 'Top Risk App',        value: 'Figma',    sub: '$58,500 annual waste · +35% trend',     icon: '⚠️' },
                 ],
                 hardware_lifecycle: [
@@ -1810,7 +1833,7 @@
 
             const refId = `INC-${currentScenarioId.toUpperCase()}-${Date.now().toString().slice(-6)}`;
             const timestamp = new Date().toISOString();
-            const auditorName = (currentUser && currentUser.displayName) ? currentUser.displayName : "Chandraprakash Hingal";
+            const auditorName = (currentUser && currentUser.displayName) ? currentUser.displayName : ((currentUser && currentUser.isAnonymous) ? "Guest Auditor" : "Chandraprakash Hingal");
             const uid = (currentUser && currentUser.uid) ? currentUser.uid : "demo_user";
 
             // 1. Populate Header & KPIs (NO TRUNCATION)
@@ -2051,60 +2074,11 @@
 
         async function renderExecutiveRecommendations(scenarioId, container) {
             if (!container) return;
-            
-            // Show loading state
-            container.innerHTML = `
-                <div class="col-span-full flex flex-col items-center justify-center py-6 text-slate-500">
-                    <svg class="animate-spin h-6 w-6 text-indigo-600 mb-3" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
-                    <p class="text-xs font-bold uppercase tracking-widest animate-pulse">Generating Dynamic AI Recommendations...</p>
-                </div>
-            `;
-            
-            let byokKey = '';
-            try {
-                const mainKey = document.getElementById('api-key-input');
-                const suppKey = document.getElementById('support-api-key-input');
-                byokKey = (mainKey && mainKey.value) ? mainKey.value : (suppKey ? suppKey.value : '');
-                if (!byokKey) byokKey = sessionStorage.getItem('byok_gemini_key') || sessionStorage.getItem('gemini_api_key') || '';
-            } catch(e) {}
-            
-            const isLive = !!byokKey;
-            const recsHeader = document.getElementById('report-recs-badge');
-            if (recsHeader) {
-                if (isLive) {
-                    recsHeader.innerText = "Live Data";
-                    recsHeader.className = "text-[10px] bg-emerald-100 text-emerald-700 px-2 py-0.5 rounded font-bold uppercase tracking-wide border border-emerald-200 ml-2";
-                } else {
-                    recsHeader.innerText = "Dummy Data";
-                    recsHeader.className = "text-[10px] bg-amber-100 text-amber-700 px-2 py-0.5 rounded font-bold uppercase tracking-wide border border-amber-200 ml-2";
-                }
-            }
-
             const sid = scenarioId || currentScenarioId || "saas_finops";
+            const recsHeader = document.getElementById('report-recs-badge');
 
-            try {
-                let token = userAuthToken;
-                if (!token && currentUser && currentUser.getIdToken) {
-                    try { token = await currentUser.getIdToken(); } catch(e) {}
-                }
-                if (!token) token = "demo-token-chandraprakash";
-
-                const headers = { 'Content-Type': 'application/json' };
-                if (token) headers['Authorization'] = `Bearer ${token}`;
-                if (byokKey) headers['X-Gemini-API-Key'] = byokKey;
-
-                const res = await fetch('/api/forecast/recommendations', {
-                    method: 'POST',
-                    headers: headers,
-                    body: JSON.stringify({ scenario_id: sid })
-                });
-                
-                const data = await res.json();
-                let list = data.recommendations || [];
-                if (!Array.isArray(list) || list.length === 0) {
-                    list = getExecutiveFallbackRecommendations(sid);
-                }
-
+            // Helper to render card list
+            function renderCardList(list) {
                 let html = '';
                 list.forEach((rec) => {
                     html += `
@@ -2124,27 +2098,78 @@
                     `;
                 });
                 container.innerHTML = html;
-            } catch (err) {
-                const fallbackList = getExecutiveFallbackRecommendations(sid);
-                let html = '';
-                fallbackList.forEach((rec) => {
-                    html += `
-                        <div class="p-4 bg-slate-50/90 rounded-xl border border-slate-200/90 flex flex-col justify-between space-y-3 hover:border-indigo-300 hover:shadow-xs transition">
-                            <div>
-                                <div class="flex items-center justify-between mb-2">
-                                    <span class="text-[9px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full border ${rec.tagColor}">${rec.tag}</span>
-                                    <span class="text-[11px] font-extrabold ${rec.impactColor}">${rec.impact}</span>
-                                </div>
-                                <h4 class="font-bold text-slate-800 text-xs mb-1.5 leading-snug">${rec.title}</h4>
-                                <p class="text-slate-600 text-[11px] leading-relaxed">${rec.desc}</p>
-                            </div>
-                            <button onclick="applyRecommendation(this, '${rec.title.replace(/'/g, "\\'")}')" class="w-full bg-white hover:bg-indigo-50 text-indigo-700 border border-indigo-200 font-bold py-2 px-3 rounded-lg text-xs transition shadow-2xs flex items-center justify-center space-x-1">
-                                <span>${rec.actionText}</span>
-                            </button>
-                        </div>
-                    `;
+            }
+
+            let token = userAuthToken;
+            if (!token && typeof currentUser !== 'undefined' && currentUser && currentUser.getIdToken) {
+                try { token = await currentUser.getIdToken(); } catch(e) {}
+            }
+
+            // If not authenticated, immediately show calibrated static fallback without spinning
+            if (!token) {
+                if (recsHeader) {
+                    recsHeader.innerText = "DUMMY DATA (Sign in for Live AI)";
+                    recsHeader.className = "text-[10px] bg-amber-100 text-amber-700 px-2 py-0.5 rounded font-bold uppercase tracking-wide border border-amber-200 ml-2";
+                }
+                renderCardList(getExecutiveFallbackRecommendations(sid));
+                return;
+            }
+
+            // Show loading state while fetching live recommendations
+            container.innerHTML = `
+                <div class="col-span-full flex flex-col items-center justify-center py-6 text-slate-500">
+                    <svg class="animate-spin h-6 w-6 text-indigo-600 mb-3" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
+                    <p class="text-xs font-bold uppercase tracking-widest animate-pulse">Generating Dynamic AI Recommendations...</p>
+                </div>
+            `;
+
+            let byokKey = '';
+            try {
+                const mainKey = document.getElementById('api-key-input');
+                const suppKey = document.getElementById('support-api-key-input');
+                byokKey = (mainKey && mainKey.value) ? mainKey.value : (suppKey ? suppKey.value : '');
+                if (!byokKey) byokKey = sessionStorage.getItem('byok_gemini_key') || sessionStorage.getItem('gemini_api_key') || '';
+            } catch(e) {}
+
+            const controller = new AbortController();
+            const timeoutId = setTimeout(() => controller.abort(), 6000);
+
+            try {
+                const headers = { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` };
+                if (byokKey) headers['X-Gemini-API-Key'] = byokKey;
+
+                const res = await fetch('/api/forecast/recommendations', {
+                    method: 'POST',
+                    headers: headers,
+                    body: JSON.stringify({ scenario_id: sid }),
+                    signal: controller.signal
                 });
-                container.innerHTML = html;
+                clearTimeout(timeoutId);
+
+                const data = await res.json();
+                let list = data.recommendations || [];
+                const isLive = !!data.is_live;
+                if (!Array.isArray(list) || list.length === 0) {
+                    list = getExecutiveFallbackRecommendations(sid);
+                }
+
+                if (recsHeader) {
+                    if (isLive && Array.isArray(data.recommendations) && data.recommendations.length > 0) {
+                        recsHeader.innerText = "Live AI Recommendations";
+                        recsHeader.className = "text-[10px] bg-emerald-100 text-emerald-700 px-2 py-0.5 rounded font-bold uppercase tracking-wide border border-emerald-200 ml-2";
+                    } else {
+                        recsHeader.innerText = "DUMMY DATA (Fallback)";
+                        recsHeader.className = "text-[10px] bg-amber-100 text-amber-700 px-2 py-0.5 rounded font-bold uppercase tracking-wide border border-amber-200 ml-2";
+                    }
+                }
+                renderCardList(list);
+            } catch (err) {
+                clearTimeout(timeoutId);
+                if (recsHeader) {
+                    recsHeader.innerText = "DUMMY DATA (Fallback)";
+                    recsHeader.className = "text-[10px] bg-amber-100 text-amber-700 px-2 py-0.5 rounded font-bold uppercase tracking-wide border border-amber-200 ml-2";
+                }
+                renderCardList(getExecutiveFallbackRecommendations(sid));
             }
         }
 
@@ -2301,8 +2326,8 @@ ${document.getElementById('report-modal-steps').innerText}
 \`\`\`\n
 ## 4. Trust Services Criteria & Security Controls Attestation
 In accordance with SOC 2 Type II requirements, the following controls were verified during execution:
-- [x] **Control ID SOC2-CC6.1 (Authentication):** Firebase JWT Google Sign-In Verified
-- [x] **Control ID SOC2-CC6.2 (Data Segregation):** Cloud Firestore Multi-Tenant isolation enforced (/users/{uid}/*)
+- [x] **Control ID SOC2-CC6.1 (Authentication):** Firebase JWT Google Sign-In & Anonymous Auth Verified
+- [x] **Control ID SOC2-CC6.2 (Data Segregation):** Backend ADC-authenticated tenant scoping (/users/{uid}/*) with immutable audit logging
 - [x] **Control ID SOC2-CC6.3 (Secret Management):** Google Cloud Secret Manager Application Default Credentials utilized (Zero hardcoded keys).
 
 ## 5. Gemini AI Strategic Recommendations & Next Actions
@@ -2331,7 +2356,11 @@ ${document.getElementById('report-modal-webhooks').innerText.replace(/\n/g, '\n-
 
         async function fetchRunbooks() {
             try {
-                const res = await fetch('/api/runbooks');
+                const headers = {};
+                if (userAuthToken) {
+                    headers['Authorization'] = `Bearer ${userAuthToken}`;
+                }
+                const res = await fetch('/api/runbooks', { headers: headers });
                 if (res.ok) {
                     availableRunbooks = await res.json();
                     updateRunbookCardForScenario(currentScenarioId);
@@ -2354,7 +2383,11 @@ ${document.getElementById('report-modal-webhooks').innerText.replace(/\n/g, '\n-
         async function executeActiveRunbook() {
             const runbook = availableRunbooks.find(r => r.scenario_id === currentScenarioId);
             if (!runbook) {
-                alert("No runbook found for active scenario.");
+                if (!userAuthToken && !currentUser && !isDemoMode) {
+                    alert("Please click 'Continue as Guest' or 'Sign in with Google' to load and execute autonomous runbooks.");
+                } else {
+                    alert("No runbook found for active scenario.");
+                }
                 return;
             }
 
@@ -2528,9 +2561,9 @@ ${document.getElementById('report-modal-webhooks').innerText.replace(/\n/g, '\n-
             
             const eventDetails = {
                 saas_finops: {
-                    title: "SaaS FinOps: 130 Idle Figma Seats Reclaimed",
+                    title: "SaaS FinOps: 365 Idle SaaS Licenses Reclaimed",
                     severity: "HIGH",
-                    impact: "$56,400.00/yr Recurring SaaS Waste",
+                    impact: "$118,260.00/yr Recurring SaaS Waste",
                     target: "Okta Universal Directory / SCIM 2.0",
                     action: "act_saas_reclaim_01"
                 },
@@ -2925,24 +2958,27 @@ ${document.getElementById('report-modal-webhooks').innerText.replace(/\n/g, '\n-
         // Conversational AI Chat & Markdown Formatting
         // ---------------------------------------------------------
         function sendQuickPrompt(promptText) {
-            const btnSend = document.getElementById('btn-send');
-            if (btnSend && btnSend.disabled) return;
-            document.getElementById('chat-input').value = promptText;
-            document.getElementById('chat-form').dispatchEvent(new Event('submit', { cancelable: true, bubbles: true }));
+            executeSendMessage(promptText);
         }
 
         async function handleChatSubmit(e) {
-            e.preventDefault();
-            const btnSend = document.getElementById('btn-send');
-            if (btnSend && btnSend.disabled) return;
+            if (e && e.preventDefault) e.preventDefault();
             const inputField = document.getElementById('chat-input');
-            const message = inputField.value.trim();
+            const message = inputField ? inputField.value : '';
+            await executeSendMessage(message);
+        }
+
+        async function executeSendMessage(messageText) {
+            const message = (messageText || '').trim();
             if (!message) return;
 
-            inputField.value = '';
-            btnSend.disabled = true;
+            const inputField = document.getElementById('chat-input');
+            const btnSend = document.getElementById('btn-send');
+            if (inputField) inputField.value = '';
+            if (btnSend) btnSend.disabled = true;
 
             const chatContainer = document.getElementById('chat-messages');
+            if (!chatContainer) return;
 
             chatContainer.innerHTML += `
                 <div class="flex items-start justify-end space-x-3 mb-6 animate-in fade-in duration-200">
@@ -3009,7 +3045,8 @@ ${document.getElementById('report-modal-webhooks').innerText.replace(/\n/g, '\n-
                 });
 
                 const data = await response.json();
-                document.getElementById(loadingId).remove();
+                const loadingEl = document.getElementById(loadingId);
+                if (loadingEl) loadingEl.remove();
 
                 if (response.ok) {
                     const aiContent = data.response;
@@ -3033,6 +3070,16 @@ ${document.getElementById('report-modal-webhooks').innerText.replace(/\n/g, '\n-
                             </div>
                         </div>
                     `;
+                } else if (response.status === 401) {
+                    chatContainer.innerHTML += `
+                        <div class="p-4 bg-indigo-50/90 border border-indigo-200 rounded-2xl text-xs text-indigo-950 space-y-2 animate-in fade-in duration-200">
+                            <div class="font-bold flex items-center space-x-1.5 text-indigo-900">
+                                <span>🔐</span>
+                                <span>Authentication Required</span>
+                            </div>
+                            <p class="leading-relaxed text-slate-700">Sign in to use the Gemini Copilot — click <button onclick="signInAnonymously()" class="font-bold text-indigo-600 underline hover:text-indigo-800">Continue as Guest</button> in the top header for instant access with no Google account required, or <button onclick="signInWithGoogle()" class="font-bold text-indigo-600 underline hover:text-indigo-800">Sign in with Google</button>.</p>
+                        </div>
+                    `;
                 } else {
                     chatContainer.innerHTML += `
                         <div class="bg-rose-50 border border-rose-600 text-rose-700 p-3 rounded-xl text-xs">
@@ -3041,14 +3088,17 @@ ${document.getElementById('report-modal-webhooks').innerText.replace(/\n/g, '\n-
                     `;
                 }
             } catch (err) {
-                document.getElementById(loadingId).remove();
+                const loadingEl = document.getElementById(loadingId);
+                if (loadingEl) loadingEl.remove();
                 chatContainer.innerHTML += `
                     <div class="bg-rose-50 border border-rose-600 text-rose-700 p-3 rounded-xl text-xs">
                         <strong>Network Error:</strong> Failed to reach backend API endpoint.
                     </div>
                 `;
             } finally {
-                btnSend.disabled = !inputField.value.trim();
+                if (btnSend && inputField) {
+                    btnSend.disabled = !inputField.value.trim();
+                }
                 chatContainer.scrollTop = chatContainer.scrollHeight;
             }
         }
@@ -3087,13 +3137,13 @@ ${document.getElementById('report-modal-webhooks').innerText.replace(/\n/g, '\n-
                 sessionStorage.removeItem('gemini_api_key');
                 sessionStorage.removeItem('byok_key_connected');
                 if (statusLabel) {
-                    statusLabel.innerText = "Not Connected";
-                    statusLabel.className = "text-[10px] bg-slate-100 text-slate-500 border border-slate-200 px-2.5 py-1 rounded-full font-bold tracking-wide";
+                    statusLabel.innerText = "Server key";
+                    statusLabel.className = "text-[9px] bg-slate-100 text-slate-600 border border-slate-200 px-2 py-0.5 rounded-full font-semibold whitespace-nowrap shrink-0";
                 }
                 const aiBadge = document.getElementById('ai-data-badge');
                 if (aiBadge) {
-                    aiBadge.innerText = "Dummy Data";
-                    aiBadge.className = "text-[10px] bg-amber-100 text-amber-700 px-2 py-0.5 rounded font-bold uppercase tracking-wide";
+                    aiBadge.innerText = "Synthetic data";
+                    aiBadge.className = "text-[9px] bg-slate-100 text-slate-600 border border-slate-200 px-2 py-0.5 rounded-full font-semibold whitespace-nowrap shrink-0";
                 }
                 return;
             }
@@ -3115,29 +3165,19 @@ ${document.getElementById('report-modal-webhooks').innerText.replace(/\n/g, '\n-
                 sessionStorage.setItem('gemini_api_key', key);
                 
                 // Update Labels
-                                if(statusLabel) {
-                    statusLabel.innerText = "API Key Connected";
-                    statusLabel.className = "text-[10px] bg-emerald-100 text-emerald-700 border border-emerald-200 px-2.5 py-1 rounded-full font-bold tracking-wide";
+                if(statusLabel) {
+                    statusLabel.innerText = "BYOK active";
+                    statusLabel.className = "text-[9px] bg-emerald-50 text-emerald-700 border border-emerald-200 px-2 py-0.5 rounded-full font-semibold whitespace-nowrap shrink-0";
                 }
                 var aiBadge = document.getElementById('ai-data-badge');
                 if(aiBadge) {
                     aiBadge.innerText = "Live Data";
-                    aiBadge.className = "text-[10px] bg-emerald-100 text-emerald-700 px-2 py-0.5 rounded font-bold uppercase tracking-wide";
+                    aiBadge.className = "text-[9px] bg-emerald-50 text-emerald-700 border border-emerald-200 px-2 py-0.5 rounded-full font-semibold whitespace-nowrap shrink-0";
                 }
                 var suppBadge = document.getElementById('supp-ai-data-badge');
                 if(suppBadge) {
                     suppBadge.innerText = "Live Data";
-                    suppBadge.className = "text-[10px] bg-emerald-100 text-emerald-700 px-2 py-0.5 rounded font-bold uppercase tracking-wide";
-                }
-                var aiBadge = document.getElementById('ai-data-badge');
-                if(aiBadge) {
-                    aiBadge.innerText = "Live Data";
-                    aiBadge.className = "text-[10px] bg-emerald-100 text-emerald-700 px-2 py-0.5 rounded font-bold uppercase tracking-wide";
-                }
-                var suppBadge = document.getElementById('supp-ai-data-badge');
-                if(suppBadge) {
-                    suppBadge.innerText = "Live Data";
-                    suppBadge.className = "text-[10px] bg-emerald-100 text-emerald-700 px-2 py-0.5 rounded font-bold uppercase tracking-wide";
+                    suppBadge.className = "text-[9px] bg-emerald-50 text-emerald-700 border border-emerald-200 px-2 py-0.5 rounded-full font-semibold whitespace-nowrap shrink-0";
                 }
                 
                 // Update Button
@@ -3383,6 +3423,16 @@ ${document.getElementById('report-modal-webhooks').innerText.replace(/\n/g, '\n-
                             </div>
                         </div>
                     `;
+                } else if (response.status === 401) {
+                    chatContainer.innerHTML += `
+                        <div class="p-3.5 bg-indigo-50 border border-indigo-200 text-indigo-950 rounded-2xl text-xs max-w-[85%] space-y-1.5 animate-in fade-in duration-200">
+                            <div class="font-bold flex items-center space-x-1.5 text-indigo-900">
+                                <span>🔐</span>
+                                <span>Authentication Required</span>
+                            </div>
+                            <p class="leading-relaxed text-slate-700">Please sign in to message Support — click <button onclick="signInAnonymously()" class="font-bold text-indigo-600 underline hover:text-indigo-800">Continue as Guest</button> or <button onclick="signInWithGoogle()" class="font-bold text-indigo-600 underline hover:text-indigo-800">Sign in with Google</button>.</p>
+                        </div>
+                    `;
                 } else {
                     chatContainer.innerHTML += `
                         <div class="bg-rose-50 border border-rose-600 text-rose-700 p-3 rounded-xl text-xs max-w-[85%]">
@@ -3401,15 +3451,63 @@ ${document.getElementById('report-modal-webhooks').innerText.replace(/\n/g, '\n-
             chatContainer.scrollTop = chatContainer.scrollHeight;
         }
 
-        function saveDataCredentials(btn) {
-            btn.innerText = "Verifying...";
+        function handleSupportTicketSubmit(e) {
+            e.preventDefault();
+            const subj = (document.getElementById('ticket-subject')?.value || '').trim();
+            const desc = (document.getElementById('ticket-desc')?.value || '').trim();
+            const statusEl = document.getElementById('ticket-submit-status');
+            if (!statusEl) return;
+
+            if (!subj || !desc) {
+                statusEl.className = 'text-xs text-rose-600 font-bold';
+                statusEl.innerText = '⚠️ Subject and description are required.';
+                statusEl.classList.remove('hidden');
+                return;
+            }
+
+            statusEl.className = 'text-xs text-emerald-600 font-bold';
+            statusEl.innerText = `✓ Ticket logged (simulated): INC-${Math.floor(1000 + Math.random() * 9000)}`;
+            statusEl.classList.remove('hidden');
+            document.getElementById('support-ticket-form')?.reset();
             setTimeout(() => {
+                statusEl.classList.add('hidden');
+            }, 5000);
+        }
+
+        function saveDataCredentials(btn) {
+            const projId = (document.getElementById('ds-proj-id')?.value || '').trim();
+            const clientId = (document.getElementById('ds-client-id')?.value || '').trim();
+            const clientSecret = (document.getElementById('ds-client-secret')?.value || '').trim();
+            const statusEl = document.getElementById('ds-save-status');
+
+            if (!statusEl) return;
+
+            const missing = [];
+            if (!projId) missing.push('Project ID');
+            if (!clientId) missing.push('OAuth Client ID');
+            if (!clientSecret) missing.push('Client Secret');
+
+            if (missing.length > 0) {
+                statusEl.className = 'text-xs text-rose-600 font-bold';
+                statusEl.innerText = `⚠️ Missing required field(s): ${missing.join(', ')}`;
+                statusEl.classList.remove('hidden');
+                return;
+            }
+
+            btn.disabled = true;
+            btn.innerText = "Saving...";
+            statusEl.classList.add('hidden');
+
+            setTimeout(() => {
+                btn.disabled = false;
                 btn.innerText = "Save Configuration";
-                document.getElementById('ds-save-status').classList.remove('hidden');
+                statusEl.className = 'text-xs text-emerald-600 font-bold';
+                statusEl.innerText = "✓ Configuration saved (simulated)";
+                statusEl.classList.remove('hidden');
                 setTimeout(() => {
-                    document.getElementById('ds-save-status').classList.add('hidden');
+                    statusEl.classList.add('hidden');
                 }, 4000);
-            }, 800);
+            }, 600);
         }
 
         // Enterprise Data Connectors State
@@ -3713,6 +3811,7 @@ ${document.getElementById('report-modal-webhooks').innerText.replace(/\n/g, '\n-
                 }
             }
 
+            updateDemoModeUI();
             await fetchRunbooks();
             await switchScenario('saas_finops');
         });
@@ -3731,19 +3830,19 @@ ${document.getElementById('report-modal-webhooks').innerText.replace(/\n/g, '\n-
             const savedKey = sessionStorage.getItem('byok_gemini_key') || sessionStorage.getItem('gemini_api_key');
             if(savedKey && (savedKey.startsWith('AIzaSy') || savedKey.startsWith('AQ.'))) {
                 const statusLabel = document.getElementById('api-key-status-label');
-                                if(statusLabel) {
-                    statusLabel.innerText = "API Key Connected";
-                    statusLabel.className = "text-[10px] bg-emerald-100 text-emerald-700 border border-emerald-200 px-2.5 py-1 rounded-full font-bold tracking-wide";
+                if(statusLabel) {
+                    statusLabel.innerText = "BYOK active";
+                    statusLabel.className = "text-[9px] bg-emerald-50 text-emerald-700 border border-emerald-200 px-2 py-0.5 rounded-full font-semibold whitespace-nowrap shrink-0";
                 }
                 var aiBadge = document.getElementById('ai-data-badge');
                 if(aiBadge) {
                     aiBadge.innerText = "Live Data";
-                    aiBadge.className = "text-[10px] bg-emerald-100 text-emerald-700 px-2 py-0.5 rounded font-bold uppercase tracking-wide";
+                    aiBadge.className = "text-[9px] bg-emerald-50 text-emerald-700 border border-emerald-200 px-2 py-0.5 rounded-full font-semibold whitespace-nowrap shrink-0";
                 }
                 var suppBadge = document.getElementById('supp-ai-data-badge');
                 if(suppBadge) {
                     suppBadge.innerText = "Live Data";
-                    suppBadge.className = "text-[10px] bg-emerald-100 text-emerald-700 px-2 py-0.5 rounded font-bold uppercase tracking-wide";
+                    suppBadge.className = "text-[9px] bg-emerald-50 text-emerald-700 border border-emerald-200 px-2 py-0.5 rounded-full font-semibold whitespace-nowrap shrink-0";
                 }
             }
         });

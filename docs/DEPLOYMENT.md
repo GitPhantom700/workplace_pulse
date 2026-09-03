@@ -184,31 +184,32 @@ Navigate to `http://localhost:8080` to verify the frontend loads.
 Deploy the application as an autoscaling serverless container. Cloud Build will automatically containerize the FastAPI app using the provided `Dockerfile`.
 
 ```bash
-gcloud run deploy workplacepulse-core \
+gcloud run deploy workplace-pulse-app \
     --source . \
     --region us-central1 \
-    --service-account="workplacepulse-sa@${PROJECT_ID}.iam.gserviceaccount.com" \
-    --set-secrets="GEMINI_API_KEY=GEMINI_API_KEY:latest" \
-    --allow-unauthenticated \
-    --min-instances 0 \
-    --max-instances 10
+    --project workplacepulse \
+    --set-env-vars ENV=production \
+    --update-labels dev-tutorial=cloud-run-ai-challenge \
+    --allow-unauthenticated
 ```
+
+> **Note on Service Account:** In production, the default Compute Service Account (`996129350542-compute@developer.gserviceaccount.com`) is granted `roles/secretmanager.secretAccessor` and `roles/datastore.user` to automatically resolve secrets and write to Cloud Firestore via ADC.
 
 **Expected Output:**
 ```text
-Deploying container to Cloud Run service [workplacepulse-core] in project [your-gcp-project-id] region [us-central1]
+Deploying container to Cloud Run service [workplace-pulse-app] in project [workplacepulse] region [us-central1]
 ✓ Deploying... Done.
   ✓ Creating Revision...
   ✓ Routing traffic...
-  ✓ Setting IAM Policy...
 Done.
-Service [workplacepulse-core] revision [workplacepulse-core-00001-abc] has been deployed and is serving 100 percent of traffic.
-Service URL: https://workplacepulse-core-xyz-uc.a.run.app
+Service [workplace-pulse-app] revision [workplace-pulse-app-00024-lm4] has been deployed and is serving 100 percent of traffic.
+Service URL: https://workplace-pulse-app-996129350542.us-central1.run.app
 ```
 
 ### Deployment Flags Explained:
 *   `--source .`: Utilizes Google Cloud Buildpacks/Dockerfile to containerize the app.
-*   `--set-secrets`: Mounts the Gemini API key securely into the container environment.
+*   `--set-env-vars ENV=production`: Enables runtime ADC resolution for Secret Manager and Firestore.
+*   `--update-labels dev-tutorial=cloud-run-ai-challenge`: Labels revision for GenAI Academy challenge compliance.
 *   `--allow-unauthenticated`: Exposes the frontend to the public web (Security is handled at the application layer via Firebase JWTs).
 
 ---

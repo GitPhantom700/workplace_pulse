@@ -6,7 +6,7 @@
 <br>
 
 [![Google Cloud Run](https://img.shields.io/badge/Google%20Cloud-Cloud%20Run-4285F4?logo=googlecloud&logoColor=white)](https://cloud.google.com/run)
-[![Google Gemini API](https://img.shields.io/badge/AI%20Core-Gemini%202.5%20Flash-8E75B2?logo=googlegemini&logoColor=white)](https://aistudio.google.com/)
+[![Google Gemini API](https://img.shields.io/badge/AI%20Core-Gemini%203.6%20Flash-8E75B2?logo=googlegemini&logoColor=white)](https://aistudio.google.com/)
 [![Firebase Auth](https://img.shields.io/badge/Identity-Firebase%20Admin%20SDK-FFCA28?logo=firebase&logoColor=black)](https://firebase.google.com/)
 [![Cloud Firestore](https://img.shields.io/badge/Database-Cloud%20Firestore-FFCA28?logo=firebase&logoColor=black)](https://firebase.google.com/docs/firestore)
 [![Secret Manager](https://img.shields.io/badge/Security-Cloud%20Secret%20Manager-4285F4?logo=googlecloud&logoColor=white)](https://cloud.google.com/secret-manager)
@@ -98,12 +98,10 @@ To protect corporate data and ensure 100% deterministic testability without requ
                                                                        |
 [Jamf Pro MDM Telemetry]    ---> Battery cycle count (>800)   ---> CapEx Replacement
 [Jira Service Management]   ---> MTTR & Month-End Backlogs    ---> SLA Risk Scoring
-                                                                       |
-                                                                       v
-                                                  [Serialized Grounding Context]
-                                                                       |
-                                                                       v
-                                                  [Google Gemini 1.5/2.0 Copilot]
+                                                                                                   [Serialized Grounding Context]
+                                                                        |
+                                                                        v
+                                                   [Google Gemini 3.6 Flash / Fallback Copilot]
 ```
 
 <br>
@@ -193,7 +191,7 @@ WorkplacePulse closes the operational loop with an **Autonomous Remediation & At
 
 | Module | Runbook & Target System | Autonomous Action | Business & Security ROI |
 |---|---|---|---|
-| **💰 SaaS FinOps** | **Okta SCIM License Deprovisioner**<br>`(Okta SCIM 2.0 API)` | Scans simulated directories for $>60\text{d}$ dormant seats; revokes provisioned entitlements without disrupting document access. | **Recovers up to $56,400/yr** in recurring SaaS waste across Figma, Zoom & Notion. |
+| **💰 SaaS FinOps** | **Okta SCIM License Deprovisioner**<br>`(Okta SCIM 2.0 API)` | Scans simulated directories for $>60\text{d}$ dormant seats; revokes provisioned entitlements without disrupting document access. | **Recovers up to $118,260/yr** in recurring SaaS waste across Figma, Zoom & Notion. |
 | **💻 Jamf Fleet** | **Jamf Pro Battery Quarantine & Refresh**<br>`(Jamf Pro MDM / ERP)` | Flags laptops with battery cycles $>800\text{c}$ or health $<75\%$; pushes maintenance profiles and files bulk warranty RMA tickets. | **Mitigates 42 battery failure hazards** and prevents unplanned employee downtime. |
 | **🎫 ITSM Surge** | **Emergency SOX Fast-Track Approval**<br>`(Jira Service Management)` | Temporarily activates pre-approved dual-signer matrix for 72-hour Month-End Close access requests. | **Reduces MTTR from 3.8 hrs to 12 mins**, unblocking finance teams for accounting close. |
 
@@ -201,7 +199,7 @@ WorkplacePulse closes the operational loop with an **Autonomous Remediation & At
 
 ### 📑 Executive Incident Post-Mortem Features:
 * **Official ITIL Attestation Banner:** Generates unique tracking reference IDs (`INC-SAAS-928411`) with exact UTC completion timestamps.
-* **SOC 2 Type II Trust Services Criteria Table:** Automatically certifies compliance evidence across `SOC2-CC6.1` (IAM & Auth), `SOC2-CC6.2` (Multi-Tenant Data Isolation), and `SOC2-CC6.3` (Secret Protection).
+* **SOC 2 Type II Trust Services Criteria Table:** Automatically certifies compliance evidence across `SOC2-CC6.1` (IAM & Auth), `SOC2-CC6.2` (Multi-Tenant Data Isolation & ADC Scoping), and `SOC2-CC6.3` (Secret Protection).
 * **AI-Driven Strategic Recommendations:** Features Gemini AI strategic policies and one-click `⚡ Apply Policy` controls.
 * **Multi-Modal Export:** Export audit-ready reports instantly as formatted Markdown (`.md`) or print-optimized executive PDFs.
 
@@ -251,7 +249,7 @@ Open **[http://localhost:8080](http://localhost:8080)** in your browser.
                                         +--------------+-------------+
                                                        |
                           +----------------------------+----------------------------+
-                          | (1. Firebase Google Auth)                               | (2. REST APIs & WebSockets)
+                          | (1. Firebase Google Auth / Anonymous JWT)               | (2. REST APIs & WebSockets)
                           v                                                         v
              +---------------------------+                             +---------------------------+
              |   Firebase Auth Service   |                             |   Cloud Run Container     |
@@ -265,10 +263,10 @@ Open **[http://localhost:8080](http://localhost:8080)** in your browser.
         v (Pillar 1 & 4)                               v (Pillar 2)                                   v (Pillar 3 & Standout)
 +-------------------------------+             +-------------------------------+             +-------------------------------+
 |    Security & Auth Gate       |             |   Gemini AI Copilot Engine    |             |  Tenant Isolation & Database  |
-| - Firebase Admin SDK Token    |             | - Gemini 2.5 Flash Primary    |             | - Scoped /users/{userId}/...  |
-|   Verification Middleware     |             | - Gemini 2.0 Flash Fallback   |             | - Default-Deny Security Rules |
-| - Cloud Secret Manager ADC    |             | - Multi-Turn Role Prompts     |             | - Immutable AI Audit Logs     |
-|   Dynamic Secret Fetching     |             | - Prompt Injection Guard      |             | - Runbook Execution Logs      |
+| - Firebase Admin SDK Token    |             | - Gemini 3.6 Flash Primary    |             | - Scoped /users/{userId}/...  |
+|   Verification Middleware     |             | - Flash Lite / Pro Fallbacks  |             | - Immutable Cloud Firestore   |
+| - Cloud Secret Manager ADC    |             | - Vertex AI Enterprise Rung   |             | - Audit Logs & SIEM Scopes    |
+|   Dynamic Secret Fetching     |             | - Multi-Turn Role Prompts     |             | - Runbook Execution Logs      |
 +-------------------------------+             +-------------------------------+             +-------------------------------+
                                                                                             |
                                                                                             v (Standout Feature)
@@ -293,15 +291,15 @@ sequenceDiagram
     participant Auth as Firebase Auth SDK
     participant Backend as FastAPI on Cloud Run
     participant Secrets as Cloud Secret Manager
-    participant Gemini as Google Gemini 2.5 Flash
+    participant Gemini as Google Gemini 3.6 Flash
     participant Firestore as Cloud Firestore
     participant Webhook as Webhook Dispatcher (Slack/Discord)
 
     User->>Frontend: Select Scenario (e.g. SaaS FinOps)
     Frontend->>Backend: POST /api/scenarios/seed {scenario_id}
     Backend-->>Frontend: Return Synthetic Telemetry & Chart Series
-    User->>Auth: Authenticate with Google SSO (or Demo Mode)
-    Auth-->>Frontend: Issue Bearer ID Token
+    User->>Auth: Authenticate with Google SSO or Guest Sign-In
+    Auth-->>Frontend: Issue Verified Bearer ID Token
     User->>Frontend: Submit AI Inquiry ("How can we cut license spend?")
     Frontend->>Backend: POST /api/forecast/chat (Bearer Token + Prompt)
     Backend->>Backend: Verify Token via Firebase Admin SDK
@@ -331,11 +329,11 @@ WorkplacePulse is built from the ground up to exceed all criteria of the [Google
 
 | Challenge Requirement | Architectural Implementation | Implementation Files | Security / Isolation Guarantee |
 |---|---|---|---|
-| **Pillar 1: Firebase Authentication** | Validates Google Sign-In JWT tokens on every protected endpoint via Firebase Admin SDK. Supports sandbox parity (`DEMO_MODE=true`). | `security.py`, `main.py` | Strict Bearer token verification; invalid or malformed tokens return `401 Unauthorized`. |
-| **Pillar 2: Gemini API Multi-Turn AI** | Role-tailored system instructions (`saas_finops`, `hardware_lifecycle`, `itsm_surge`) with multi-turn memory and resilient 429/503 fallback ladder (`gemini-2.5-flash` → `gemini-2.0-flash`). | `ai_service.py`, `main.py` | Pydantic null-byte filtering, 4000-char limits, and system prompt injection safety directives. |
-| **Pillar 3: Cloud Firestore User Tenancy** | Multi-tenant user data segregation. All chat logs, runbook audits, and webhooks are strictly partitioned under `/users/{userId}/`. | `database.py`, `firestore.rules` | `firestore.rules` enforces zero-trust default-deny (`request.auth.uid == userId`) and immutable audit logs (`allow update, delete: if false;`). |
+| **Pillar 1: Firebase Authentication** | Validates Google Sign-In & Anonymous Auth JWT tokens on every protected endpoint via Firebase Admin SDK. Supports sandbox parity (`DEMO_MODE=true`). | `security.py`, `main.py` | Strict Bearer token verification; invalid or malformed tokens return `401 Unauthorized`. |
+| **Pillar 2: Gemini API Multi-Turn AI** | Role-tailored system instructions (`saas_finops`, `hardware_lifecycle`, `itsm_surge`) with multi-turn memory and resilient fallback ladder (`gemini-3.6-flash` → `gemini-flash-lite-latest` → `gemini-flash-latest` → Vertex `gemini-2.5-flash`). | `ai_service.py`, `main.py` | Pydantic null-byte filtering, 4000-char limits, and system prompt injection safety directives. |
+| **Pillar 3: Cloud Firestore User Tenancy** | Multi-tenant user data segregation. All chat logs, runbook audits, and webhooks are strictly partitioned under `/users/{userId}/`. | `database.py`, `firestore.rules` | Backend ADC tenant scoping enforces user isolation (`/users/{uid}/*`) and immutable audit logs (`allow update, delete: if false;`). |
 | **Pillar 4: Cloud Secret Manager** | Dynamic resolution of `GEMINI_API_KEY` in production via Application Default Credentials (ADC). Zero credentials in source control or container images. | `security.py` | Automated secret scanning verifies zero hardcoded API keys or private keys across the entire repository. |
-| **Pillar 5: Containerized on Cloud Run** | Dockerfile based on `python:3.11-slim` with unbuffered logs, dynamic `$PORT` binding, and health check probe. | `Dockerfile`, `docker-compose.yml` | Sub-second cold starts, unauthenticated root landing, and tagged with `dev-tutorial=cloud-run-ai-challenge`. |
+| **Pillar 5: Containerized on Cloud Run** | Dockerfile based on `python:3.11-slim` with unbuffered logs, dynamic `$PORT` binding, and health check probe. | `Dockerfile`, `docker-compose.yml` | Sub-second cold starts, unauthenticated root landing, and tagged with `dev-tutorial=cloud-run-ai-challenge`. |thon:3.11-slim` with unbuffered logs, dynamic `$PORT` binding, and health check probe. | `Dockerfile`, `docker-compose.yml` | Sub-second cold starts, unauthenticated root landing, and tagged with `dev-tutorial=cloud-run-ai-challenge`. |
 
 <br>
 
@@ -552,7 +550,7 @@ PORT=8081 docker compose up
 <br>
 
 ### Q2: How does the AI handle Gemini 429 Quota or 503 Overload errors?
-**Solution**: WorkplacePulse includes an automated cascading fallback ladder in `ai_service.py`. If `gemini-2.5-flash` returns a 429 (ResourceExhausted) or 503 (Unavailable), the system automatically retries against `gemini-2.0-flash`. If all models are exhausted, it returns a graceful operational advisory instead of crashing.
+**Solution**: WorkplacePulse includes an automated cascading fallback ladder in `ai_service.py`. If `gemini-3.6-flash` returns a 429 (ResourceExhausted) or 503 (Unavailable), the system automatically retries against `gemini-flash-lite-latest`, `gemini-flash-latest`, and Vertex AI `gemini-2.5-flash`. If all models are exhausted, it returns a graceful operational advisory instead of crashing.
 
 <br>
 

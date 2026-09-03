@@ -47,8 +47,9 @@ htmlcov/
 .idea/
 *.swp
 *.swo
-*~
 .DS_Store
+*.DS_Store
+.!*
 
 # Agents and internal tooling metadata
 .agents/

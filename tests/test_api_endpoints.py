@@ -209,3 +209,55 @@ def test_forecast_chat_triggers_audit_log_save(client):
             call_kwargs = mock_save.call_args.kwargs
             assert call_kwargs.get("scenario_id") == "itsm_surge"
             assert call_kwargs.get("user_prompt") == "Plan emergency shifts."
+
+
+# ---------------------------------------------------------
+# GET /api/runbooks & POST /api/forecast/recommendations Auth Tests
+# ---------------------------------------------------------
+
+def test_get_runbooks_missing_auth_header_returns_401(client):
+    """Verify GET /api/runbooks without Authorization header returns 401 Unauthorized."""
+    response = client.get("/api/runbooks")
+    assert response.status_code == 401
+
+
+def test_get_runbooks_invalid_token_returns_401(client):
+    """Verify GET /api/runbooks with invalid/unrecognized token returns 401 Unauthorized."""
+    response = client.get("/api/runbooks", headers={"Authorization": "Bearer junk-token-999"})
+    assert response.status_code == 401
+
+
+def test_get_runbooks_valid_demo_token_returns_200(client):
+    """Verify GET /api/runbooks with valid demo token returns 200 OK and catalog list."""
+    response = client.get("/api/runbooks", headers={"Authorization": "Bearer demo-engineer-123"})
+    assert response.status_code == 200
+    assert isinstance(response.json(), list)
+    assert len(response.json()) > 0
+
+
+def test_post_recommendations_missing_auth_header_returns_401(client):
+    """Verify POST /api/forecast/recommendations without Authorization header returns 401 Unauthorized."""
+    response = client.post("/api/forecast/recommendations", json={"scenario_id": "saas_finops"})
+    assert response.status_code == 401
+
+
+def test_post_recommendations_invalid_token_returns_401(client):
+    """Verify POST /api/forecast/recommendations with invalid token returns 401 Unauthorized."""
+    response = client.post(
+        "/api/forecast/recommendations",
+        json={"scenario_id": "saas_finops"},
+        headers={"Authorization": "Bearer junk-token-999"}
+    )
+    assert response.status_code == 401
+
+
+def test_post_recommendations_valid_demo_token_returns_200(client):
+    """Verify POST /api/forecast/recommendations with valid demo token returns 200 OK and recommendations."""
+    response = client.post(
+        "/api/forecast/recommendations",
+        json={"scenario_id": "saas_finops"},
+        headers={"Authorization": "Bearer demo-engineer-123"}
+    )
+    assert response.status_code == 200
+    assert "recommendations" in response.json()
+

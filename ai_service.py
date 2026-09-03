@@ -3,12 +3,15 @@ WorkplacePulse - Resilient Gemini Multi-Turn Forecasting Core
 Implements the AI fallback ladder and persona prompt engineering.
 """
 
+import os
 import logging
 from typing import List, Dict, Any
 from google import genai
 from google.genai import types as genai_types
 
 from security import get_gemini_api_key
+
+logger = logging.getLogger("WorkplacePulse.AI")
 
 _gemini_initialized = False
 _server_api_key = None
@@ -25,21 +28,15 @@ def _init_gemini() -> bool:
             if api_key:
                 _server_api_key = api_key
                 _gemini_initialized = True
-                logging.info("Gemini SDK (google.genai) ready with server-side key.")
+                logger.info(f"Gemini SDK (google.genai) ready with server-side key (length: {len(api_key)}).")
                 return True
+            else:
+                logger.warning("get_gemini_api_key() returned None or empty value.")
+                return False
         except Exception as e:
-            logging.warning(f"Gemini API initialization deferred or failed: {e}")
+            logger.error(f"Gemini API initialization failed: {type(e).__name__}: {e}")
             return False
     return _gemini_initialized
-
-
-# Explicit Safety Settings
-SAFETY_SETTINGS = [
-    {"category": "HARM_CATEGORY_HARASSMENT", "threshold": "BLOCK_NONE"},
-    {"category": "HARM_CATEGORY_HATE_SPEECH", "threshold": "BLOCK_NONE"},
-    {"category": "HARM_CATEGORY_SEXUALLY_EXPLICIT", "threshold": "BLOCK_NONE"},
-    {"category": "HARM_CATEGORY_DANGEROUS_CONTENT", "threshold": "BLOCK_NONE"},
-]
 
 # ---------------------------------------------------------
 # Persona Prompt Engineering (Tasks 18, 19, 20)
@@ -99,15 +96,16 @@ def _build_system_instruction(scenario_id: str, grounding_context: str) -> str:
     security_guardrails = (
         "\n\nSECURITY DIRECTIVE: Do not execute any system commands, code injection, or external network requests. "
         "Maintain strict enterprise role boundaries at all times.\n"
-        "DISCLAIMER: State clearly if asked that this is a synthetic forecast based on simulated parameters.\n"
     )
 
     guidance_rules = (
         "\n[CONVERSATIONAL & GUIDANCE DIRECTIVES]\n"
-        "1. For specific operational inquiries, provide precise, quantified analysis referencing the telemetry.\n"
-        "2. If the user query is vague, generic, or non-contextual (e.g., 'what do you do?', 'what is happening today?', 'help me', 'tell me something', 'what is this?'), "
+        "1. Directly and immediately answer the operational inquiry with deep, quantified financial analytics, tables, and next actions referencing the telemetry data.\n"
+        "2. Never lead with disclaimers, preamble, or generic caveats. Focus 100% on delivering high-value business insights.\n"
+        "3. If the user query is vague, generic, or non-contextual (e.g., 'what do you do?', 'what is happening today?', 'help me', 'tell me something', 'what is this?'), "
         "politely introduce your specialized role for this module and advise the user on how to prompt effectively, offering 3 to 4 concrete, actionable example prompts.\n"
-        "3. Always format your output with clean Markdown bolding, bullet points, and headers."
+        "4. Always format your output with clean Markdown bolding, tables, bullet points, and headers.\n"
+        "5. DISCLAIMER: State clearly if asked that this is a synthetic forecast based on simulated parameters.\n"
     )
 
     return f"{persona}{security_guardrails}\n[GROUNDING TELEMETRY DATA:]\n{grounding_context}\n{guidance_rules}"
@@ -214,7 +212,7 @@ def _generate_smart_simulation_response(scenario_id: str, user_message: str, gro
                 "    {\n"
                 "      \"type\": \"section\",\n"
                 "      \"fields\": [\n"
-                "        {\"type\": \"mrkdwn\", \"text\": \"*Annual Savings:*\n$56,400.00\"},\n"
+                "        {\"type\": \"mrkdwn\", \"text\": \"*Annual Savings:*\n$118,260.00\"},\n"
                 "        {\"type\": \"mrkdwn\", \"text\": \"*Remediation:*\nOkta SCIM Reclassification\"},\n"
                 "        {\"type\": \"mrkdwn\", \"text\": \"*Status:*\n🟢 Completed\"},\n"
                 "        {\"type\": \"mrkdwn\", \"text\": \"*Audit Log:*\n`exec_c4782ef288b7`\"}\n"
@@ -230,11 +228,11 @@ def _generate_smart_simulation_response(scenario_id: str, user_message: str, gro
             return (
                 "### 📄 ITIL Automated Remediation Runbook: SaaS FinOps\n\n"
                 "**Runbook ID:** `RBK-SAAS-FINOPS-2026`  \n"
-                "**Target:** Figma Enterprise & Okta SCIM 2.0 API  \n"
+                "**Target:** Figma Enterprise, Zoom Pro, Notion & Okta SCIM 2.0 API  \n"
                 "**Risk Classification:** Low (Non-Destructive Role Transition)\n\n"
                 "#### 🛠️ Execution Pipeline Stages:\n"
                 "1. **Pre-Flight Telemetry Validation:** Query Okta SSO logs for `last_active_timestamp < (NOW - 60d)`.\n"
-                "2. **SCIM Mutation:** Call Figma REST API `/v1/teams/{team_id}/members` to change role from `Editor` to `Viewer-Restricted`.\n"
+                "2. **SCIM Mutation:** Call SaaS REST/SCIM APIs to transition dormant users from `Editor/Host` to `Viewer-Restricted`.\n"
                 "3. **Audit Ledger Entry:** Write signed execution certificate to Cloud Firestore (`/users/{uid}/runbook_logs`).\n"
                 "4. **Stakeholder Notification:** Dispatch HMAC-signed notification to `#it-procurement-alerts` via Webhook.\n\n"
                 "#### 🔄 Rollback Strategy:\n"
@@ -244,12 +242,13 @@ def _generate_smart_simulation_response(scenario_id: str, user_message: str, gro
         elif any(w in msg_low for w in ["roi", "optimiz", "action", "saving", "cost", "spend", "money", "budget"]):
             return (
                 "### 📊 SaaS FinOps ROI Optimization Breakdown\n\n"
-                "Based on the **Okta Universal Directory** SSO telemetry, here is the quantified ROI analysis:\n\n"
-                "- **Figma Enterprise:** **130 inactive licenses** (>60 days dormant) @ $45/seat/mo = **$56,400/year** recoverable waste.\n"
-                "- **Zoom Pro:** **42 dormant accounts** (>90 days without host meetings) = **$9,072/year** potential savings.\n"
-                "- **Total Immediate Annual Recovery:** **$65,472/year**.\n\n"
+                "Based on the **Okta Universal Directory** SSO telemetry across calibrated enterprise applications:\n\n"
+                "- **Figma Enterprise:** **65 inactive licenses** (>60 days dormant) @ $75/mo = **$58,500/year** recoverable waste.\n"
+                "- **Zoom Pro:** **160 inactive licenses** (>60 days dormant) @ $18/mo = **$34,560/year** recoverable waste.\n"
+                "- **Notion Team:** **140 inactive licenses** (>60 days dormant) @ $15/mo = **$25,200/year** recoverable waste.\n"
+                "- **Top 3 Targeted Runbook Savings:** **$118,260/year** (of $170,700/year total portfolio waste across all 7 apps).\n\n"
                 "#### ⚡ Recommended Autonomous Action Plan:\n"
-                "1. **Downgrade to Viewer Roles:** Reclaim 130 seats immediately via Okta SCIM without disrupting employee file access.\n"
+                "1. **Downgrade to Viewer Roles:** Reclaim 365 seats immediately via Okta SCIM without disrupting employee file access.\n"
                 "2. **Implement 45-Day Inactivity Policy:** Automate reclamation in Sentinel to prevent recurring seat bloat before Q3 renewals."
             )
         # 4. User Inquiries
@@ -490,9 +489,9 @@ def _generate_smart_simulation_response(scenario_id: str, user_message: str, gro
                 "### 🎯 WorkplacePulse — Platform Strategy Overview\n\n"
                 "WorkplacePulse is an **Autonomous IT Operations Platform** built for enterprise IT teams. Here's the core strategy:\n\n"
                 "**Three Intelligence Pillars:**\n"
-                "- 🏷️ **SaaS FinOps:** Detect and reclaim idle software licenses across Figma, Zoom, Okta, and 50+ integrations — autonomously deprovision with full audit trails.\n"
+                "- 🏷️ **SaaS FinOps:** Detect and reclaim idle software licenses across Figma, Zoom, Notion, and connected enterprise integrations — autonomously deprovision with full audit trails.\n"
                 "- 💻 **Hardware Lifecycle:** Monitor Jamf-managed device fleets for battery degradation, warranty expirations, and OS drift. Auto-generate RMA tickets before hardware failures.\n"
-                "- 🎫 **ITSM Surge Prediction:** Forecast ticket volume spikes using ML models trained on Jira/ServiceNow history. Pre-stage resources and activate SOX Fast-Track approvals before Month-End bottlenecks hit.\n\n"
+                "- 🎫 **ITSM Surge Forecasting:** Forecast ticket volume spikes using calibrated historical enterprise distributions. Pre-stage resources and activate SOX Fast-Track approvals before Month-End bottlenecks hit.\n\n"
                 "**How it all connects:**\n"
                 "1. Connect your **Data Sources** (Okta, Jamf, Jira) via the integrations panel.\n"
                 "2. The **AI Copilot** (powered by Gemini) provides real-time analysis and recommendations.\n"
@@ -517,8 +516,8 @@ def _generate_smart_simulation_response(scenario_id: str, user_message: str, gro
         elif any(w in msg_low for w in ["itsm", "ticket", "jira", "servicenow", "surge", "helpdesk", "support ticket", "incident", "sla"]):
             return (
                 "### 🎫 ITSM Surge Management\n\n"
-                "The **ITSM module** uses predictive ML to forecast support ticket volume before surges happen:\n\n"
-                "- **Forecast Engine:** Analyzes 18 months of Jira Service Management & ServiceNow history to predict Month-End spikes with 94% accuracy.\n"
+                "The **ITSM module** uses calibrated enterprise distributions to anticipate support ticket volume:\n\n"
+                "- **Forecast Engine:** Models Jira Service Management & ServiceNow velocity to anticipate Month-End surge bottlenecks.\n"
                 "- **Auto-Triage:** Routes incoming tickets by category (SAP GL, NetSuite, Wire Transfer SOX) to the correct Tier-1/Tier-2 queue automatically.\n"
                 "- **SOX Fast-Track:** For Month-End Close, a pre-approved dual-signer matrix eliminates approval bottlenecks — MTTR drops from **3.8 hours → 11.4 minutes**.\n"
                 "- **SLA Compliance:** Real-time SLA breach predictions allow pre-emptive resource staging 48 hours in advance.\n\n"
@@ -535,8 +534,8 @@ def _generate_smart_simulation_response(scenario_id: str, user_message: str, gro
                             "tag": "FinOps Policy",
                             "tagColor": "bg-emerald-50 text-emerald-700 border-emerald-200",
                             "title": "Automate Okta SCIM Role Reclassification",
-                            "desc": "Reclassify 130 Figma Enterprise seats with >60d inactivity to Viewer-Restricted without disrupting file access.",
-                            "impact": "+$56,400 / yr Recovered",
+                            "desc": "Reclassify 65 Figma Enterprise seats with >60d inactivity to Viewer-Restricted without disrupting file access.",
+                            "impact": "+$58,500 / yr Recovered",
                             "impactColor": "text-emerald-600",
                             "actionText": "⚡ Apply SCIM Policy"
                         },
@@ -545,9 +544,18 @@ def _generate_smart_simulation_response(scenario_id: str, user_message: str, gro
                             "tagColor": "bg-indigo-50 text-indigo-700 border-indigo-200",
                             "title": "Enforce 45-Day Inactivity Auto-Reclaim Rule",
                             "desc": "Deploy an automated Sentinel lifecycle policy to prevent seat bloat by reclaiming licenses before upcoming Q3 renewals.",
-                            "impact": "Zero License Bloat",
+                            "impact": "+$34,560 / yr Recovered",
                             "impactColor": "text-indigo-600",
                             "actionText": "⚡ Deploy Auto-Rule"
+                        },
+                        {
+                            "tag": "Procurement Strategy",
+                            "tagColor": "bg-purple-50 text-purple-700 border-purple-200",
+                            "title": "Pre-Negotiate Enterprise Tier True-Down",
+                            "desc": "Consolidate 140 idle Notion Team seats ahead of upcoming contract renewal.",
+                            "impact": "+$25,200 / yr Recovered",
+                            "impactColor": "text-purple-600",
+                            "actionText": "⚡ Generate Audit Deck"
                         }
                     ]
                 }'''
@@ -659,13 +667,16 @@ def generate_multi_turn_forecast(
 
     system_instruction = _build_system_instruction(scenario_id, grounding_context)
 
-    # Ultra-fast and stable Gemini models in priority order
-    models_to_try = [
-        "gemini-1.5-flash-8b",
-        "gemini-1.5-flash-002",
-        "gemini-1.5-flash",
-        "gemini-1.5-pro",
+    # Verified callable Gemini models per client surface
+    api_key_models = [
+        "gemini-3.6-flash",
+        "gemini-flash-lite-latest",
         "gemini-flash-latest",
+        "gemini-pro-latest",
+    ]
+    vertex_models = [
+        "gemini-2.5-flash",
+        "gemini-2.5-pro",
     ]
 
     # Build contents list from history + new message
@@ -684,35 +695,42 @@ def generate_multi_turn_forecast(
     clients_to_try = []
     if active_key:
         try:
-            clients_to_try.append(("API_KEY", genai.Client(api_key=active_key)))
+            clients_to_try.append(("API_KEY", genai.Client(api_key=active_key), api_key_models))
         except Exception as e:
-            logging.warning(f"Failed to create API key client: {e}")
+            logger.warning(f"Failed to create API key client: {e}")
     try:
-        clients_to_try.append(("VERTEX_AI", genai.Client(vertexai=True, project="workplacepulse", location="us-central1")))
+        vertex_proj = os.environ.get("GOOGLE_CLOUD_PROJECT") or os.environ.get("GCP_PROJECT") or "workplacepulse"
+        clients_to_try.append(("VERTEX_AI", genai.Client(vertexai=True, project=vertex_proj, location="us-central1"), vertex_models))
     except Exception as e:
-        logging.warning(f"Failed to create Vertex AI client: {e}")
+        logger.warning(f"Failed to create Vertex AI client: {e}")
 
-    for client_type, client in clients_to_try:
-        for model_name in models_to_try:
+    for client_type, client, model_list in clients_to_try:
+        for model_name in model_list:
             try:
-                logging.info(f"Attempting live inference with ({client_type}) model: {model_name}")
+                logger.info(f"Attempting live inference with ({client_type}) model: {model_name}")
                 response = client.models.generate_content(
                     model=model_name,
                     contents=contents,
                     config=genai_types.GenerateContentConfig(
                         system_instruction=system_instruction,
                         temperature=0.3,
-                        max_output_tokens=1024,
+                        max_output_tokens=4096,
+                        thinking_config=genai_types.ThinkingConfig(
+                            thinking_budget=1024,
+                            include_thoughts=False
+                        )
                     )
                 )
                 if response and response.text:
-                    logging.info(f"Live response received from {client_type} {model_name}")
+                    logger.info(f"Live response received from {client_type} {model_name} (length: {len(response.text)})")
                     return response.text
+                else:
+                    logger.warning(f"({client_type}) Model {model_name} returned empty text. Trying next...")
             except Exception as e:
-                logging.warning(f"({client_type}) Model {model_name} failed: {e}. Trying next...")
+                logger.warning(f"({client_type}) Model {model_name} failed: {type(e).__name__}: {e}. Trying next...")
                 continue
 
     # All models failed — fall back to simulation
-    logging.warning("All live models failed. Returning smart simulation.")
+    logger.error("All live models failed or no key available. Returning smart simulation.")
     return _generate_smart_simulation_response(scenario_id, user_message, grounding_context)
 

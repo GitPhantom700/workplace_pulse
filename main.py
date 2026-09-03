@@ -12,7 +12,7 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-from fastapi import FastAPI, Depends, HTTPException, status
+from fastapi import FastAPI, Depends, HTTPException, status, Header
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 from fastapi.responses import FileResponse
@@ -432,9 +432,10 @@ async def list_webhook_deliveries(
 # ---------------------------------------------------------
 
 @app.get("/api/runbooks", response_model=List[RunbookAction], tags=["Runbooks"])
-async def get_runbooks():
+async def get_runbooks(user_token: dict = Depends(verify_firebase_token)):
     """
     List all available automated incident remediation runbooks in the catalog.
+    Requires authenticated Firebase ID token or verified demo token.
     """
     return list_available_runbooks()
 
@@ -500,9 +501,8 @@ async def serve_index():
     }
 
 
-if __name__ == "__main__":
-    import uvicorn
-    uvicorn.run(app, host="0.0.0.0", port=8080)
+# Tunable FinOps Recovery Validation Boundaries
+MAX_FINOPS_RECOVERY_PCT: float = 0.75  # Target high-ROI subset: Reject if claimed recovery exceeds 75% of total portfolio waste
 
 class RecommendationsRequest(BaseModel):
     scenario_id: str
@@ -513,11 +513,13 @@ async def get_recommendations(
     user_token: dict = Depends(verify_firebase_token),
     x_gemini_api_key: Optional[str] = Header(None)
 ):
+    from data_engine import get_scenario_by_id
     from ai_service import generate_multi_turn_forecast
     import json
     import re
     
     scenario = payload.scenario_id or "saas_finops"
+    sc_data = get_scenario_by_id(scenario)
     
     scenario_defaults = {
         "saas_finops": [
@@ -609,11 +611,121 @@ async def get_recommendations(
         ]
     }
 
+    # Programmatically derive constraints and ceilings from ScenarioDataPayload
+    max_allowed_savings = 0.0
+    if scenario == "saas_finops":
+        metrics = sc_data.saas_metrics or []
+        total_waste = sum(m.annual_potential_savings for m in metrics)
+        total_inactive = sum(m.inactive_60d_plus for m in metrics)
+        max_allowed_savings = total_waste * MAX_FINOPS_RECOVERY_PCT
+
+        app_lines = []
+        for i, m in enumerate(metrics, 1):
+            app_lines.append(
+                f"  {i}. {m.app_name}: {m.inactive_60d_plus} inactive seats ({m.utilization_rate_pct}% utilization) "
+                f"at ${m.cost_per_seat_monthly:,.0f}/mo (${(m.cost_per_seat_monthly * 12):,.0f}/yr) = "
+                f"${m.annual_potential_savings:,.2f}/yr potential waste"
+            )
+        app_catalog = "\n".join(app_lines)
+
+        scenario_constraints = (
+            f"CRITICAL FINANCIAL & AUDIT CONSTRAINTS (Strictly Enforced):\n"
+            f"- Total portfolio waste across all {len(metrics)} audited applications: ${total_waste:,.2f}/yr ({total_inactive} inactive seats).\n"
+            f"- Grounding Telemetry Catalog (only reference these exact applications and figures):\n"
+            f"{app_catalog}\n"
+            f"- REALISTIC FINOPS TARGETING: Do NOT claim 100% recovery across the entire portfolio. Realistic FinOps remediation targets the highest-ROI, immediately actionable subset (e.g. tier-1 dormant licenses like Figma, Zoom, Notion, or Salesforce).\n"
+            f"- The SUM of claimed savings across all 3 actions MUST NOT exceed 75% of total portfolio waste (${max_allowed_savings:,.2f}/yr ceiling).\n"
+            f"- In the 'desc' field of each recommendation, explicitly state the exact application(s), inactive seat count(s), and specific action (e.g. Okta SCIM deprovisioning, license tier downgrade, or workspace consolidation).\n"
+            f"- In the 'impact' field, provide the exact summed dollar savings for the targeted application(s) in the format '+$XX,XXX/yr Saved'.\n"
+        )
+    elif scenario == "hardware_lifecycle":
+        metrics = sc_data.hardware_metrics or []
+        total_endpoints = sum(m.total_units for m in metrics)
+        total_critical = sum(m.battery_critical_units for m in metrics)
+        total_capex = sum(m.estimated_replacement_budget_usd for m in metrics)
+
+        hw_lines = []
+        for i, m in enumerate(metrics, 1):
+            hw_lines.append(
+                f"  {i}. {m.model_name}: {m.total_units} total units, {m.battery_critical_units} critical battery (>800 cycles), "
+                f"{m.out_of_warranty_units} out of warranty, {m.projected_failures_next_quarter} projected Q4 failures (${m.estimated_replacement_budget_usd:,.2f} CapEx)"
+            )
+        hw_catalog = "\n".join(hw_lines)
+
+        scenario_constraints = (
+            f"CRITICAL HARDWARE FLEET CONSTRAINTS:\n"
+            f"- Total Monitored Endpoints: {total_endpoints} devices across {len(metrics)} models.\n"
+            f"- Total Battery Critical / Swelling Hazard Units: {total_critical} units.\n"
+            f"- Total Projected Q4 CapEx Budget: ${total_capex:,.2f}.\n"
+            f"- Grounding Telemetry Catalog:\n"
+            f"{hw_catalog}\n"
+            f"- Recommendations must directly reference specific hardware models, Jamf Pro MDM profile pushes, AppleCare+ warranty sweeps, or CapEx pre-allocations.\n"
+            f"- In the 'impact' field, provide specific quantifiable operational impacts (e.g. '42 Hazards Mitigated', 'Zero Out-of-Pocket CapEx', '+100% Fleet Uptime').\n"
+        )
+    elif scenario == "itsm_surge":
+        metrics = sc_data.itsm_metrics or []
+        itsm_lines = []
+        for i, m in enumerate(metrics, 1):
+            itsm_lines.append(
+                f"  {i}. {m.category}: Standard {m.historical_daily_avg}/day -> Month-End Surge {m.month_end_surge_daily_avg}/day "
+                f"(Backlog: {m.current_open_backlog}, MTTR: {m.average_resolution_time_hrs}h, Bottleneck: '{m.primary_bottleneck}', Risk: {m.escalation_risk_score_1_to_10}/10)"
+            )
+        itsm_catalog = "\n".join(itsm_lines)
+
+        scenario_constraints = (
+            f"CRITICAL ITSM INCIDENT QUEUE CONSTRAINTS:\n"
+            f"- Month-End accounting close causes severe surges in access and authorization queues.\n"
+            f"- Grounding Queue Catalog:\n"
+            f"{itsm_catalog}\n"
+            f"- Recommendations must target specific bottlenecks (e.g. manual SOX dual-approval, MFA reset loops, Okta SCIM sync lag).\n"
+            f"- In the 'impact' field, provide quantifiable MTTR or ticket reduction metrics (e.g. 'MTTR: 3.8h → 12m', '38 Tickets Cleared', 'Zero SLA Breaches').\n"
+        )
+    else:
+        scenario_constraints = "- Ensure all figures in recommendations strictly match the scenario grounding telemetry.\n"
+
+    def _validate_recommendations(scenario_name: str, recs: list) -> tuple[bool, str]:
+        """Validates that AI recommendations strictly adhere to audited telemetry constraints."""
+        if not isinstance(recs, list) or len(recs) != 3:
+            return False, f"Expected exactly 3 recommendations, received {len(recs) if isinstance(recs, list) else type(recs)}"
+
+        required_fields = ["tag", "tagColor", "title", "desc", "impact", "impactColor", "actionText"]
+        for idx, r in enumerate(recs, 1):
+            if not isinstance(r, dict):
+                return False, f"Recommendation #{idx} is not a valid JSON object"
+            for field in required_fields:
+                if not r.get(field) or not str(r.get(field)).strip():
+                    return False, f"Recommendation #{idx} missing required field '{field}'"
+
+        if scenario_name == "saas_finops":
+            total_savings = 0.0
+            for r in recs:
+                impact_str = str(r.get("impact", ""))
+                amounts = re.findall(r'[\$]?([0-9]{1,3}(?:,[0-9]{3})*(?:\.[0-9]{2})?)', impact_str)
+                for a in amounts:
+                    try:
+                        val = float(a.replace(",", ""))
+                        total_savings += val
+                    except ValueError:
+                        pass
+
+            # Ceiling check: Must not exceed 75% realistic subset ceiling
+            if total_savings > max_allowed_savings:
+                return False, f"Claimed savings ${total_savings:,.2f} exceeds realistic recovery ceiling ${max_allowed_savings:,.2f} ({MAX_FINOPS_RECOVERY_PCT*100:.0f}% of waste)"
+
+            if total_savings <= 0:
+                return False, "No valid positive financial savings parsed from impact fields"
+
+            logger.info(f"AI recommendations validated: Total claimed savings = ${total_savings:,.2f} (Ceiling: ${max_allowed_savings:,.2f})")
+
+        return True, "Valid"
+
+    fallback_reason = "Unknown"
     try:
         prompt = (
-            "Generate 3 strategic recommendations for this scenario in strict JSON format. "
-            "Schema: {\"recommendations\": [{\"tag\": \"str\", \"tagColor\": \"bg-indigo-50 text-indigo-700 border-indigo-200\", \"title\": \"str\", \"desc\": \"str\", \"impact\": \"str\", \"impactColor\": \"text-emerald-600\", \"actionText\": \"⚡ Apply\"}]}. "
-            "Only return raw JSON without markdown formatting."
+            f"Generate exactly 3 strategic FinOps/IT remediation actions for scenario '{scenario}' in strict JSON format.\n"
+            f"{scenario_constraints}"
+            "Output JSON schema: {\"recommendations\": [{\"tag\": \"str\", \"tagColor\": \"bg-indigo-50 text-indigo-700 border-indigo-200\", \"title\": \"str\", \"desc\": \"str\", \"impact\": \"str\", \"impactColor\": \"text-emerald-600\", \"actionText\": \"⚡ Apply\"}]}.\n"
+            "Return ONLY the raw JSON object. No Markdown code fences, no conversational text."
         )
         
         resp_text = generate_multi_turn_forecast(
@@ -623,13 +735,36 @@ async def get_recommendations(
             client_api_key=x_gemini_api_key
         )
         
-        # Try to parse JSON
+        # Parse JSON
         match = re.search(r'\{.*\}', resp_text, re.DOTALL)
         if match:
             parsed = json.loads(match.group(0))
-            if "recommendations" in parsed and len(parsed["recommendations"]) > 0:
-                return parsed
+            recs = parsed.get("recommendations", [])
+            is_valid, validation_msg = _validate_recommendations(scenario, recs)
+            if is_valid:
+                return {
+                    "recommendations": recs,
+                    "is_live": True,
+                    "source": "gemini-3.6-flash"
+                }
+            else:
+                fallback_reason = f"Validation failed ({validation_msg})"
+                logger.warning(f"Recommendation validation failed: {validation_msg} — serving static defaults")
+        else:
+            fallback_reason = "No JSON found in model output"
+            logger.warning("Recommendation parsing failed: No JSON found in model output — serving static defaults")
     except Exception as e:
-        logger.warning(f"Dynamic recommendation generation deferred: {e}")
+        fallback_reason = f"Inference exception: {type(e).__name__}: {e}"
+        logger.warning(f"Dynamic recommendation generation error: {e} — serving static defaults")
         
-    return {"recommendations": scenario_defaults.get(scenario, scenario_defaults["saas_finops"])}
+    return {
+        "recommendations": scenario_defaults.get(scenario, scenario_defaults["saas_finops"]),
+        "is_live": False,
+        "source": "static_fallback",
+        "fallback_reason": fallback_reason
+    }
+
+
+if __name__ == "__main__":
+    import uvicorn
+    uvicorn.run(app, host="0.0.0.0", port=8080)
