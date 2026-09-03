@@ -159,6 +159,14 @@ Details support ticket spikes, Mean Time to Resolution (MTTR), and service desk 
 The **Detailed Telemetry Matrix** in each module includes a forward-looking **Q4 Forecast Trend** column powered by leading velocity indicators:
 
 *   **SaaS FinOps Velocity:** Evaluates dormancy accumulation velocity (e.g., `↗ +35% Waste` on Figma Enterprise) to calculate contract exposure before annual renewal lock-in.
+
+<br>
+
+![Detailed Telemetry Matrix (Q4 Forecast Trend)](./assets/screenshots/saas-matrix-forecast.png)
+
+<br>
+<br>
+
 *   **Hardware Lifecycle Velocity:** Projects quarterly failure rates across laptop batches to calculate exact CapEx refresh budgets before hardware fails in the field.
 *   **ITSM Surge Multiplier:** Quantifies projected ticket surge multipliers (e.g., `⚡ 7.0x Surge` in ERP access) to schedule engineer shifts and prevent SLA breaches.
 *   **Micro-Sparklines:** Inline SVG Bézier curves visually indicate trajectory at a glance (🔴 High Risk Spike, 🟠 Moderate Growth, ⚪ Stable, 🟢 Optimized).
