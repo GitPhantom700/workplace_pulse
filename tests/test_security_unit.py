@@ -95,9 +95,11 @@ def test_get_gemini_api_key_secret_manager_success(monkeypatch):
 
 
 def test_get_gemini_api_key_missing_project_raises_500(monkeypatch):
-    """Verify 500 error when neither GEMINI_API_KEY nor GCP Project ID can be found."""
+    """Verify 500 error when neither GEMINI_API_KEY nor GCP Project ID can be found in production."""
+    monkeypatch.setenv("DEMO_MODE", "false")
     monkeypatch.delenv("GEMINI_API_KEY", raising=False)
     monkeypatch.delenv("GOOGLE_CLOUD_PROJECT", raising=False)
+    monkeypatch.delenv("GCP_PROJECT", raising=False)
 
     with patch("google.auth.default", side_effect=Exception("Metadata server unreachable")):
         with pytest.raises(HTTPException) as exc_info:

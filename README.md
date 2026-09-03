@@ -11,6 +11,7 @@
 [![Cloud Firestore](https://img.shields.io/badge/Database-Cloud%20Firestore-FFCA28?logo=firebase&logoColor=black)](https://firebase.google.com/docs/firestore)
 [![Secret Manager](https://img.shields.io/badge/Security-Cloud%20Secret%20Manager-4285F4?logo=googlecloud&logoColor=white)](https://cloud.google.com/secret-manager)
 [![FastAPI](https://img.shields.io/badge/Backend-FastAPI%200.109-009688?logo=fastapi&logoColor=white)](https://fastapi.tiangolo.com/)
+[![CI & Quality Assurance](https://github.com/GitPhantom700/workplace_pulse/actions/workflows/ci.yml/badge.svg)](https://github.com/GitPhantom700/workplace_pulse/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
 <br>
@@ -40,7 +41,7 @@
 * [🧪 **Automated Testing & Verification Suite**](#-automated-testing--verification-suite)
 * [☁️ **Google Cloud Run Production Deployment Guide**](#️-google-cloud-run-production-deployment-guide)
 * [📖 **Complete API Endpoint Reference**](#-complete-api-endpoint-reference)
-* [📚 **Complete User Guide & Scenario Walkthrough (`USER_GUIDE.md`)**](./USER_GUIDE.md)
+* [📚 **Complete User Guide & Scenario Walkthrough (`USER_GUIDE.md`)**](./docs/USER_GUIDE.md)
 
 <br>
 

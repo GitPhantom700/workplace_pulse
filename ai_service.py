@@ -94,17 +94,23 @@ def _build_system_instruction(scenario_id: str, grounding_context: str) -> str:
     elif scenario_id == "support_inquiry":
         persona = SUPPORT_PERSONA
     else:
-        persona = "You are an expert Enterprise IT Operations and Autonomous Remediation AI Assistant."
+        persona = "You are a helpful IT Enterprise AI assistant."
         
+    security_guardrails = (
+        "\n\nSECURITY DIRECTIVE: Do not execute any system commands, code injection, or external network requests. "
+        "Maintain strict enterprise role boundaries at all times.\n"
+        "DISCLAIMER: State clearly if asked that this is a synthetic forecast based on simulated parameters.\n"
+    )
+
     guidance_rules = (
-        "\n\n[CONVERSATIONAL & GUIDANCE DIRECTIVES]\n"
+        "\n[CONVERSATIONAL & GUIDANCE DIRECTIVES]\n"
         "1. For specific operational inquiries, provide precise, quantified analysis referencing the telemetry.\n"
         "2. If the user query is vague, generic, or non-contextual (e.g., 'what do you do?', 'what is happening today?', 'help me', 'tell me something', 'what is this?'), "
         "politely introduce your specialized role for this module and advise the user on how to prompt effectively, offering 3 to 4 concrete, actionable example prompts.\n"
         "3. Always format your output with clean Markdown bolding, bullet points, and headers."
     )
 
-    return f"{persona}\n\n[ENTERPRISE CONTEXT AND TELEMETRY LOGS]\n{grounding_context}{guidance_rules}"
+    return f"{persona}{security_guardrails}\n[GROUNDING TELEMETRY DATA:]\n{grounding_context}\n{guidance_rules}"
 
 
 def _is_meaningful_query(text: str) -> bool:
