@@ -367,6 +367,10 @@ The **Data Sources** view (accessible via the sidebar) allows IT administrators 
 4. The terminal streams the real-time mTLS handshake, OAuth token exchange, REST endpoint queries, and delta calculation steps, followed by a **Raw Data Preview Table**.
 
 <br>
+
+<img src="./assets/screenshots/data-sources-sync-terminal.png" width="560" alt="Live Data Sync Terminal & Raw Data Preview" />
+
+<br>
 <br>
 
 ---
