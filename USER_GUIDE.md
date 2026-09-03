@@ -177,6 +177,14 @@ The **Detailed Telemetry Matrix** in each module includes a forward-looking **Q4
 <br>
 
 *   **ITSM Surge Multiplier:** Quantifies projected ticket surge multipliers (e.g., `⚡ 7.0x Surge` in ERP access) to schedule engineer shifts and prevent SLA breaches.
+
+<br>
+
+![ITSM Surge Forecast Matrix](./assets/screenshots/itsm-matrix-forecast.png)
+
+<br>
+<br>
+
 *   **Micro-Sparklines:** Inline SVG Bézier curves visually indicate trajectory at a glance (🔴 High Risk Spike, 🟠 Moderate Growth, ⚪ Stable, 🟢 Optimized).
 
 <br>
