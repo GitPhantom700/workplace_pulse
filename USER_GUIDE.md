@@ -273,46 +273,43 @@ By default, the platform runs with a resilient multi-client ladder. To test with
 
 <br>
 
-At the bottom of each scenario dashboard, an active **Sentinel Autonomous Remediation** card presents a pre-configured, context-aware runbook ready for one-click execution:
+### End-to-End Autonomous Execution Workflow:
 
+#### Step 1: Review & Trigger Autonomous Remediation
+Locate the context-aware **Sentinel Autonomous Remediation** card at the bottom of the active scenario dashboard. Review the target infrastructure and estimated ROI, then click **`🚀 Execute Runbook & Dispatch Alert`**.
+
+<br>
+
+![Step 1: Trigger Autonomous Runbook](./assets/screenshots/runbook-workflow-step1-trigger.png)
+
+<br>
+<br>
+
+#### Step 2: Live Execution Log Stream & Webhook Dispatch
+The system initializes the enterprise API connector, executes the SCIM/MDM/ITSM transaction, emits immutable audit records to Cloud Firestore, and dispatches HMAC-signed alerts to your configured channels (Slack, Discord, Teams).
+
+<br>
+
+![Step 2: Execution Log Stream](./assets/screenshots/runbook-workflow-step2-stream.png)
+
+<br>
+<br>
+
+#### Step 3: Executive Incident Remediation & SOC 2 Compliance Report
+Click **`📄 View Executive Report`** in the log stream header to review the complete **Executive Incident Remediation & Compliance Audit**. This delivers a print-ready, SOC 2 Type II compliant attestation containing root cause diagnosis, telemetry graphs, chronological execution traces, and trust service criteria evidence.
+
+<br>
+
+![Step 3: Executive Incident Remediation & Compliance Audit](./assets/screenshots/runbook-workflow-step3-report.png)
+
+<br>
 <br>
 
 ### Pre-Built Runbook Catalog Across All 3 Modules:
 
-#### 1. SaaS FinOps: Okta SCIM License Deprovisioner (`act_saas_reclaim_01`)
-* **Target System:** Okta Universal Directory / SCIM 2.0 API
-* **Action:** Scans simulated SaaS directories for inactive seats (>60 days), revokes provisioned entitlements via SCIM 2.0 without disrupting user file permissions, and notifies department managers.
-* **Projected Impact:** Recovers up to **$56,400.00/yr** in recurring SaaS waste across Figma, Zoom, and Notion.
-
-<br>
-
-![Okta SCIM Runbook](./assets/screenshots/runbook-saas-reclaim.png)
-
-<br>
-<br>
-
-#### 2. Hardware Lifecycle: Jamf Pro Battery Quarantine & Refresh (`act_hardware_quarantine_02`)
-* **Target System:** Jamf Pro MDM / Apple Device Enrollment
-* **Action:** Automatically flags endpoint devices with battery cycles >800 or health <75%, creates warranty RMA tickets in ERP, and pushes maintenance profiles via MDM.
-* **Projected Impact:** Mitigates **42 potential catastrophic battery swelling failures** and initiates warranty depot replacements.
-
-<br>
-<br>
-
-#### 3. ITSM Surge: Emergency SOX Fast-Track Approval Matrix (`act_itsm_sox_fasttrack_03`)
-* **Target System:** Jira Service Management / ServiceNow
-* **Action:** Activates a 72-hour pre-approved dual-signer matrix for Month-End Close access requests, unblocking accounting staff.
-* **Projected Impact:** Reduces Financial Close MTTR from **3.8 hours to 12 minutes** during Days -3 to +3 of Month-End.
-
-<br>
-<br>
-
-### 4-Stage Execution Pipeline:
-When you click **`🚀 Execute Runbook & Dispatch Alert`**:
-1. **Verification & Authorization:** Validates the user's active session and RBAC execution entitlements.
-2. **Automated API Trigger:** Executes the targeted SCIM, MDM, or ITSM API transaction in memory.
-3. **Immutable Audit Logging:** Persists structured execution details (timestamps, affected users/devices, dollar ROI) to Cloud Firestore under `/users/{userId}/runbook_logs/`.
-4. **Webhook Alert Dispatch:** Automatically formats and signs outbound incident summaries to your configured Slack, Discord, and Teams channels.
+*   **SaaS FinOps (`act_saas_reclaim_01`):** *Okta SCIM License Deprovisioner* — Scans for $>60\text{d}$ dormant seats across Figma, Zoom, and Notion, revokes licenses via SCIM 2.0 without disrupting user file permissions, and recovers up to **$56,400.00/yr**.
+*   **Hardware Lifecycle (`act_hardware_quarantine_02`):** *Jamf Pro Battery Quarantine & Refresh* — Automatically flags endpoint devices with battery cycles >800 or health <75%, creates warranty RMA tickets in ERP, and mitigates **42 catastrophic battery swelling failures**.
+*   **ITSM Surge (`act_itsm_sox_fasttrack_03`):** *Emergency SOX Fast-Track Approval Matrix* — Activates a 72-hour pre-approved dual-signer matrix for Month-End Close access requests, unblocking accounting staff and slashing MTTR from **3.8 hours to 12 minutes**.
 
 <br>
 <br>
