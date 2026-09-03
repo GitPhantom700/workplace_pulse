@@ -10,11 +10,10 @@ This guide walks you through the primary workflows, analytics views, and autonom
 * [🔐 **1. Authentication & Setup** — *Sandbox Exploration & Live Google Auth*](#1-authentication--setup)
 * [📊 **2. Navigating the Executive Dashboard** — *KPIs, Scenarios & Predictive Velocity Sparklines*](#2-navigating-the-executive-dashboard)
 * [🤖 **3. Gemini Copilot & Bring-Your-Own-Key (BYOK)** — *Live AI Grounding & Prompt Pills*](#3-gemini-copilot--bring-your-own-key-byok)
-* [🛡️ **4. Autonomous Incident Runbooks & Remediation** — *1-Click Execution & ITIL Post-Mortem*](#4-autonomous-incident-runbooks--remediation)
+* [🛡️ **4. Autonomous Incident Runbooks & Executive Compliance Reports** — *1-Click Execution & ITIL Post-Mortem*](#4-autonomous-incident-runbooks--remediation)
 * [🔌 **5. Managing Data Sources** — *Integrations, Live Sync Terminal & Raw Preview*](#5-managing-data-sources)
 * [🔔 **6. Webhooks & Alerting** — *HMAC-SHA256 Signed Multi-Platform Delivery*](#6-webhooks--alerting)
 * [🎧 **7. Live Support & Troubleshooting** — *Knowledge Base, Form Tickets & AI Assistant*](#7-live-support--troubleshooting)
-* [📑 **8. Generating Executive Reports** — *Print-Optimized PDF & Audit Markdown Export*](#8-generating-executive-reports)
 
 <br>
 
@@ -341,6 +340,22 @@ Each scenario module is equipped with a specialized, automated runbook designed 
 <br>
 <br>
 
+### 📑 Generating & Exporting Executive Reports (PDF & Markdown)
+
+> **💡 Purpose & Significance:**  
+> IT and FinOps managers spend hours manually aggregating data and formatting slide decks for executive reviews. The Executive Report generator automates this entire process in one click, producing audit-ready financial summaries for quarterly budget approvals and executive sign-offs.
+
+<br>
+
+WorkplacePulse includes an automated reporting engine designed for C-suite and board presentations.
+
+1. Click the **Export Report (PDF)** button at the top right of the dashboard (or click **📄 View Executive Report** from any active runbook execution).
+2. The platform renders a clean, print-optimized executive summary modal containing key ROI metrics, active Chart.js visualizations, Gemini strategic recommendations, and audit logs.
+3. Click **⬇️ Download PDF** to generate an uncorrupted, multi-page PDF document free of awkward page breaks, or copy the audit-ready markdown format.
+
+<br>
+<br>
+
 ---
 
 <br>
@@ -413,21 +428,3 @@ The **Support & Help** section provides self-service onboarding assistance and d
 *   **Sentinel Support Copilot:** Chat in real time with "Alex", the empathetic AI support specialist, for 24/7 troubleshooting and guidance.
 
 <br>
-<br>
-
----
-
-<br>
-
-## 8. Generating Executive Reports
-
-> **💡 Purpose & Significance:**  
-> IT and FinOps managers spend hours manually aggregating data and formatting slide decks for executive reviews. The Executive Report generator automates this entire process in one click, producing audit-ready financial summaries for quarterly budget approvals and executive sign-offs.
-
-<br>
-
-WorkplacePulse includes an automated reporting engine designed for C-suite and board presentations.
-
-1. Click the **Export Report (PDF)** button at the top right of the dashboard.
-2. The platform renders a clean, print-optimized executive summary modal containing key ROI metrics, active Chart.js visualizations, Gemini strategic recommendations, and audit logs.
-3. Click **⬇️ Download PDF** to generate an uncorrupted, multi-page PDF document free of awkward page breaks.
