@@ -423,6 +423,14 @@ WorkplacePulse autonomously bridges predictive intelligence into your team's eve
 <br>
 
 4. Inspect the **Delivery Audit Trail** to view execution timestamps and HTTP delivery response codes.
+
+<br>
+
+<img src="./assets/screenshots/webhook-delivery-audit-trail.png" width="560" alt="Webhook Delivery Audit Trail" />
+
+<br>
+<br>
+
 5. Use the **Simulation Mode** tab to test payload delivery.
 
 <br>
