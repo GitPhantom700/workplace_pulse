@@ -300,7 +300,7 @@ Click **`📄 View Executive Report`** in the log stream header to review the co
 
 <br>
 
-![Step 3: Executive Incident Remediation & Compliance Audit](./assets/screenshots/runbook-workflow-step3-report.png)
+![Step 3: Executive Incident Remediation & Compliance Audit](./assets/screenshots/runbook-workflow-step3-report-v2.png)
 
 <br>
 <br>
