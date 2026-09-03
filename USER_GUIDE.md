@@ -402,11 +402,13 @@ The **Data Sources** view (accessible via the sidebar) allows IT administrators 
 WorkplacePulse autonomously bridges predictive intelligence into your team's everyday communication channels.
 
 1. Click the 🔔 **Alerts** icon or navigate to **Webhook Hub** in the sidebar.
-2. Register destination endpoints for **Slack**, **Discord**, **Microsoft Teams**, or custom REST webhooks.
+2. Register destination endpoints for **Slack**, **Discord**, **Microsoft Teams**, or custom REST webhooks using 1-click test presets.
 
 <br>
 
-<img src="./assets/screenshots/webhook-modal-destinations.png" width="560" alt="Webhook & Alerting Hub Modal" />
+| 1️⃣ Registered Destinations | 2️⃣ Register Destination (+ Presets) |
+| :---: | :---: |
+| <img src="./assets/screenshots/webhook-modal-destinations.png" width="360" alt="Webhook Hub - Registered Destinations" /> | <img src="./assets/screenshots/webhook-modal-register.png" width="360" alt="Webhook Hub - Register Destination" /> |
 
 <br>
 <br>
