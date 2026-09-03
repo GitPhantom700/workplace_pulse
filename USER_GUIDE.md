@@ -305,6 +305,15 @@ Click **`📄 View Executive Report`** in the log stream header to review the co
 <br>
 <br>
 
+*Section 5 of Compliance Report: Live Gemini AI Strategic Recommendations & Interactive Policies:*
+
+<br>
+
+![Gemini AI Strategic Recommendations & Next Actions](./assets/screenshots/executive-report-gemini-recommendations.png)
+
+<br>
+<br>
+
 ### 📋 Pre-Built Runbook Catalog Across All 3 Modules:
 
 Each scenario module is equipped with a specialized, automated runbook designed to resolve the specific operational bottleneck discovered by the telemetry engine:
