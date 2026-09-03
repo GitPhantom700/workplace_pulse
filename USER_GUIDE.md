@@ -388,9 +388,9 @@ WorkplacePulse autonomously bridges predictive intelligence into your team's eve
 
 1. Click the 🔔 **Alerts** icon or navigate to **Webhook Hub** in the sidebar.
 2. Register destination endpoints for **Slack**, **Discord**, **Microsoft Teams**, or custom REST webhooks.
-3. Use the **Simulation Mode** tab to test payload delivery.
-4. Outbound payloads are formatted using native rich cards (e.g. Slack Block Kit) and cryptographically signed with an `X-Pulse-Signature: sha256=<hex>` HMAC-SHA256 header.
-5. Inspect the **Delivery Audit Trail** to view execution timestamps and HTTP delivery response codes.
+3. Outbound payloads are formatted using native rich cards (e.g. Slack Block Kit) and cryptographically signed with an `X-Pulse-Signature: sha256=<hex>` HMAC-SHA256 header.
+4. Inspect the **Delivery Audit Trail** to view execution timestamps and HTTP delivery response codes.
+5. Use the **Simulation Mode** tab to test payload delivery.
 
 <br>
 <br>
