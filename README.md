@@ -113,6 +113,14 @@ WorkplacePulse closes the operational loop with an **Autonomous Remediation & At
              └──► Multi-Modal Export (Print-Optimized PDF & Audit Markdown)
 ```
 
+<br>
+
+![Gemini AI Strategic Recommendations & Next Actions](./assets/screenshots/executive-report-gemini-recommendations.png)
+*Figure: Gemini AI Strategic Recommendations & 1-Click Interactive Policies generated dynamically inside the Executive Compliance Report.*
+
+<br>
+<br>
+
 ### 📋 Pre-Built Runbook Catalog:
 
 | Module | Runbook & Target System | Autonomous Action | Business & Security ROI |
