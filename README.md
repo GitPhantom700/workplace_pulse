@@ -10,6 +10,65 @@
 [![FastAPI](https://img.shields.io/badge/Backend-FastAPI%200.109-009688?logo=fastapi&logoColor=white)](https://fastapi.tiangolo.com/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
+
+## 🌐 Live Production Deployment
+- **Live Cloud Run Application:** [https://workplace-pulse-app-996129350542.us-central1.run.app](https://workplace-pulse-app-996129350542.us-central1.run.app)
+- **GitHub Source Repository:** [https://github.com/GitPhantom700/workplace_pulse](https://github.com/GitPhantom700/workplace_pulse)
+
+---
+
+## 👨‍⚖️ 2-Minute Evaluator & Judge Walkthrough Guide
+
+If you are evaluating this submission asynchronously, here is the fastest way to experience all 5 challenge pillars in under 2 minutes:
+
+1. **📊 Switch Core Intelligence Modules (Left Sidebar):**
+   - Click **`SaaS FinOps`**, **`Jamf Fleet`**, or **`ITSM Surge`** to watch the real-time Pydantic telemetry engine recompute charts, tables, and AI grounding contexts dynamically.
+2. **🤖 Test the Gemini AI Copilot (Right Panel):**
+   - Click the prompt pills (`💡 Top ROI actions`, `📄 Mitigation runbook`, `🚨 Slack alert`) or type custom queries (e.g., *"What is our biggest SaaS waste right now?"*).
+   - Test general queries (e.g., *"What do you do?"* or *"What is today's date?"*) to see the contextual prompt guidance in action.
+   - Expand the **Gemini API Key (BYOK)** drawer to test with your own Google AI Studio key or experience the automatic Vertex AI backend fallback.
+3. **⚡ Execute an Autonomous Remediation Runbook (Bottom Card):**
+   - Click **`Execute Runbook & Dispatch Alert`** to trigger an automated 4-stage ITIL pipeline (SCIM role transition, Firestore audit log creation, and HMAC-signed Slack Block Kit alert delivery).
+4. **🔌 Inspect Enterprise Ingestion (Sidebar > Data Sources):**
+   - Click **`Data Sources`** in the navigation menu and click **`Connect`** on Figma or Okta to observe the **Live Sync Terminal** streaming the real-world REST/mTLS ingestion steps and raw data preview.
+5. **📑 Generate a Board-Ready Executive Report (Sidebar > Executive Report):**
+   - Click **`Executive Report`** and click **`⬇️ Download PDF`** to generate a pre-formatted C-suite report containing Chart.js graphs, AI recommendations, and audit logs.
+
+---
+
+## 🔬 Enterprise Mechanics: How Synthetic Telemetry Maps to Production
+
+To protect corporate data and ensure 100% deterministic testability without requiring live production tenant access, WorkplacePulse utilizes a synthetic telemetry engine (`data_engine.py`) that models real-world enterprise SaaS and MDM data structures:
+
+```
+[Okta SCIM 2.0 & SSO Logs]  ---> Inactive seat delta (>60d)   ---> Annual Waste Formula:
+[Figma / Zoom REST APIs]    ---> License tier pricing ($/mo)  ---> (Seats * Cost * 12)
+                                                                       |
+[Jamf Pro MDM Telemetry]    ---> Battery cycle count (>800)   ---> CapEx Replacement
+[Jira Service Management]   ---> MTTR & Month-End Backlogs    ---> SLA Risk Scoring
+                                                                       |
+                                                                       v
+                                                  [Serialized Grounding Context]
+                                                                       |
+                                                                       v
+                                                  [Google Gemini 1.5/2.0 Copilot]
+```
+
+### 1. SaaS FinOps Mathematical Model (`saas_finops`)
+- **Real-World Equivalent:** Okta Universal Directory + Figma/Zoom/Salesforce SCIM 2.0 API.
+- **Formula:** $	ext{Annual Waste} = (	ext{Total Provisioned Seats} - 	ext{Active Logins Last 30d}) 	imes 	ext{Cost per Seat} 	imes 12$
+- **Autonomous Remediation:** Translates dormant Editor accounts into Viewer-Restricted roles via Okta SCIM without disrupting employee file access.
+
+### 2. Jamf Hardware Lifecycle Model (`hardware_lifecycle`)
+- **Real-World Equivalent:** Jamf Pro MDM / Microsoft Intune hardware inventory API.
+- **Formulas:** Battery Cycle Count degradation threshold $>800$ cycles, thermal throttling detection, and warranty end-of-life forecasting.
+- **Autonomous Remediation:** Automates device quarantine and generates bulk replacement CapEx requisitions.
+
+### 3. ITSM Incident Surge Model (`itsm_surge`)
+- **Real-World Equivalent:** ServiceNow / Jira Service Management incident queues.
+- **Formulas:** +42% ticket surge modeling during Month-End close cutoff, Mean Time to Resolution (MTTR) risk scoring ($1	ext{–}10$), and SOX dual-approval bottleneck discovery.
+- **Autonomous Remediation:** Pre-stages Tier-2 Identity Engineers and triggers temporary emergency RBAC bypass runbooks.
+
 ---
 
 ## ⚡ 60-Second Instant Quickstart (Zero GCP Setup Required)
@@ -18,8 +77,8 @@ WorkplacePulse includes an automated **Hermetic Sandbox Mode** (`DEMO_MODE=true`
 
 ### Option A: One-Command Automated Setup (Recommended)
 ```bash
-git clone https://github.com/your-username/workplace-pulse.git
-cd workplace-pulse
+git clone https://github.com/GitPhantom700/workplace_pulse.git
+cd workplace_pulse
 chmod +x setup.sh
 ./setup.sh
 ```
