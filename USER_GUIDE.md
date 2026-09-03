@@ -434,6 +434,10 @@ WorkplacePulse autonomously bridges predictive intelligence into your team's eve
 5. Use the **Simulation Mode** tab to test payload delivery.
 
 <br>
+
+<img src="./assets/screenshots/webhook-simulation-pipeline.png" width="560" alt="Webhook Simulation Mode & Pipeline Visualizer" />
+
+<br>
 <br>
 
 ---
