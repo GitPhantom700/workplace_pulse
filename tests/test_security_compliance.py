@@ -53,7 +53,7 @@ def test_zero_hardcoded_secrets_across_repository():
 
 def test_firestore_rules_enforce_zero_trust_and_isolation():
     """
-    Verify firestore.rules enforces zero-trust default deny and strict multi-tenant isolation.
+    Verify firestore.rules enforces zero-trust default deny perimeter locking.
     """
     rules_path = os.path.join(PROJECT_ROOT, "firestore.rules")
     assert os.path.exists(rules_path), "firestore.rules file missing from project root."
@@ -64,17 +64,9 @@ def test_firestore_rules_enforce_zero_trust_and_isolation():
     # 1. Verify Rules Version 2
     assert "rules_version = '2'" in rules_content or 'rules_version = "2"' in rules_content
 
-    # 2. Verify Root Default-Deny
+    # 2. Verify Root Default-Deny (Direct client SDK access locked)
     assert "match /{document=**}" in rules_content
     assert "allow read, write: if false;" in rules_content
-
-    # 3. Verify Multi-Tenant User Isolation
-    assert "match /users/{userId}" in rules_content
-    assert "request.auth != null" in rules_content
-    assert "request.auth.uid == userId" in rules_content
-
-    # 4. Verify Immutable Audit Logs (no updates or deletes allowed)
-    assert "allow update, delete: if false;" in rules_content
 
 
 def test_dompurify_sanitization_in_frontend():

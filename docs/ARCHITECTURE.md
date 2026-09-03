@@ -62,7 +62,7 @@ The enterprise deployment spans three specialized Google Cloud / Firebase projec
 
 ## Security, Tenancy & Compliance Attestation
 
-* **Backend ADC Tenant Scoping (SOC 2 CC6.2):** All Firestore reads/writes are strictly scoped to `/users/{uid}/*` based on validated Firebase Bearer JWTs, creating immutable per-tenant execution ledgers.
+* **Backend ADC Tenant Scoping (SOC 2 CC6.2):** All Firestore reads/writes are strictly scoped to `/users/{uid}/*` based on validated Firebase Bearer JWTs, creating append-only per-tenant execution ledgers.
 * **HMAC-SHA256 Signatures:** Outgoing webhook payloads are cryptographically signed with tenant secrets.
 * **Zero Hardcoding Guarantee (SOC 2 CC6.3):** Verified by continuous automated compliance testing. All secrets are dynamically fetched at runtime from Cloud Secret Manager.
 * **BYOK Privacy:** User-supplied Gemini keys reside strictly in browser `sessionStorage` and are never persisted to disk or databases.

@@ -209,7 +209,7 @@ async def execute_runbook(
         execution_log.append(f"[{t5}] [Stage 3/3] Reclaiming 140 idle Notion Team seats @ $15.00/mo ($2,100.00/mo • $25,200.00/yr saved).")
         if params.get("send_manager_notice", True):
             execution_log.append(f"[{t6}] Dispatched automated seat reclaim notices to 14 departmental billing owners via Okta Event Hooks.")
-        execution_log.append(f"[{t7}] Emitted immutable audit log to Cloud Firestore Native and SIEM.")
+        execution_log.append(f"[{t7}] Emitted append-only audit log to Cloud Firestore Native and SIEM.")
         impact_summary = "Successfully reclaimed 365 inactive licenses across Figma, Zoom, and Notion, realizing $118,260.00/yr in recurring savings."
         remediated_items_count = 365
 
@@ -217,7 +217,7 @@ async def execute_runbook(
         cycle_thresh = params.get("battery_cycle_threshold", 800)
         execution_log.append(f"[{timestamp}] Connecting to Jamf Pro MDM Cloud API endpoint...")
         execution_log.append(f"[{timestamp}] Evaluating telemetry for battery cycle count > {cycle_thresh} or health < 75%...")
-        execution_log.append(f"[{timestamp}] Isolated 42 high-risk devices (30 MacBook Pro 16\", 12 Dell XPS 15).")
+        execution_log.append(f"[{timestamp}] Isolated 42 high-risk devices (MacBook Pro 13\" M1 fleet).")
         execution_log.append(f"[{timestamp}] Pushed Jamf Pro self-service prompt 'Battery Depot Replacement Required' to affected users.")
         if params.get("auto_create_rma", True):
             execution_log.append(f"[{timestamp}] Generated AppleCare / Dell ProSupport enterprise warranty RMA batch #RMA-2026-0901.")

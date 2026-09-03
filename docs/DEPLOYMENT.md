@@ -9,7 +9,7 @@ This document outlines the end-to-end deployment process for **WorkplacePulse Se
 *   **Compute:** Google Cloud Run (Fully managed, autoscaling container)
 *   **Database:** Cloud Firestore (Native mode, document-based NoSQL)
 *   **Identity:** Firebase Authentication (Google Sign-In / OAuth 2.0)
-*   **Security:** Google Cloud Secret Manager & Firestore Security Rules
+*   **Security:** Google Cloud Secret Manager & Firestore Locked Perimeter Posture
 *   **Framework:** FastAPI (Python 3.11) + Vanilla HTML/TailwindCSS (Frontend)
 
 ---
@@ -83,26 +83,10 @@ firebase.initializeApp(firebaseConfig);
 ```
 
 ### 3. Provision Cloud Firestore
-1. Navigate to **Firestore Database** in the Firebase Console.
-2. Click **Create Database** (Start in **Production mode**).
-3. Deploy the Multi-Tenant Security Rules to prevent cross-tenant data leakage:
-    ```bash
-    firebase deploy --only firestore:rules
-    ```
-    *(See [`firestore.rules`](./firestore.rules) for the exact match criteria: `match /users/{userId}/{document=**} { allow read, write: if request.auth != null && request.auth.uid == userId; }`)*
-
-    **Expected Output:**
-    ```text
-    === Deploying to 'your-gcp-project-id'...
-
-    i  deploying firestore
-    i  firestore: checking firestore.rules for compilation errors...
-    ✔  firestore: rules file firestore.rules compiled successfully
-    i  firestore: uploading rules firestore.rules...
-    ✔  firestore: released rules firestore.rules to cloud.firestore
-
-    ✔  Deploy complete!
-    ```
+1. Navigate to **Firestore Database** in the Firebase or Google Cloud Console.
+2. Click **Create Database** (Start in **Production mode / Native mode**).
+3. **Perimeter Security Posture:**
+   When created in Production mode, Cloud Firestore defaults to Locked Mode (rejecting direct client-side Web/Mobile SDK connections). All application reads and writes are mediated exclusively through the containerized Cloud Run backend via Service Account Application Default Credentials (ADC) with IAM role `roles/datastore.user`. Multi-tenant scoping (`/users/{uid}/*`) and audit logging are strictly enforced at the application tier upon validating the Firebase Bearer JWT. The [`firestore.rules`](../firestore.rules) file in this repository documents this zero-trust default-deny perimeter posture.
 
 ---
 
@@ -132,7 +116,7 @@ While the frontend supports a BYOK (Bring Your Own Key) model, the backend requi
 gcloud secrets create GEMINI_API_KEY --replication-policy="automatic"
 
 # Add the secret value
-echo -n "your-gemini-1.5-pro-key" | gcloud secrets versions add GEMINI_API_KEY --data-file=-
+echo -n "your-gemini-api-key" | gcloud secrets versions add GEMINI_API_KEY --data-file=-
 ```
 
 ### 3. Configure the Runtime Service Account

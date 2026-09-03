@@ -211,7 +211,7 @@ WorkplacePulse closes the operational loop with an **Autonomous Remediation & At
 
 ## ⚡ 60-Second Instant Quickstart (Zero GCP Setup Required)
 
-WorkplacePulse includes an automated **Hermetic Sandbox Mode** (`DEMO_MODE=true`). Evaluators, engineers, and open-source contributors can clone, build, and experience the full AI command center in under 60 seconds with **zero cloud dependencies, zero API keys, and zero credit cards required**.
+For local development and evaluation, WorkplacePulse includes an automated **Hermetic Sandbox Mode** (`DEMO_MODE=true` in `./setup.sh` / `docker compose`). This is a **local-only feature**: it simulates an authenticated session in-process and is not exposed as a UI control in the deployed application. Evaluators and engineers running locally can clone, build, and experience the full AI command center in under 60 seconds with **zero cloud dependencies, zero API keys, and zero credit cards required**. *(Note: The live Google Cloud Run production deployment runs with `DEMO_MODE=false`, utilizing real Firebase Authentication via Continue as Guest or Sign in with Google.)*
 
 <br>
 
@@ -331,9 +331,9 @@ WorkplacePulse is built from the ground up to exceed all criteria of the [Google
 |---|---|---|---|
 | **Pillar 1: Firebase Authentication** | Validates Google Sign-In & Anonymous Auth JWT tokens on every protected endpoint via Firebase Admin SDK. Supports sandbox parity (`DEMO_MODE=true`). | `security.py`, `main.py` | Strict Bearer token verification; invalid or malformed tokens return `401 Unauthorized`. |
 | **Pillar 2: Gemini API Multi-Turn AI** | Role-tailored system instructions (`saas_finops`, `hardware_lifecycle`, `itsm_surge`) with multi-turn memory and resilient fallback ladder (`gemini-3.6-flash` → `gemini-flash-lite-latest` → `gemini-flash-latest` → Vertex `gemini-2.5-flash`). | `ai_service.py`, `main.py` | Pydantic null-byte filtering, 4000-char limits, and system prompt injection safety directives. |
-| **Pillar 3: Cloud Firestore User Tenancy** | Multi-tenant user data segregation. All chat logs, runbook audits, and webhooks are strictly partitioned under `/users/{userId}/`. | `database.py`, `firestore.rules` | Backend ADC tenant scoping enforces user isolation (`/users/{uid}/*`) and immutable audit logs (`allow update, delete: if false;`). |
+| **Pillar 3: Cloud Firestore User Tenancy** | Multi-tenant user data segregation. All chat logs, runbook audits, and webhooks are strictly partitioned under `/users/{userId}/`. | `database.py`, `firestore.rules` | Backend ADC tenant scoping enforces user isolation (`/users/{uid}/*`) with append-only audit logging and locked database perimeter rules. |
 | **Pillar 4: Cloud Secret Manager** | Dynamic resolution of `GEMINI_API_KEY` in production via Application Default Credentials (ADC). Zero credentials in source control or container images. | `security.py` | Automated secret scanning verifies zero hardcoded API keys or private keys across the entire repository. |
-| **Pillar 5: Containerized on Cloud Run** | Dockerfile based on `python:3.11-slim` with unbuffered logs, dynamic `$PORT` binding, and health check probe. | `Dockerfile`, `docker-compose.yml` | Sub-second cold starts, unauthenticated root landing, and tagged with `dev-tutorial=cloud-run-ai-challenge`. |thon:3.11-slim` with unbuffered logs, dynamic `$PORT` binding, and health check probe. | `Dockerfile`, `docker-compose.yml` | Sub-second cold starts, unauthenticated root landing, and tagged with `dev-tutorial=cloud-run-ai-challenge`. |
+| **Pillar 5: Containerized on Cloud Run** | Dockerfile based on `python:3.11-slim` with unbuffered logs, dynamic `$PORT` binding, and health check probe. | `Dockerfile`, `docker-compose.yml` | Sub-second cold starts, unauthenticated root landing, and tagged with `dev-tutorial=cloud-run-ai-challenge`. |
 
 <br>
 
@@ -350,7 +350,7 @@ To satisfy enterprise operational demands, WorkplacePulse integrates an automate
 ### 1. Pre-Built Autonomous Runbook Catalog (`runbook_service.py`)
 * **`act_saas_reclaim_01` (Okta SCIM License Deprovisioner)**: Automatically queries Okta SSO access logs, identifies 90-day inactive SaaS seats (Figma, Salesforce, Zoom), schedules automated deprovisioning, and yields immediate CapEx/OpEx savings.
 * **`act_hardware_quarantine_02` (Jamf Pro MDM Maintenance)**: Scans MDM telemetry for battery degradation (cycles >800) and warranty expiration, automatically places degraded devices into maintenance quarantine, and submits bulk hardware refresh purchase orders.
-* **`act_itsm_sox_fasttrack_03` (Emergency SOX Bypass for ITSM Surge)**: Forecasts month-end ERP access bottlenecks, generates pre-approved temporary role-based access control (RBAC) tokens, and logs immutable audit trails for compliance.
+* **`act_itsm_sox_fasttrack_03` (Emergency SOX Bypass for ITSM Surge)**: Forecasts month-end ERP access bottlenecks, generates pre-approved temporary role-based access control (RBAC) tokens, and logs append-only audit trails for compliance.
 
 <br>
 
@@ -474,12 +474,10 @@ echo -n "YOUR_GOOGLE_AI_STUDIO_API_KEY" | gcloud secrets create GEMINI_API_KEY \
 
 ### Step 3: Configure Firebase Authentication & Cloud Firestore
 1. Navigate to the [Firebase Console](https://console.firebase.google.com/) and create/link your GCP project.
-2. Under **Build > Authentication**, enable the **Google** sign-in provider.
-3. Under **Build > Firestore Database**, create a database in **Native Mode**.
-4. Deploy the zero-trust security rules:
-   ```bash
-   firebase deploy --only firestore:rules
-   ```
+2. Under **Build > Authentication**, enable **Google** and **Anonymous** sign-in providers.
+3. Under **Build > Firestore Database**, create a database in **Native Mode** (Locked Mode).
+4. **Database Access & Perimeter Posture:**
+   Cloud Firestore in Native Mode defaults to Locked Mode (rejecting direct client-side SDK access). All production reads and writes are mediated by the containerized FastAPI backend on Cloud Run using Service Account ADC IAM (`roles/datastore.user`) with strict application-level tenant isolation (`/users/{uid}/*`). The repository file [`firestore.rules`](./firestore.rules) documents this zero-trust default-deny perimeter posture.
 
 <br>
 
@@ -496,13 +494,26 @@ gcloud projects add-iam-policy-binding $GOOGLE_CLOUD_PROJECT \
 
 ### Step 5: Build & Deploy to Cloud Run (With Mandatory Challenge Label)
 ```bash
-gcloud run deploy workplace-pulse \
+gcloud run deploy workplace-pulse-app \
     --source . \
     --region us-central1 \
     --allow-unauthenticated \
+    --max-instances 10 \
     --set-env-vars ENV=production,DEMO_MODE=false,GOOGLE_CLOUD_PROJECT=$GOOGLE_CLOUD_PROJECT \
-    --set-labels dev-tutorial=cloud-run-ai-challenge
+    --labels dev-tutorial=cloud-run-ai-challenge
 ```
+
+<br>
+
+---
+
+<br>
+
+## 🔒 Security Architecture & Known Limitations
+
+* **Multi-Tenant Data Isolation (SOC 2 CC6.2):** All Firestore persistence operations are strictly scoped under `/users/{uid}/*` based on validated Firebase Auth Bearer JWTs. The underlying Firestore database operates in locked default-deny mode against direct untrusted client connections.
+* **Secret Management (SOC 2 CC6.3):** Zero hardcoded credentials. All server-side API keys and credentials are dynamically resolved at runtime from Google Cloud Secret Manager via Application Default Credentials (ADC).
+* **Rate Limiting Notice:** Per-UID application-layer rate limiting on `/api/forecast/chat` is not implemented. Guest sign-in issues unlimited Firebase tokens, so a determined user could exhaust the server-side Gemini quota. This deployment mitigates that with a Cloud Run max-instance cap and an API quota ceiling; per-user throttling is the correct next step.
 
 <br>
 
@@ -573,6 +584,11 @@ Then set `FIRESTORE_EMULATOR_HOST=localhost:8085` in your `.env`.
 ```bash
 ./setup.sh --test
 ```
+
+<br>
+
+### Q6: How are runbook catalog details loaded on unauthenticated page visits?
+**Explanation**: Runbook catalog metadata is mirrored client-side in `index.html` to allow instant preview and tab switching before authentication; consolidating to a single unauthenticated catalog endpoint is a planned architecture step.
 
 <br>
 

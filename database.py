@@ -212,7 +212,7 @@ def delete_user_webhook(user_id: str, webhook_id: str) -> bool:
 
 def save_webhook_delivery_log(user_id: str, log_data: Dict[str, Any]) -> bool:
     """
-    Saves an immutable webhook delivery audit log under /users/{user_id}/webhook_logs/{delivery_id}
+    Saves an append-only webhook delivery audit log under /users/{user_id}/webhook_logs/{delivery_id}
     """
     delivery_id = log_data.get("delivery_id")
     if not delivery_id:
@@ -272,7 +272,7 @@ def get_user_webhook_logs(user_id: str, limit: int = 50) -> List[Dict[str, Any]]
 
 def save_runbook_execution_log(user_id: str, log_data: Dict[str, Any]) -> bool:
     """
-    Saves an immutable incident runbook execution log under /users/{user_id}/runbook_logs/{execution_id}
+    Saves an append-only incident runbook execution log under /users/{user_id}/runbook_logs/{execution_id}
     """
     execution_id = log_data.get("execution_id")
     if not execution_id:

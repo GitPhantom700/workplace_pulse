@@ -150,12 +150,6 @@
                     <span id="nav-webhook-count" class="h-4 w-4 bg-indigo-600 text-white rounded-full text-[10px] flex items-center justify-center font-bold">1</span>
                 </button>
 
-                <!-- Demo Mode Toggle -->
-                <button onclick="toggleDemoMode()" id="btn-demo-mode" class="text-xs font-semibold bg-slate-50 hover:bg-slate-100 text-slate-600 px-4 py-2 rounded-full border border-slate-200 transition flex items-center space-x-2">
-                    <span>Demo Mode</span>
-                    <span id="demo-status" class="text-amber-600 font-bold">OFF</span>
-                </button>
-
                 <!-- Auth Panels -->
                 <div id="auth-signed-out" class="flex items-center space-x-2">
                     <button onclick="signInAnonymously()" title="Full access. Real Firebase authentication, no Google account required." class="flex items-center space-x-1.5 bg-indigo-600 hover:bg-indigo-700 px-4 py-2 rounded-full text-xs font-semibold text-white shadow-sm transition">
@@ -637,7 +631,7 @@
                                         <span class="text-slate-400 text-xs transition group-open:rotate-180">▼</span>
                                     </summary>
                                     <p class="text-xs text-slate-600 mt-2.5 leading-relaxed">
-                                        WorkplacePulse ingests operational logs from Okta, Jamf, Zoom, Figma, and Jira, standardizing them into a Universal Telemetry Format. Grounded telemetry is passed to a resilient Gemini model fallback ladder (<strong>gemini-1.5-flash</strong> with auto-failover to <strong>gemini-2.0-flash</strong>) to identify idle SaaS seats, predict hardware failure risks, and forecast service desk surges.
+                                        WorkplacePulse ingests operational logs from Okta, Jamf, Zoom, Figma, and Jira, standardizing them into a Universal Telemetry Format. Grounded telemetry is passed to a resilient Gemini model fallback ladder (<strong>gemini-3.6-flash</strong> with auto-failover to <strong>Flash Lite</strong>, <strong>Flash Latest</strong>, and Vertex AI <strong>gemini-2.5-flash</strong>) to identify idle SaaS seats, predict hardware failure risks, and forecast service desk surges.
                                     </p>
                                 </details>
 
@@ -657,17 +651,17 @@
                                         <span class="text-slate-400 text-xs transition group-open:rotate-180">▼</span>
                                     </summary>
                                     <p class="text-xs text-slate-600 mt-2.5 leading-relaxed">
-                                        Runbooks automate incident resolution with one-click approvals (e.g., deprovisioning idle licenses or triggering hardware depot RMAs). Each runbook logs an immutable audit event to Firestore and dispatches HMAC-SHA256 signed payloads to registered Slack, Teams, or custom webhooks with automatic exponential backoff retries.
+                                        Runbooks automate incident resolution with one-click approvals (e.g., deprovisioning idle licenses or triggering hardware depot RMAs). Each runbook logs an append-only audit event to Firestore and dispatches HMAC-SHA256 signed payloads to registered Slack, Teams, or custom webhooks with automatic exponential backoff retries.
                                     </p>
                                 </details>
 
                                 <details class="group bg-slate-50 p-3.5 rounded-lg border border-slate-200/80 [&_summary::-webkit-details-marker]:hidden">
                                     <summary class="font-bold text-xs text-slate-800 cursor-pointer flex justify-between items-center">
-                                        <span>☁️ How does authentication work in Google Cloud Run vs Demo mode?</span>
+                                        <span>☁️ How does authentication work in Google Cloud Run vs Local Evaluation mode?</span>
                                         <span class="text-slate-400 text-xs transition group-open:rotate-180">▼</span>
                                     </summary>
                                     <p class="text-xs text-slate-600 mt-2.5 leading-relaxed">
-                                        When deployed to Google Cloud Run, WorkplacePulse automatically utilizes Application Default Credentials (ADC) via an attached Service Account with Vertex AI permissions (<code class="bg-slate-200/60 px-1 py-0.5 rounded text-[10px]">roles/aiplatform.user</code>). In local evaluation mode, a high-fidelity simulation engine enables seamless testing without requiring cloud credentials.
+                                        When deployed to Google Cloud Run, WorkplacePulse automatically utilizes Application Default Credentials (ADC) with Cloud Secret Manager and Cloud Firestore Native access. In local evaluation mode, a deterministic simulation engine enables seamless testing without requiring cloud credentials.
                                     </p>
                                 </details>
 
@@ -687,7 +681,7 @@
                                         <span class="text-slate-400 text-xs transition group-open:rotate-180">▼</span>
                                     </summary>
                                     <p class="text-xs text-slate-600 mt-2.5 leading-relaxed">
-                                        All tenant documents (forecast logs, webhooks, delivery logs, runbooks) are isolated under user-scoped paths (<code class="bg-slate-200/60 px-1 py-0.5 rounded text-[10px]">/users/{userId}/...</code>) enforced by strict Cloud Firestore Security Rules. Cross-tenant reads and IDOR tampering attempts are rejected at the database layer.
+                                        All tenant documents (forecast logs, webhooks, delivery logs, runbooks) are isolated under user-scoped paths (<code class="bg-slate-200/60 px-1 py-0.5 rounded text-[10px]">/users/{userId}/...</code>) enforced by backend ADC tenant scoping with locked database perimeter rules. Cross-tenant reads and IDOR tampering attempts are rejected at the application and database tiers.
                                     </p>
                                 </details>
 
@@ -734,10 +728,10 @@
                                     <p class="text-[10px] text-slate-500">Always active &bull; Telemetry-grounded assistance</p>
                                 </div>
                             </div>
-                            <div class="flex items-center space-x-2">
-                                <span id="supp-ai-data-badge" class="text-[10px] bg-amber-100 text-amber-700 px-2 py-0.5 rounded font-bold uppercase tracking-wide">Dummy Data</span>
-                                <span id="support-api-key-status-label" class="text-[10px] bg-slate-100 text-slate-500 border border-slate-200 px-2.5 py-1 rounded-full font-bold tracking-wide">Not Connected</span>
-                                <span class="text-[10px] bg-emerald-50 text-emerald-600 px-2.5 py-1 rounded-full font-bold tracking-wide">ONLINE</span>
+                            <div class="flex items-center gap-1.5 flex-wrap">
+                                <span id="supp-ai-data-badge" class="text-[9px] bg-slate-100 text-slate-600 border border-slate-200 px-2 py-0.5 rounded-full font-semibold whitespace-nowrap shrink-0">Synthetic data</span>
+                                <span id="support-api-key-status-label" class="text-[9px] bg-slate-100 text-slate-600 border border-slate-200 px-2 py-0.5 rounded-full font-semibold whitespace-nowrap shrink-0">Server key</span>
+                                <span class="text-[9px] bg-indigo-50 text-indigo-700 border border-indigo-200 px-2 py-0.5 rounded-full font-semibold whitespace-nowrap shrink-0">gemini-3.6-flash</span>
                             </div>
                         </div>
 
@@ -1293,7 +1287,7 @@
                                 <tr>
                                     <td class="py-3 px-4 font-mono font-bold text-indigo-600 whitespace-nowrap">SOC2-CC6.2</td>
                                     <td class="py-3 px-4 font-semibold whitespace-nowrap">Multi-Tenant Data Isolation</td>
-                                    <td class="py-3 px-4 text-slate-500 leading-relaxed">Backend ADC-authenticated tenant scoping (<code class="text-[10px] bg-slate-100 px-1 py-0.5 rounded font-mono">/users/{uid}/*</code>) with immutable audit logging</td>
+                                    <td class="py-3 px-4 text-slate-500 leading-relaxed">Backend ADC-authenticated tenant scoping (<code class="text-[10px] bg-slate-100 px-1 py-0.5 rounded font-mono">/users/{uid}/*</code>) with append-only audit logging</td>
                                     <td class="py-3 px-4 text-right whitespace-nowrap"><span class="px-2.5 py-1 rounded-full bg-emerald-100 text-emerald-800 font-bold text-[10px] whitespace-nowrap inline-block">PASS ✅</span></td>
                                 </tr>
                                 <tr>
@@ -1412,7 +1406,6 @@
         let currentScenarioPayload = null;
         let chartInstance = null;
         let chatHistory = [];
-        let isDemoMode = false;
         let currentUser = null;
         let userAuthToken = null;
         let availableRunbooks = [];
@@ -1446,9 +1439,7 @@
                     });
                 } else {
                     currentUser = null;
-                    if (!isDemoMode) {
-                        userAuthToken = null;
-                    }
+                    userAuthToken = null;
                     updateAuthUI(false, null);
                 }
             });
@@ -1480,27 +1471,8 @@
                 firebase.auth().signOut();
             }
             currentUser = null;
-            if (!isDemoMode) userAuthToken = null;
+            userAuthToken = null;
             updateAuthUI(false, null);
-            fetchRunbooks();
-        }
-
-        function updateDemoModeUI() {
-            const statusEl = document.getElementById('demo-status');
-            if (statusEl) {
-                statusEl.innerText = isDemoMode ? "ON" : "OFF";
-                statusEl.className = isDemoMode ? "text-emerald-600 font-bold" : "text-amber-600 font-bold";
-            }
-        }
-
-        function toggleDemoMode() {
-            isDemoMode = !isDemoMode;
-            updateDemoModeUI();
-            if (isDemoMode && !currentUser) {
-                userAuthToken = "demo-sandbox-token";
-            } else if (!isDemoMode && !currentUser) {
-                userAuthToken = null;
-            }
             fetchRunbooks();
         }
 
@@ -1557,29 +1529,74 @@
             updateRunbookCardForScenario(scenarioId);
         }
 
-        function updateKpiTiles(scenarioId) {
-            const tiles = {
-                saas_finops: [
-                    { label: 'Idle SaaS Capital',  value: '$170,700', sub: 'Wasted spend on unused licenses',       icon: '💸' },
-                    { label: 'Inactive Seats',      value: '482',      sub: 'Users idle 60+ days across all apps',   icon: '👤' },
-                    { label: 'Top Risk App',        value: 'Figma',    sub: '$58,500 annual waste · +35% trend',     icon: '⚠️' },
-                ],
-                hardware_lifecycle: [
-                    { label: 'Devices at Risk',     value: '23',       sub: 'Fleet devices flagged for replacement', icon: '💻' },
-                    { label: 'Battery Degraded',    value: '38%',      sub: 'Devices with battery health below 80%', icon: '🔋' },
-                    { label: 'OS Non-Compliant',    value: '61',       sub: 'Devices not on latest approved macOS',  icon: '🛡️' },
-                ],
-                itsm_surge: [
-                    { label: 'Open Tickets',        value: '284',      sub: 'Active ITSM escalations this week',     icon: '🎫' },
-                    { label: 'Avg Resolution Time', value: '3.2 days', sub: 'Mean time to resolve P1/P2 incidents',  icon: '⏱️' },
-                    { label: 'Critical Escalations',value: '+47%',     sub: 'Spike vs. 30-day baseline',             icon: '🚨' },
-                ],
-            };
-            const config = tiles[scenarioId] || tiles['saas_finops'];
+        function updateKpiTiles(scenarioId, data = null) {
+            let tiles = [];
+
+            if (scenarioId === 'saas_finops' && data && data.saas_metrics && data.saas_metrics.length > 0) {
+                const totalWaste = data.saas_metrics.reduce((acc, m) => acc + (m.annual_projected_waste_usd || 0), 0);
+                const totalInactive = data.saas_metrics.reduce((acc, m) => acc + (m.inactive_seats || 0), 0);
+                const sortedApps = [...data.saas_metrics].sort((a, b) => (b.annual_projected_waste_usd || 0) - (a.annual_projected_waste_usd || 0));
+                const topApp = sortedApps[0] || { app_name: 'Figma', annual_projected_waste_usd: 58500 };
+                const topAppShort = topApp.app_name.split(' ')[0];
+
+                tiles = [
+                    { label: 'Idle SaaS Capital',  value: `$${Math.round(totalWaste).toLocaleString('en-US')}`, sub: 'Wasted spend on unused licenses',       icon: '💸' },
+                    { label: 'Inactive Seats',      value: `${totalInactive.toLocaleString('en-US')}`,           sub: 'Users idle 60+ days across all apps',   icon: '👤' },
+                    { label: 'Top Risk App',        value: topAppShort,                                  sub: `$${Math.round(topApp.annual_projected_waste_usd).toLocaleString('en-US')} annual waste · +35% trend`, icon: '⚠️' },
+                ];
+            } else if (scenarioId === 'hardware_lifecycle' && data && data.hardware_metrics && data.hardware_metrics.length > 0) {
+                const totalFleet = data.hardware_metrics.reduce((acc, m) => acc + (m.total_units || 0), 0);
+                const totalBatteryCritical = data.hardware_metrics.reduce((acc, m) => acc + (m.battery_critical_units || 0), 0);
+                const totalProjectedFailures = data.hardware_metrics.reduce((acc, m) => acc + (m.projected_failures_next_quarter || 0), 0);
+                const totalCapex = data.hardware_metrics.reduce((acc, m) => acc + (m.estimated_replacement_budget_usd || 0), 0);
+                const sortedModels = [...data.hardware_metrics].sort((a, b) => (b.battery_critical_units || 0) - (a.battery_critical_units || 0));
+                const topModel = sortedModels[0] || { model_name: 'MacBook Pro 13"', battery_critical_units: 42 };
+                const topModelShort = topModel.model_name.replace(' (M1, 2020)', '').replace(' (Windows 11)', '');
+
+                tiles = [
+                    { label: 'Battery Critical',      value: `${totalBatteryCritical} units`,   sub: `${((totalBatteryCritical / totalFleet) * 100).toFixed(1)}% of fleet (>800 cycles)`, icon: '🔋' },
+                    { label: 'Projected Q4 Failures', value: `${totalProjectedFailures} units`, sub: `$${Math.round(totalCapex).toLocaleString('en-US')} CapEx refresh budget required`, icon: '💻' },
+                    { label: 'Top Hazard Fleet',      value: topModelShort,                     sub: `${topModel.battery_critical_units} critical units · 100% OOW`, icon: '⚠️' },
+                ];
+            } else if (scenarioId === 'itsm_surge' && data && data.itsm_metrics && data.itsm_metrics.length > 0) {
+                const totalNormal = data.itsm_metrics.reduce((acc, m) => acc + (m.historical_daily_avg || 0), 0);
+                const totalSurge = data.itsm_metrics.reduce((acc, m) => acc + (m.month_end_surge_daily_avg || 0), 0);
+                const surgePct = totalNormal > 0 ? Math.round(((totalSurge - totalNormal) / totalNormal) * 100) : 173;
+                const sortedQueues = [...data.itsm_metrics].sort((a, b) => (b.escalation_risk_score_1_to_10 || 0) - (a.escalation_risk_score_1_to_10 || 0));
+                const topQueue = sortedQueues[0] || { category: 'Financial Close & ERP Access', month_end_surge_daily_avg: 42, average_resolution_time_hrs: 3.8, escalation_risk_score_1_to_10: 9 };
+                const erpQueue = data.itsm_metrics.find(m => m.category.includes('ERP')) || topQueue;
+
+                tiles = [
+                    { label: 'Month-End Surge Volume', value: `${totalSurge}/day`,                       sub: `+${surgePct}% fleet-wide increase over ${totalNormal}/day baseline`, icon: '🎫' },
+                    { label: 'ERP Access MTTR',        value: `${erpQueue.average_resolution_time_hrs} hrs`, sub: 'Manual SOX dual-approval bottleneck', icon: '⏱️' },
+                    { label: 'Top Risk Queue',         value: 'ERP Access',                              sub: `${erpQueue.month_end_surge_daily_avg} tickets/day · Risk ${erpQueue.escalation_risk_score_1_to_10}/10`, icon: '🚨' },
+                ];
+            } else {
+                // Initial defaults matching data_engine.py fixtures before network resolution
+                const defaults = {
+                    saas_finops: [
+                        { label: 'Idle SaaS Capital',  value: '$170,700', sub: 'Wasted spend on unused licenses',       icon: '💸' },
+                        { label: 'Inactive Seats',      value: '482',      sub: 'Users idle 60+ days across all apps',   icon: '👤' },
+                        { label: 'Top Risk App',        value: 'Figma',    sub: '$58,500 annual waste · +35% trend',     icon: '⚠️' },
+                    ],
+                    hardware_lifecycle: [
+                        { label: 'Battery Critical',      value: '86 units', sub: '16.4% of fleet (>800 cycles)',       icon: '🔋' },
+                        { label: 'Projected Q4 Failures', value: '57 units', sub: '$106,300 CapEx refresh budget required', icon: '💻' },
+                        { label: 'Top Hazard Fleet',      value: 'MacBook Pro 13"', sub: '42 critical units · 100% OOW', icon: '⚠️' },
+                    ],
+                    itsm_surge: [
+                        { label: 'Month-End Surge Volume', value: '131/day', sub: '+173% fleet-wide increase over 48/day baseline', icon: '🎫' },
+                        { label: 'ERP Access MTTR',        value: '3.8 hrs', sub: 'Manual SOX dual-approval bottleneck', icon: '⏱️' },
+                        { label: 'Top Risk Queue',         value: 'ERP Access', sub: '42 tickets/day · Risk 9/10',       icon: '🚨' },
+                    ],
+                };
+                tiles = defaults[scenarioId] || defaults['saas_finops'];
+            }
+
             ['kpi-tile-1', 'kpi-tile-2', 'kpi-tile-3'].forEach((id, i) => {
-                const t = config[i];
+                const t = tiles[i];
                 const el = document.getElementById(id);
-                if (!el) return;
+                if (!el || !t) return;
                 el.querySelector('.kpi-label').innerText = t.label;
                 el.querySelector('.kpi-value').innerText = t.value;
                 el.querySelector('.kpi-sub').innerText   = t.sub;
@@ -1600,6 +1617,9 @@
                 });
                 const data = await response.json();
                 currentScenarioPayload = data;
+
+                // Dynamically re-derive KPI tiles from live payload
+                updateKpiTiles(scenarioId, data);
 
                 // Update UI text
                 try {
@@ -1740,7 +1760,7 @@
                             <td class="p-2">${m.total_licenses}</td>
                             <td class="p-2 text-emerald-600 font-semibold">${m.active_last_30d}</td>
                             <td class="p-2 text-rose-500 font-semibold">${m.inactive_60d_plus}</td>
-                            <td class="p-2 text-amber-600 font-bold">$${m.annual_potential_savings.toLocaleString()}</td>
+                            <td class="p-2 text-amber-600 font-bold">$${m.annual_potential_savings.toLocaleString('en-US')}</td>
                             <td class="p-2">${renderSparklineHtml(trend.type, trend.label, trend.sub)}</td>
                         </tr>
                     `;
@@ -1750,7 +1770,7 @@
                     <th class="p-2">Device Model</th>
                     <th class="p-2">OS Version</th>
                     <th class="p-2">Total Fleet</th>
-                    <th class="p-2">Battery Degradation (>800c)</th>
+                    <th class="p-2">Battery Degradation (>800 cycles)</th>
                     <th class="p-2">Warranty Lapsed</th>
                     <th class="p-2">CapEx Budget</th>
                     <th class="p-2">Q4 Degradation Forecast</th>
@@ -1772,7 +1792,7 @@
                             <td class="p-2">${m.total_units}</td>
                             <td class="p-2 text-amber-600 font-semibold">${m.battery_critical_units}</td>
                             <td class="p-2 text-rose-500">${m.out_of_warranty_units}</td>
-                            <td class="p-2 text-sky-600 font-bold">$${m.estimated_replacement_budget_usd.toLocaleString()}</td>
+                            <td class="p-2 text-sky-600 font-bold">$${m.estimated_replacement_budget_usd.toLocaleString('en-US')}</td>
                             <td class="p-2">${renderSparklineHtml(trend.type, trend.label, trend.sub)}</td>
                         </tr>
                     `;
@@ -1850,11 +1870,11 @@
             let dynamicInsights = "Predictive telemetry detected inactive SaaS license accumulation exceeding threshold parameters across target directories.";
             let riskDiagnosis = "Unreclaimed seats generate recurrent budget drain and increase identity attack surfaces under SOX ITGC and ISO 27001 Access Control guidelines. Immediate autonomous remediation executed.";
             
-            if (currentScenarioId === 'hardware_quarantine') {
-                dynamicInsights = "Battery telemetry detected 42 laptops operating with cycle count >800 or severe capacity degradation (<75%).";
-                riskDiagnosis = "Severe risk of battery swelling, trackpad displacement, and hardware fire hazard. Immediate quarantine and depot refresh required.";
+            if (currentScenarioId === 'hardware_lifecycle' || currentScenarioId === 'hardware_quarantine') {
+                dynamicInsights = "Battery telemetry detected 86 endpoints operating with cycle count >800 or severe capacity degradation (<75%).";
+                riskDiagnosis = "Severe risk of battery swelling, trackpad displacement, and hardware fire hazard across 42 high-risk units. Immediate quarantine and depot refresh required.";
             } else if (currentScenarioId === 'itsm_surge') {
-                dynamicInsights = "Month-end close finance ticket volume spiked 340%, creating critical bottlenecks for ERP access approvals.";
+                dynamicInsights = "Month-end close finance ticket volume surged 173% fleet-wide (7.0x for ERP access), creating critical bottlenecks for ERP access approvals.";
                 riskDiagnosis = "Financial close delay risk exceeding 4.5 hours per business unit. Emergency SOX fast-track dual-signer matrix executed.";
             } else if (currentScenarioPayload && currentScenarioPayload.summary) {
                 dynamicInsights = currentScenarioPayload.summary;
@@ -1944,7 +1964,7 @@
                     <div class="text-emerald-400 font-mono">[${timestamp}] Initializing SCIM 2.0 API connector to ${runbook.target_system}...</div>
                     <div class="text-emerald-400 font-mono">[${timestamp}] Evaluating active accounts against compliance anomaly triggers...</div>
                     <div class="text-emerald-400 font-mono">[${timestamp}] Executed automated remediation batch dispatch: SUCCESS</div>
-                    <div class="text-emerald-400 font-mono">[${timestamp}] Emitted immutable audit ledger record to Cloud Firestore</div>
+                    <div class="text-emerald-400 font-mono">[${timestamp}] Emitted append-only audit ledger record to Cloud Firestore</div>
                 `;
             }
 
@@ -2234,7 +2254,7 @@
                             <p class="text-sm text-slate-500">Official Remediation & Compliance Record</p>
                         </div>
                         <div class="text-right text-xs text-slate-400">
-                            Printed: ${new Date().toLocaleString()}
+                            Printed: ${new Date().toLocaleString('en-US')}
                         </div>
                     </div>
                     
@@ -2285,13 +2305,13 @@
             
             if (currentScenarioId === 'saas_finops') {
                 dynamicInsights = "Predictive telemetry detected inactive SaaS license accumulation exceeding the 60-day threshold across critical enterprise workspaces.";
-                recsMarkdown = "- [ ] **Policy Automation:** Enforce 45-day SCIM auto-reclaim policy in Okta to eliminate recurring seat drift.\n- [ ] **Tier Optimization:** Transition 45 inactive Enterprise Editor seats to Viewer-only tier (recovering $2,025/mo).\n- [ ] **Contract Alert:** Set automated 60-day renewal review notifications with Procurement for Zoom & Notion contracts.";
+                recsMarkdown = "- [ ] **Policy Automation:** Enforce 45-day SCIM auto-reclaim policy in Okta to eliminate recurring seat drift.\n- [ ] **Tier Optimization:** Transition 65 inactive Enterprise Editor seats to Viewer-only tier (recovering $4,875/mo).\n- [ ] **Contract Alert:** Set automated 60-day renewal review notifications with Procurement for Zoom & Notion contracts.";
             } else if (currentScenarioId === 'hardware_lifecycle' || currentScenarioId === 'hardware_quarantine') {
-                dynamicInsights = "Battery telemetry detected 18 laptops operating with cycle count >800 or severe capacity degradation (<75%).";
-                recsMarkdown = "- [ ] **Safety Policy:** Deploy Jamf Pro configuration profile quarantining all units with >800 cycles and thermal swelling risk.\n- [ ] **Depot Operations:** Automatically submit AppleCare+ depot exchange tickets for all 18 quarantined units.\n- [ ] **CapEx Alignment:** Align Q3 replacement budget for 32 laptops approaching warranty expiration.";
+                dynamicInsights = "Battery telemetry detected 86 endpoints operating with cycle count >800 or severe capacity degradation (<75%).";
+                recsMarkdown = "- [ ] **Safety Policy:** Deploy Jamf Pro configuration profile quarantining all units with >800 cycles and thermal swelling risk.\n- [ ] **Depot Operations:** Automatically submit AppleCare+ depot exchange tickets for all 42 critical MacBook Pro 13\" units.\n- [ ] **CapEx Alignment:** Align Q4 replacement budget of $106,300 for 57 laptops approaching warranty expiration.";
             } else if (currentScenarioId === 'itsm_surge') {
-                dynamicInsights = "Month-end close finance ticket volume spiked 340%, creating critical bottlenecks for ERP access approvals.";
-                recsMarkdown = "- [ ] **Process Automation:** Establish pre-approved delegation protocol in Jira Service Management during Month-End Days -3 to +3.\n- [ ] **AI Integration:** Enable Gemini Auto-Triage on ERP permission tickets to reduce MTTR from 3.8 hours to <12 minutes.\n- [ ] **SOX Compliance:** Automate signed hash digest synchronization from Cloud Firestore to PwC / EY external auditor portal.";
+                dynamicInsights = "Month-end close finance ticket volume surged 173% (7.0x for ERP access), creating critical bottlenecks for ERP access approvals.";
+                recsMarkdown = "- [ ] **Process Automation:** Establish pre-approved delegation protocol in Jira Service Management during Month-End Days -3 to +3.\n- [ ] **AI Integration:** Enable Gemini Auto-Triage on ERP permission tickets to reduce MTTR from 3.8 hours to <12 minutes.\n- [ ] **SOX Compliance:** Automate signed hash digest synchronization from Cloud Firestore to external auditor portal.";
             } else if (currentScenarioPayload && currentScenarioPayload.summary) {
                 dynamicInsights = currentScenarioPayload.summary;
             }
@@ -2327,7 +2347,7 @@ ${document.getElementById('report-modal-steps').innerText}
 ## 4. Trust Services Criteria & Security Controls Attestation
 In accordance with SOC 2 Type II requirements, the following controls were verified during execution:
 - [x] **Control ID SOC2-CC6.1 (Authentication):** Firebase JWT Google Sign-In & Anonymous Auth Verified
-- [x] **Control ID SOC2-CC6.2 (Data Segregation):** Backend ADC-authenticated tenant scoping (/users/{uid}/*) with immutable audit logging
+- [x] **Control ID SOC2-CC6.2 (Data Segregation):** Backend ADC-authenticated tenant scoping (/users/{uid}/*) with append-only audit logging
 - [x] **Control ID SOC2-CC6.3 (Secret Management):** Google Cloud Secret Manager Application Default Credentials utilized (Zero hardcoded keys).
 
 ## 5. Gemini AI Strategic Recommendations & Next Actions
@@ -2339,7 +2359,7 @@ The following external messaging platforms were successfully notified of the rem
 ${document.getElementById('report-modal-webhooks').innerText.replace(/\n/g, '\n- ')}
 \`\`\`\n
 ## 7. Management Sign-Off & Cryptographic Ledger
-- **Firestore Immutable Audit Path:** /users/${currentUser ? currentUser.uid : 'demo_user'}/runbook_logs/${refId}
+- **Firestore Audit Path:** /users/${currentUser ? currentUser.uid : 'demo_user'}/runbook_logs/${refId}
 - **Cryptographic Signature:** HMAC-SHA256 (Verified via Google Cloud Secret Manager)
 - **Time of Execution:** ${timestamp}
 
@@ -2370,8 +2390,40 @@ ${document.getElementById('report-modal-webhooks').innerText.replace(/\n/g, '\n-
             }
         }
 
+        // NOTE: This client-side catalog mirrors RUNBOOK_CATALOG in runbook_service.py so that
+        // runbook cards render before authentication. Must be maintained in lockstep with backend definitions.
+        const RUNBOOK_CATALOG_DEFAULTS = {
+            saas_finops: {
+                action_id: "act_saas_reclaim_01",
+                scenario_id: "saas_finops",
+                title: "Okta SCIM License Deprovisioner",
+                description: "Scans simulated SaaS directories for inactive seats (>60 days), revokes provisioned entitlements via SCIM 2.0, and notifies department heads.",
+                target_system: "Okta Universal Directory / SCIM 2.0 API",
+                estimated_impact: "Recovers up to $118,260.00/yr in recurring SaaS waste across Figma, Zoom, and Notion."
+            },
+            hardware_lifecycle: {
+                action_id: "act_hardware_quarantine_02",
+                scenario_id: "hardware_lifecycle",
+                title: "Jamf Pro Battery Quarantine & Depot Refresh",
+                description: "Flags endpoint devices with battery cycles >800 or health <75%, creates warranty RMA tickets in ERP, and pushes maintenance profiles via MDM.",
+                target_system: "Jamf Pro MDM / Apple Device Enrollment",
+                estimated_impact: "Mitigates 42 potential catastrophic battery swelling failures and initiates warranty depot replacements."
+            },
+            itsm_surge: {
+                action_id: "act_itsm_sox_fasttrack_03",
+                scenario_id: "itsm_surge",
+                title: "Emergency SOX Fast-Track Dual-Signer Approval Matrix",
+                description: "Activates a 72-hour pre-approved dual-signer matrix for Month-End Close access requests, unblocking accounting staff and slashing MTTR.",
+                target_system: "Jira Service Management / ServiceNow",
+                estimated_impact: "Reduces Financial Close MTTR from 3.8 hours to 12 minutes during Days -3 to +3 of Month-End."
+            }
+        };
+
         function updateRunbookCardForScenario(scenarioId) {
-            const runbook = availableRunbooks.find(r => r.scenario_id === scenarioId);
+            let runbook = availableRunbooks.find(r => r.scenario_id === scenarioId);
+            if (!runbook) {
+                runbook = RUNBOOK_CATALOG_DEFAULTS[scenarioId] || RUNBOOK_CATALOG_DEFAULTS['saas_finops'];
+            }
             if (!runbook) return;
 
             document.getElementById('runbook-title').innerText = runbook.title;
@@ -2381,13 +2433,16 @@ ${document.getElementById('report-modal-webhooks').innerText.replace(/\n/g, '\n-
         }
 
         async function executeActiveRunbook() {
-            const runbook = availableRunbooks.find(r => r.scenario_id === currentScenarioId);
+            let runbook = availableRunbooks.find(r => r.scenario_id === currentScenarioId);
             if (!runbook) {
-                if (!userAuthToken && !currentUser && !isDemoMode) {
-                    alert("Please click 'Continue as Guest' or 'Sign in with Google' to load and execute autonomous runbooks.");
-                } else {
-                    alert("No runbook found for active scenario.");
-                }
+                runbook = RUNBOOK_CATALOG_DEFAULTS[currentScenarioId] || RUNBOOK_CATALOG_DEFAULTS['saas_finops'];
+            }
+            if (!userAuthToken && !currentUser) {
+                alert("Please click 'Continue as Guest' or 'Sign in with Google' to load and execute autonomous runbooks.");
+                return;
+            }
+            if (!runbook) {
+                alert("No runbook found for active scenario.");
                 return;
             }
 
@@ -2718,7 +2773,7 @@ ${document.getElementById('report-modal-webhooks').innerText.replace(/\n/g, '\n-
                 {
                     stepNum: 4,
                     delay: 1900,
-                    log: `> [Step 4/4] ACKNOWLEDGMENT: HTTP 200 OK received in 13.8ms.<br>> Committing immutable delivery audit log to Cloud Firestore... SUCCESS.`
+                    log: `> [Step 4/4] ACKNOWLEDGMENT: HTTP 200 OK received in 13.8ms.<br>> Committing append-only delivery audit log to Cloud Firestore... SUCCESS.`
                 }
             ];
 
@@ -3811,7 +3866,6 @@ ${document.getElementById('report-modal-webhooks').innerText.replace(/\n/g, '\n-
                 }
             }
 
-            updateDemoModeUI();
             await fetchRunbooks();
             await switchScenario('saas_finops');
         });

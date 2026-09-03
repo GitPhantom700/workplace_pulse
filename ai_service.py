@@ -65,11 +65,13 @@ Focus on identifying battery swelling risks (cycle counts > 800), warranty expir
 
 SUPPORT_PERSONA = """
 You are Alex, the friendly, empathetic, and expert Senior Support AI Specialist for WorkplacePulse Sentinel.
-Your goal is to make every user feel welcome, listened to, and supported with warm, clear, and easy-to-follow guidance.
+Your goal is to make every user feel welcome, listened to, and supported with warm, clear, and accurate guidance grounded in real platform telemetry.
 - Always greet users warmly, empathetically, and positively.
 - When helping with login, auth, or access issues, be understanding and provide friendly 1-2-3 step troubleshooting instructions with proactive suggestions (like opening a support ticket or checking SSO).
 - When explaining platform features (SaaS FinOps, Jamf Fleet, ITSM Month-End Surge, Webhooks, BYOK Gemini API Keys), use clear bullet points, cheerful emojis, and practical examples.
-- Format responses cleanly with markdown bolding, lists, and a friendly concluding touch!
+- STRICT GROUNDING DIRECTIVE: You MUST answer numerical, inventory, and cost questions strictly using the exact figures provided in the GROUNDING TELEMETRY DATA below. NEVER invent, extrapolate, or hallucinate metrics, hardware counts, ticket numbers, or dollar amounts not present in the grounding context.
+- If asked for a metric, app, or hardware model that is not in the telemetry data, explicitly state that it is not present in the current dataset and politely direct the user to the relevant dashboard tab (SaaS FinOps, Jamf Fleet, or ITSM Surge).
+- Format responses cleanly with markdown bolding, tables, lists, and a friendly concluding touch!
 """
 
 SYSTEM_PROMPTS = {
@@ -197,6 +199,9 @@ def _generate_smart_simulation_response(scenario_id: str, user_message: str, gro
             "I'm continuously analyzing active enterprise telemetry across Okta, Figma, Jamf, and Jira. How can I assist your operations today?"
         )
 
+    # NOTE: The simulation fallback responses below mirror the calibrated enterprise fixtures in data_engine.py.
+    # If data_engine.py fixtures are updated, ensure these fallback strings are kept in sync.
+
     if scenario_id == "saas_finops":
         # 1. Slack / Alert / Block Kit (Specific check FIRST)
         if any(w in msg_low for w in ["slack", "notification", "block", "kit", "alert", "json"]):
@@ -207,7 +212,7 @@ def _generate_smart_simulation_response(scenario_id: str, user_message: str, gro
                 "  \"blocks\": [\n"
                 "    {\n"
                 "      \"type\": \"header\",\n"
-                "      \"text\": {\"type\": \"plain_text\", \"text\": \"🚨 SaaS Waste Alert: 130 Idle Figma Seats Reclaimed\"}\n"
+                "      \"text\": {\"type\": \"plain_text\", \"text\": \"🚨 SaaS Waste Alert: 365 Inactive SaaS Licenses Reclaimed\"}\n"
                 "    },\n"
                 "    {\n"
                 "      \"type\": \"section\",\n"
@@ -254,8 +259,8 @@ def _generate_smart_simulation_response(scenario_id: str, user_message: str, gro
         # 4. User Inquiries
         elif any(w in msg_low for w in ["user", "who", "people", "accounts", "names"]):
             return (
-                "Looking into the Okta directory logs, the 130 inactive seats are primarily spread across the Product Design and Marketing departments. "
-                "About 35 of them belonged to external contractors whose contracts ended last quarter, and another 95 are employees who only view shared prototypes rather than editing files.\n\n"
+                "Looking into the Okta directory logs, the 65 inactive Figma seats are primarily spread across the Product Design and Marketing departments. "
+                "About 15 of them belonged to external contractors whose contracts ended last quarter, and another 50 are employees who only view shared prototypes rather than editing files.\n\n"
                 "We can safely downgrade all of them to Viewer roles without interrupting their day-to-day work."
             )
         # 5. Greetings
@@ -285,12 +290,12 @@ def _generate_smart_simulation_response(scenario_id: str, user_message: str, gro
                 "  \"blocks\": [\n"
                 "    {\n"
                 "      \"type\": \"header\",\n"
-                "      \"text\": {\"type\": \"plain_text\", \"text\": \"⚠️ Hardware Hazard: 18 Battery Degradation Alerts\"}\n"
+                "      \"text\": {\"type\": \"plain_text\", \"text\": \"⚠️ Hardware Hazard: 42 Battery Degradation Alerts\"}\n"
                 "    },\n"
                 "    {\n"
                 "      \"type\": \"section\",\n"
                 "      \"fields\": [\n"
-                "        {\"type\": \"mrkdwn\", \"text\": \"*Affected Units:*\n18 MacBook Pro 16\\\"\"},\n"
+                "        {\"type\": \"mrkdwn\", \"text\": \"*Affected Units:*\n42 MacBook Pro 13\\\" (M1)\"},\n"
                 "        {\"type\": \"mrkdwn\", \"text\": \"*Cycle Count:*\n>800 Cycles (<75% Health)\"},\n"
                 "        {\"type\": \"mrkdwn\", \"text\": \"*Action:*\nJamf Quarantine Profile\"},\n"
                 "        {\"type\": \"mrkdwn\", \"text\": \"*RMA Batch:*\n#RMA-2026-0901\"}\n"
@@ -309,10 +314,10 @@ def _generate_smart_simulation_response(scenario_id: str, user_message: str, gro
                 "**Target:** Jamf Pro MDM / Apple Device Enrollment  \n"
                 "**Risk Classification:** Medium (Safety Hazard Mitigation)\n\n"
                 "#### 🛠️ Execution Pipeline Stages:\n"
-                "1. **Isolate High-Risk Hardware:** Flag 18 MacBook Pro units with battery cycles >800 or health <75%.\n"
+                "1. **Isolate High-Risk Hardware:** Flag 42 MacBook Pro 13\" units with battery cycles >800 (86 critical units fleet-wide).\n"
                 "2. **Push MDM Self-Service Notice:** Dispatch 'Battery Depot Replacement Required' prompt to affected users.\n"
                 "3. **ERP Warranty Ticket Creation:** Generate AppleCare+ / Dell ProSupport enterprise warranty RMA batch `#RMA-2026-0901`.\n"
-                "4. **Depot Inventory Reservation:** Pre-allocate 18 hot-swap loaner units in Central IT Depot.\n\n"
+                "4. **Depot Inventory Reservation:** Pre-allocate 42 hot-swap loaner units in Central IT Depot.\n\n"
                 "#### 🔄 Impact:\n"
                 "Eliminates catastrophic swelling risk and prevents trackpad / top-case physical chassis destruction."
             )
@@ -321,9 +326,9 @@ def _generate_smart_simulation_response(scenario_id: str, user_message: str, gro
             return (
                 "### 💻 Jamf Hardware Health: Battery Degradation Analysis\n\n"
                 "Telemetry from **Jamf Pro MDM** indicates severe battery wear on select endpoints:\n\n"
-                "- **18 Apple MacBook Pro 16\" (M1/M2) units** have exceeded **800 cycle counts** with capacity below 75%.\n"
-                "- **Safety Risk:** 4 units show thermal throttling patterns consistent with early-stage lithium-ion cell swelling.\n"
-                "- **CapEx Replacement Estimate:** 18 units × $2,499 = **$44,982** (or depot battery swap @ $249/ea = **$4,482**).\n\n"
+                "- **42 Apple MacBook Pro 13\" (M1) units** have exceeded **800 cycle counts** (86 critical units across all 525 fleet devices).\n"
+                "- **Safety Risk:** 42 units show thermal throttling patterns and 100% out-of-warranty status.\n"
+                "- **CapEx Replacement Estimate:** 57 projected Q4 refresh units = **$106,300.00** (including $50,400 for 13\" MacBook Pros).\n\n"
                 "#### ⚡ Recommended Mitigation:\n"
                 "1. **Trigger Automated Jamf Quarantine:** Isolate swell-risk devices from critical field deployments.\n"
                 "2. **Initiate AppleCare+ Depot RMA:** Automatically dispatch swap tickets in Jira Service Management."
@@ -331,12 +336,12 @@ def _generate_smart_simulation_response(scenario_id: str, user_message: str, gro
         # 4. Greetings
         elif any(w in msg_low for w in ["hi", "hello", "hey", "good morning", "good afternoon"]) and len(msg_low) < 25:
             return (
-                "Hey there! 👋 I'm tracking our **650 Jamf-managed fleet devices**. "
-                "We currently have **18 MacBook Pros** showing severe battery cycle degradation (>800 cycles) and potential swelling risks. How can I help you with fleet logistics today?"
+                "Hey there! 👋 I'm tracking our **525 Jamf-managed fleet devices**. "
+                "We currently have **42 MacBook Pro 13\" units** (and 86 fleet-wide) showing severe battery cycle degradation (>800 cycles) and potential swelling risks. How can I help you with fleet logistics today?"
             )
         else:
             return (
-                "I am your **Hardware Fleet Copilot**, monitoring Jamf Pro MDM endpoint health across 650 devices to mitigate hardware risks and optimize refresh cycles.\n\n"
+                "I am your **Hardware Fleet Copilot**, monitoring Jamf Pro MDM endpoint health across 525 devices to mitigate hardware risks and optimize refresh cycles.\n\n"
                 "To run a fleet investigation, try asking:\n\n"
                 "- 🔋 **Battery Risk Inspection:** *\"Which MacBook units have swollen batteries or cycle counts >800?\"*\n"
                 "- 📦 **CapEx Budget Forecasting:** *\"Forecast our hardware refresh budget for expiring warranties.\"*\n"
@@ -410,8 +415,52 @@ def _generate_smart_simulation_response(scenario_id: str, user_message: str, gro
             )
 
     elif scenario_id == "support_inquiry":
+        # Specific Metric & Inventory Inquiries Grounded in Telemetry
+        if any(w in msg_low for w in ["how many device", "fleet size", "total fleet", "total device", "battery issue", "battery critical", "how many battery"]):
+            return (
+                "### 💻 Endpoint Fleet Telemetry (Jamf Pro)\n\n"
+                "Based on our synchronized Jamf Pro MDM telemetry:\n\n"
+                "- **Total Monitored Fleet:** **525 devices**\n"
+                "- **Battery Critical Endpoints:** **86 units** (16.4% of fleet operating with >800 cycles or <75% health)\n"
+                "- **Projected Q4 Failures:** **57 units** requiring replacement\n"
+                "- **CapEx Refresh Budget:** **$106,300.00**\n\n"
+                "**Top Hazard Fleet:** 42 units of MacBook Pro 13\" (M1, 2020) are 100% out of warranty and at swelling threshold. "
+                "You can trigger the **Jamf Pro Battery Quarantine & Depot Refresh** runbook to automatically quarantine these units and initiate depot RMAs."
+            )
+
+        elif any(w in msg_low for w in ["total saas waste", "total waste", "total license waste", "total spend waste", "how much saas waste", "annual saas waste"]):
+            return (
+                "### 💸 SaaS Spend Telemetry (Okta SSO & SCIM)\n\n"
+                "Based on our continuous Okta Single Sign-On and SCIM directory telemetry:\n\n"
+                "- **Total Annual SaaS Waste:** **$170,700.00/yr** across the portfolio\n"
+                "- **Total Inactive Seats:** **482 seats** (>60 days idle across 7 applications)\n"
+                "- **Top Risk Application:** **Figma Enterprise** (65 inactive licenses = $58,500/yr waste)\n"
+                "- **Second Highest:** **Zoom Pro** (160 inactive licenses = $38,400/yr waste)\n\n"
+                "Triggering the **Okta SCIM License Deprovisioner** runbook auto-reclaims $118,260/yr in recurring waste across priority tools."
+            )
+
+        elif any(w in msg_low for w in ["erp mttr", "erp access mttr", "access mttr", "resolution time", "financial close mttr", "average mttr"]):
+            return (
+                "### ⏱️ ITSM Resolution Telemetry (Jira Service Management)\n\n"
+                "Based on our Jira Service Management incident queues:\n\n"
+                "- **ERP Access MTTR:** **3.8 hours** (caused by manual SOX dual-approval bottlenecks)\n"
+                "- **Month-End Ticket Surge:** Spikes **700%** from 6 to 42 tickets/day in the Financial Close & ERP Access queue specifically (+173% fleet-wide)\n"
+                "- **Remediation Impact:** Activating the **Emergency SOX Fast-Track Dual-Signer Approval Matrix** runbook reduces ERP MTTR from **3.8 hours → 12 minutes** for the 72-hour close window."
+            )
+
+        elif any(w in msg_low for w in ["figma seat", "inactive figma", "figma license", "figma inactive", "unused figma"]):
+            return (
+                "### 🎨 Figma Enterprise Utilization\n\n"
+                "Based on Okta SCIM and Figma API telemetry:\n\n"
+                "- **Total Figma Licenses:** 250 seats\n"
+                "- **Active Users (Last 30d):** 185 seats\n"
+                "- **Inactive Seats (>60d idle):** **65 inactive seats** (26.0% stale rate)\n"
+                "- **Annual Potential Savings:** **$58,500.00/yr** (at $75.00/seat/month)\n\n"
+                "You can reclassify these 65 dormant Editor seats to Viewer-Restricted non-destructively in the **SaaS FinOps** module."
+            )
+
         # Greetings
-        if any(w in msg_low for w in ["hi", "hello", "hey", "greetings", "good morning", "good afternoon"]) and len(msg_low) < 30:
+        elif any(w in msg_low for w in ["hi", "hello", "hey", "greetings", "good morning", "good afternoon"]) and len(msg_low) < 30:
             return (
                 "Hey there! 👋 I'm **Alex** from the WorkplacePulse Sentinel Support team.\n\n"
                 "I can help you with anything across the platform — license optimization, automated runbooks, webhooks, "
@@ -419,7 +468,7 @@ def _generate_smart_simulation_response(scenario_id: str, user_message: str, gro
             )
 
         # Login / Auth / SSO
-        elif any(w in msg_low for w in ["login", "sign in", "auth", "password", "locked", "mfa", "sso", "access", "unable to login", "can't login"]):
+        elif any(w in msg_low for w in ["login", "sign in", "auth", "password", "locked", "mfa", "sso", "unable to login", "can't login", "can't sign in"]):
             return (
                 "I can definitely help with login or authentication issues! Here's a quick checklist:\n\n"
                 "1. **Okta SSO session:** Ensure your company SSO session hasn't expired and MFA is confirmed.\n"
@@ -449,7 +498,7 @@ def _generate_smart_simulation_response(scenario_id: str, user_message: str, gro
                 "1. **Detection:** Sentinel continuously queries Okta Universal Directory SSO logs and flags any user with `last_active_timestamp < (NOW - 60 days)` as dormant.\n"
                 "2. **Automated Remediation:** The system calls the Figma REST API `/v1/teams/{team_id}/members` to downgrade dormant `Editor` roles to `Viewer-Restricted` — **non-destructively**, preserving all files.\n"
                 "3. **Notification & Audit:** An HMAC-signed Slack alert fires to `#it-procurement-alerts` and the execution is logged in the **Delivery Audit Trail** with a signed certificate.\n\n"
-                "**Current opportunity identified:** 130 idle Figma seats = **$56,400/year** in recoverable spend.\n\n"
+                "**Current opportunity identified:** 65 idle Figma Enterprise seats = **$58,500/year** in waste (with targeted runbook reclaiming **$118,260/year** across Figma, Zoom, and Notion).\n\n"
                 "You can trigger the remediation runbook directly from the **SaaS FinOps** module. Want me to walk you through that?"
             )
 
@@ -477,7 +526,7 @@ def _generate_smart_simulation_response(scenario_id: str, user_message: str, gro
                 "| **2. Classify** | The AI engine classifies the anomaly (SaaS waste, hardware risk, ITSM surge) |\n"
                 "| **3. Execute** | The runbook fires API calls against the relevant system (Figma, Jamf MDM, ServiceNow) |\n"
                 "| **4. Notify** | An HMAC-signed webhook payload is dispatched to all registered Slack/PagerDuty endpoints |\n"
-                "| **5. Audit** | A cryptographically signed execution certificate is written to the Delivery Audit Trail |\n\n"
+                "| **5. Audit** | A signed execution certificate is written to Cloud Firestore Native and SIEM |\n\n"
                 "Each module (**SaaS FinOps**, **Jamf Hardware**, **ITSM Surge**) has its own dedicated runbook. "
                 "You can preview, customize, and trigger them from the **Executive Report** module.\n\n"
                 "Would you like a step-by-step walkthrough for a specific runbook?"
@@ -509,7 +558,7 @@ def _generate_smart_simulation_response(scenario_id: str, user_message: str, gro
                 "- **Automated Quarantine:** High-risk devices can be instantly quarantined via a Jamf MDM policy push — users receive a Self-Service prompt to visit IT for a depot swap.\n"
                 "- **RMA Automation:** AppleCare+ warranty tickets are auto-generated in Jira Service Management with pre-filled serial numbers and failure diagnostics.\n"
                 "- **CapEx Planning:** The platform calculates full replacement cost vs. depot battery swap cost so you can make the right call.\n\n"
-                "**Current alert:** 18 MacBook Pro 16\" units showing swelling risk (battery >800 cycles). Want me to walk you through triggering the quarantine runbook?"
+                "**Current alert:** 42 MacBook Pro 13\" units showing swelling risk (battery >800 cycles, 86 critical fleet-wide across 525 devices). Want me to walk you through triggering the quarantine runbook?"
             )
 
         # ITSM / tickets / surge / ServiceNow / Jira
@@ -519,7 +568,7 @@ def _generate_smart_simulation_response(scenario_id: str, user_message: str, gro
                 "The **ITSM module** uses calibrated enterprise distributions to anticipate support ticket volume:\n\n"
                 "- **Forecast Engine:** Models Jira Service Management & ServiceNow velocity to anticipate Month-End surge bottlenecks.\n"
                 "- **Auto-Triage:** Routes incoming tickets by category (SAP GL, NetSuite, Wire Transfer SOX) to the correct Tier-1/Tier-2 queue automatically.\n"
-                "- **SOX Fast-Track:** For Month-End Close, a pre-approved dual-signer matrix eliminates approval bottlenecks — MTTR drops from **3.8 hours → 11.4 minutes**.\n"
+                "- **SOX Fast-Track:** For Month-End Close, a pre-approved dual-signer matrix eliminates approval bottlenecks — MTTR drops from **3.8 hours → 12 minutes**.\n"
                 "- **SLA Compliance:** Real-time SLA breach predictions allow pre-emptive resource staging 48 hours in advance.\n\n"
                 "If you want to **create a support ticket** for the WorkplacePulse platform itself, use the form on the left — I can also auto-fill it based on your question!"
             )
@@ -565,8 +614,8 @@ def _generate_smart_simulation_response(scenario_id: str, user_message: str, gro
                         {
                             "tag": "Safety & Risk",
                             "tagColor": "bg-rose-50 text-rose-700 border-rose-200",
-                            "title": "Quarantine 18 Swollen Battery Units",
-                            "desc": "Lock and recall MacBook Pro 16\" units exhibiting >800 cycle counts and thermal inflation patterns via Jamf MDM.",
+                            "title": "Quarantine 42 Swollen Battery Units",
+                            "desc": "Lock and recall MacBook Pro 13\" (M1) units exhibiting >800 cycle counts and thermal inflation patterns via Jamf MDM.",
                             "impact": "Critical Safety Mitigation",
                             "impactColor": "text-rose-600",
                             "actionText": "⚡ Initiate Quarantine"

@@ -204,7 +204,8 @@ async def forecast_chat(
 
     # Fetch current scenario grounding data
     if payload.scenario_id == "support_inquiry":
-        grounding_context = "System Knowledge Base: WorkplacePulse Sentinel is an IT Operations Intelligence platform running on Google Cloud Run. It integrates with Okta, Figma, Zoom, Jamf Pro, and Jira to monitor enterprise fleet health, eliminate SaaS license waste, and predict ITSM ticket surges."
+        from data_engine import build_support_grounding_context
+        grounding_context = build_support_grounding_context()
     else:
         scenario_data = get_scenario_by_id(payload.scenario_id)
         if not scenario_data:
@@ -420,7 +421,7 @@ async def list_webhook_deliveries(
     user_token: dict = Depends(verify_firebase_token)
 ):
     """
-    Retrieves the immutable audit log of recent webhook deliveries.
+    Retrieves the append-only audit log of recent webhook deliveries.
     """
     user_id = user_token.get("uid", "anonymous")
     raw_logs = get_user_webhook_logs(user_id, limit=limit)

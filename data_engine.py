@@ -253,7 +253,7 @@ def generate_itsm_surge_scenario() -> ScenarioDataPayload:
         title="Month-End Close ITSM Support Surge & Access Bottleneck Forecast",
         domain="IT Service Management / Operations",
         timestamp=datetime.now(timezone.utc).isoformat(),
-        summary="Predicting a 700% surge in ERP/Financial Close access tickets during month-end cutoff, risking SLA breaches and close delays.",
+        summary="Predicting a 700% surge in the ERP / Financial Close queue specifically (6 → 42 tickets/day, +173% fleet-wide) during month-end cutoff, risking SLA breaches and close delays.",
         chart_data=chart_data,
         itsm_metrics=metrics,
         grounding_context=grounding_text
@@ -277,6 +277,78 @@ def get_scenario_by_id(scenario_id: str) -> Optional[ScenarioDataPayload]:
     if not generator:
         return None
     return generator()
+
+
+def build_support_grounding_context() -> str:
+    """
+    Programmatically builds comprehensive, cross-module telemetry grounding for the Alex Support AI
+    by deriving accurate metrics directly from all active scenarios in data_engine.py.
+    """
+    saas = get_scenario_by_id("saas_finops")
+    hw = get_scenario_by_id("hardware_lifecycle")
+    itsm = get_scenario_by_id("itsm_surge")
+
+    saas_total_waste = sum(m.annual_potential_savings for m in saas.saas_metrics) if saas and saas.saas_metrics else 170700.0
+    saas_total_inactive = sum(m.inactive_60d_plus for m in saas.saas_metrics) if saas and saas.saas_metrics else 482
+    saas_lines = []
+    if saas and saas.saas_metrics:
+        for m in saas.saas_metrics:
+            saas_lines.append(f"  * {m.app_name}: {m.total_licenses} total licenses, {m.active_last_30d} active, {m.inactive_60d_plus} inactive seats (>60d idle), ${m.cost_per_seat_monthly:.0f}/seat/mo, ${m.annual_potential_savings:,.2f}/yr waste")
+    saas_breakdown = "\n".join(saas_lines)
+
+    hw_total_units = sum(m.total_units for m in hw.hardware_metrics) if hw and hw.hardware_metrics else 525
+    hw_total_battery = sum(m.battery_critical_units for m in hw.hardware_metrics) if hw and hw.hardware_metrics else 86
+    hw_total_fail = sum(m.projected_failures_next_quarter for m in hw.hardware_metrics) if hw and hw.hardware_metrics else 57
+    hw_total_capex = sum(m.estimated_replacement_budget_usd for m in hw.hardware_metrics) if hw and hw.hardware_metrics else 106300.0
+    hw_lines = []
+    if hw and hw.hardware_metrics:
+        for m in hw.hardware_metrics:
+            hw_lines.append(f"  * {m.model_name}: {m.total_units} units total, {m.battery_critical_units} battery critical (>800 cycles or <75% health), {m.out_of_warranty_units} out-of-warranty, {m.projected_failures_next_quarter} projected Q4 failures, ${m.estimated_replacement_budget_usd:,.2f} refresh budget")
+    hw_breakdown = "\n".join(hw_lines)
+
+    itsm_normal = sum(m.historical_daily_avg for m in itsm.itsm_metrics) if itsm and itsm.itsm_metrics else 48
+    itsm_surge_vol = sum(m.month_end_surge_daily_avg for m in itsm.itsm_metrics) if itsm and itsm.itsm_metrics else 131
+    erp_metric = next((m for m in itsm.itsm_metrics if "ERP" in m.category), None) if itsm and itsm.itsm_metrics else None
+    erp_mttr = erp_metric.average_resolution_time_hrs if erp_metric else 3.8
+    erp_surge = erp_metric.month_end_surge_daily_avg if erp_metric else 42
+    erp_normal = erp_metric.historical_daily_avg if erp_metric else 6
+    itsm_lines = []
+    if itsm and itsm.itsm_metrics:
+        for m in itsm.itsm_metrics:
+            itsm_lines.append(f"  * {m.category}: {m.historical_daily_avg}/day baseline, {m.month_end_surge_daily_avg}/day month-end surge, {m.average_resolution_time_hrs} hrs MTTR, Escalation Risk {m.escalation_risk_score_1_to_10}/10, Bottleneck: {m.primary_bottleneck}")
+    itsm_breakdown = "\n".join(itsm_lines)
+
+    return (
+        "=== WORKPLACEPULSE PLATFORM KNOWLEDGE BASE & GROUND TRUTH TELEMETRY ===\n\n"
+        "1. ARCHITECTURE & PLATFORM INTEGRATIONS:\n"
+        "- WorkplacePulse Sentinel is an IT Operations & FinOps Command Center running on Google Cloud Run.\n"
+        "- Ingests operational telemetry from Okta Universal Directory, Figma Enterprise, Zoom Pro, Jamf Pro MDM, and Jira Service Management.\n"
+        "- Storage: Cloud Firestore Native with Application Default Credentials (ADC) in append-only audit mode.\n"
+        "- Security: Google Cloud Secret Manager for credentials, zero hardcoded API keys.\n"
+        "- Authentication: Firebase Auth (Google Sign-In or Continue as Guest for anonymous evaluation).\n\n"
+        "2. SAAS FINOPS TELEMETRY (OKTA SSO & SCIM):\n"
+        f"- Total Annual SaaS License Waste Across Fleet: ${saas_total_waste:,.2f}/yr\n"
+        f"- Total Inactive Seats (>60 days idle): {saas_total_inactive} seats across 7 applications\n"
+        f"- Highest Waste Application: Figma Enterprise (65 inactive licenses, ${58500:,.2f}/yr waste, $75/seat/mo)\n"
+        f"- Detailed SaaS Application Inventory:\n{saas_breakdown}\n"
+        "- Runbook: 'Okta SCIM License Deprovisioner' (act_saas_reclaim_01) auto-reclaims idle seats via SCIM 2.0 API.\n\n"
+        "3. HARDWARE FLEET & MDM TELEMETRY (JAMF PRO):\n"
+        f"- Total Monitored Endpoints in Fleet: {hw_total_units} devices\n"
+        f"- Battery Critical Units (>800 cycles or capacity <75%): {hw_total_battery} devices ({((hw_total_battery / hw_total_units) * 100):.1f}% of fleet)\n"
+        f"- Projected Q4 Hardware Replacements: {hw_total_fail} units\n"
+        f"- Required CapEx Refresh Budget: ${hw_total_capex:,.2f}\n"
+        f"- Detailed Fleet Inventory by Model:\n{hw_breakdown}\n"
+        "- Most Critical Hazard Fleet: MacBook Pro 13\" (M1, 2020) with 42 battery critical units (100% out of warranty).\n"
+        "- Runbook: 'Jamf Pro Battery Quarantine & Depot Refresh' (act_hardware_quarantine_02) applies quarantine MDM profiles.\n\n"
+        "4. ITSM SERVICE DESK & MONTH-END SURGE (JIRA SERVICE MANAGEMENT):\n"
+        f"- Fleet-Wide Baseline Daily Ticket Volume: {itsm_normal} tickets/day\n"
+        f"- Projected Month-End Close Surge Volume: {itsm_surge_vol} tickets/day (+{round(((itsm_surge_vol - itsm_normal) / itsm_normal) * 100)}% fleet-wide increase)\n"
+        f"- Financial Close & ERP Access Queue: Spikes 700% specifically from {erp_normal} to {erp_surge} tickets/day with {erp_mttr} hours MTTR.\n"
+        f"- Detailed Incident Category Inventory:\n{itsm_breakdown}\n"
+        "- Runbook: 'Emergency SOX Fast-Track Dual-Signer Approval Matrix' (act_itsm_sox_fasttrack_03) reduces ERP MTTR from 3.8 hours to 12 minutes.\n\n"
+        "5. MULTI-PLATFORM WEBHOOK ALERTING:\n"
+        "- Supports Slack (Block Kit), Microsoft Teams (MessageCard), Discord (Embed), and Generic JSON webhooks with HMAC-SHA256 signatures."
+    )
 
 
 def list_available_scenarios() -> List[Dict[str, str]]:

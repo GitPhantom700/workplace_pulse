@@ -24,24 +24,23 @@ This guide walks you through the primary workflows, analytics views, and autonom
 ## 1. Authentication & Setup
 
 > **💡 Purpose & Significance:**  
-> Enterprise IT platforms require strict tenant segregation. WorkplacePulse enforces zero-trust data partitioning under `/users/{userId}/...` via Firebase Admin SDK and Cloud Firestore security rules. The Demo Mode toggle provides evaluators with a 60-second instant sandbox to explore all features with zero cloud configuration or credit cards required.
+> Enterprise IT platforms require strict tenant segregation. WorkplacePulse enforces backend ADC-authenticated tenant scoping under `/users/{userId}/...` with append-only audit logging behind a locked database perimeter. Evaluators can access the platform with zero friction using **Continue as Guest** (instant anonymous Firebase JWT) or **Sign in with Google** (enterprise SSO).
 
 <br>
 
-When you first navigate to the platform, you will be presented with the **Pre-Login Landing Page**. By default, the system operates in a simulated sandbox.
+When you first navigate to the platform, you will be presented with the **Pre-Login Landing Page**. Public telemetry and metrics are visible immediately, while protected execution actions (AI Copilot, Runbooks, Webhooks) require an authenticated session.
 
 <br>
 
 ![Executive Dashboard (Pre-Login)](../assets/screenshots/executive-dashboard-pre.png)
-*Figure 1a: The pre-login landing page. The highlighted controls in the top right manage authentication and Demo Mode.*
+*Figure 1a: The pre-login landing page with authentication controls in the top right.*
 
 <br>
 
 ### Getting Started Steps:
 
-1. **Explore Sandbox:** Note the **Demo Mode: ON** toggle in the top right corner. This allows you to explore the dashboard using simulated dummy data without connecting live telemetry.
-2. **Switch to Live Mode:** To connect to your live enterprise data, toggle Demo Mode to **OFF**. 
-3. Click the **Sign in with Google** button in the top right corner. This will trigger the secure authentication popup.
+1. **Continue as Guest (Instant Access):** Click **`Continue as Guest`** in the top right corner to instantly generate a real Firebase Anonymous Auth JWT token and access the live Copilot, Runbooks, and Webhooks with zero setup or credentials required.
+2. **Sign in with Google:** Alternatively, click **`Sign in with Google`** to authenticate with your Google account for persistent multi-device session continuity.
 
 <br>
 
@@ -55,7 +54,7 @@ Upon successful authentication, your unique Tenant ID is assigned, and you will 
 <br>
 
 ![Executive Dashboard (Post-Login)](../assets/screenshots/executive-dashboard-post.png)
-*Figure 1c: The post-login state showing your active User Profile, Demo Mode OFF, and live telemetry data.*
+*Figure 1c: The post-login state showing your active User Profile and authenticated operational controls.*
 
 <br>
 <br>
@@ -280,7 +279,7 @@ By default, the platform runs with a resilient multi-client ladder. To test with
 ## 4. Autonomous Incident Runbooks & Remediation
 
 > **💡 Purpose & Significance:**  
-> AI insights are ineffective if remediation requires manual ticket ping-pong. WorkplacePulse bridges predictive analytics directly into automated ITIL workflows. With 1-click execution, IT leads can trigger automated role transitions in Okta, maintenance quarantines in Jamf, or SOX emergency bypasses in Jira—reducing Mean Time to Resolution (MTTR) from hours to seconds while logging immutable audit trails to Cloud Firestore.
+> AI insights are ineffective if remediation requires manual ticket ping-pong. WorkplacePulse bridges predictive analytics directly into automated ITIL workflows. With 1-click execution, IT leads can trigger automated role transitions in Okta, maintenance quarantines in Jamf, or SOX emergency bypasses in Jira—reducing Mean Time to Resolution (MTTR) from hours to seconds while logging append-only audit trails to Cloud Firestore.
 
 <br>
 
@@ -297,7 +296,7 @@ Locate the context-aware **Sentinel Autonomous Remediation** card at the bottom 
 <br>
 
 #### Step 2: Live Execution Log Stream & Webhook Dispatch
-The system initializes the enterprise API connector, executes the SCIM/MDM/ITSM transaction, emits immutable audit records to Cloud Firestore, and dispatches HMAC-signed alerts to your configured channels (Slack, Discord, Teams).
+The system initializes the enterprise API connector, executes the SCIM/MDM/ITSM transaction, emits append-only audit records to Cloud Firestore, and dispatches HMAC-signed alerts to your configured channels (Slack, Discord, Teams).
 
 <br>
 
