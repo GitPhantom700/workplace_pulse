@@ -217,7 +217,7 @@ By default, the platform runs with a resilient multi-client ladder. To test with
 
 1. Locate the **Gemini Copilot** panel on the right side of the dashboard.
 2. Expand the **Gemini API Key (BYOK)** drawer.
-3. Enter your **GCP Project ID** and **Gemini API Key** and click **Connect**.
+3. Enter your **Gemini API Key** and click **Connect**.
 4. The system validates your key in session memory and switches the telemetry badges to <span style="color:green">Live Data</span>.
 
 <br>
