@@ -61,6 +61,15 @@ You can filter the data visualizations using the left-hand **Scenario Navigation
 *   **ITSM Surge (Jira):** Details support ticket spikes and resolution times.
 
 <br>
+
+### Predictive Forecasting & Trend Velocity (Q4 Forecast Trend)
+The **Detailed Telemetry Matrix** in each module includes a forward-looking **Q4 Forecast Trend** column:
+* **SaaS FinOps:** Identifies whether license waste is accelerating ahead of upcoming annual contract renewals (e.g., `↗ +35% Waste` on Figma Enterprise due to 65 dormant accounts).
+* **Hardware Lifecycle:** Forecasts upcoming battery failures and AppleCare warranty expirations to project exact CapEx hardware refresh budgets.
+* **ITSM Surge:** Quantifies the expected surge multiplier (e.g., `⚡ 7.0x Surge`) for accounting close access requests to proactively optimize engineer shift staffing.
+* **Micro-Sparklines:** Visual SVG Bézier curves visually indicate trajectory at a glance (🔴 High Risk Spike, 🟠 Moderate Growth, ⚪ Stable, 🟢 Optimized).
+
+<br>
 <br>
 
 ---
