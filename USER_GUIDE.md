@@ -458,3 +458,8 @@ The **Support & Help** section provides self-service onboarding assistance and d
 *   **Sentinel Support Copilot:** Chat in real time with "Alex", the empathetic AI support specialist, for 24/7 troubleshooting and guidance.
 
 <br>
+
+<img src="./assets/screenshots/support-help-center.png" width="720" alt="Support & Help Center Hub" />
+
+<br>
+<br>
