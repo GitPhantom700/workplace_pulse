@@ -251,6 +251,15 @@ By default, the platform runs with a resilient multi-client ladder. To test with
 <br>
 <br>
 
+5. **Ask Grounded Operational Questions:** Type an inquiry into the chat box (e.g., *"Can you forecast Zoom pro demand for the next three months?"*) or select a suggested prompt pill. Gemini analyzes the active telemetry context to deliver a structured assessment with actionable recommendations.
+
+<br>
+
+![Gemini Copilot Query Example](./assets/screenshots/copilot-query-example.png)
+
+<br>
+<br>
+
 ---
 
 <br>
