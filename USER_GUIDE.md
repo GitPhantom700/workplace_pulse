@@ -6,6 +6,18 @@ This guide walks you through the primary workflows, analytics views, and autonom
 
 <br>
 
+### 📑 Quick-Jump Table of Contents (6-Min Walkthrough)
+* [🔐 **1. Authentication & Setup** — *Sandbox Exploration & Live Google Auth (1 min)*](#1-authentication--setup)
+* [📊 **2. Navigating the Executive Dashboard** — *KPIs, Scenarios & Predictive Velocity Sparklines (2 mins)*](#2-navigating-the-executive-dashboard)
+* [🤖 **3. Gemini Copilot & Bring-Your-Own-Key (BYOK)** — *Live AI Grounding & Prompt Pills (1 min)*](#3-gemini-copilot--bring-your-own-key-byok)
+* [🛡️ **4. Autonomous Incident Runbooks & Remediation** — *1-Click Execution & ITIL Post-Mortem (1.5 mins)*](#4-autonomous-incident-runbooks--remediation)
+* [🔌 **5. Managing Data Sources** — *Integrations, Live Sync Terminal & Raw Preview (1 min)*](#5-managing-data-sources)
+* [🔔 **6. Webhooks & Alerting** — *HMAC-SHA256 Signed Multi-Platform Delivery (1 min)*](#6-webhooks--alerting)
+* [🎧 **7. Live Support & Troubleshooting** — *Knowledge Base, Form Tickets & AI Assistant (30 secs)*](#7-live-support--troubleshooting)
+* [📑 **8. Generating Executive Reports** — *Print-Optimized PDF & Audit Markdown Export (30 secs)*](#8-generating-executive-reports)
+
+<br>
+
 ---
 
 <br>

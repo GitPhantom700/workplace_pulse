@@ -15,6 +15,19 @@
 - **Live Cloud Run Application:** [https://workplace-pulse-app-996129350542.us-central1.run.app](https://workplace-pulse-app-996129350542.us-central1.run.app)
 - **GitHub Source Repository:** [https://github.com/GitPhantom700/workplace_pulse](https://github.com/GitPhantom700/workplace_pulse)
 
+<br>
+
+### 📑 Table of Contents
+* [👨‍⚖️ **2-Minute Evaluator & Judge Walkthrough**](#-2-minute-evaluator--judge-walkthrough-guide)
+* [🔬 **Enterprise Mechanics & Synthetic Telemetry Engine**](#-enterprise-mechanics-how-synthetic-telemetry-maps-to-production)
+* [🛡️ **Autonomous Remediation & SOC 2 Compliance Attestation**](#️-autonomous-remediation--executive-compliance-attestation)
+* [⚡ **60-Second Instant Quickstart (Zero GCP Setup Required)**](#-60-second-instant-quickstart-zero-gcp-setup-required)
+* [🏛️ **System Architecture & Google Cloud Stack**](#️-system-architecture--google-cloud-stack)
+* [🔐 **Zero-Trust Security & Governance Architecture**](#-zero-trust-security--governance-architecture)
+* [🤖 **Gemini AI Copilot & Resilient Multi-Client Ladder**](#-gemini-ai-copilot-architecture--resilient-client-ladder)
+* [🧪 **Automated Testing & Verification Suite**](#-automated-testing--verification-suite)
+* [📚 **Complete User Guide & Scenario Walkthrough (`USER_GUIDE.md`)**](./USER_GUIDE.md)
+
 ---
 
 ## 👨‍⚖️ 2-Minute Evaluator & Judge Walkthrough Guide
