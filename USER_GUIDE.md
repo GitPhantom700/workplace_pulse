@@ -99,9 +99,6 @@ By default, the platform runs in a **Simulated Demo Mode**. To enable live AI in
 3. Click **Connect**.
 4. The system will authenticate your key, and the UI badges will switch from <span style="color:orange">Dummy Data</span> to <span style="color:green">Live Data</span>.
 
-![BYOK Setup](./assets/screenshots/byok-setup.png)
-*(Screenshot Placeholder: The API Credentials form inside the Copilot panel)*
-
 Once connected, the **Strategic Recommendations** block below the charts will dynamically generate tailored runbooks and cost-saving plans based on the current scenario.
 
 ---
@@ -116,9 +113,6 @@ The **Data Sources** view (accessible via the sidebar) allows you to monitor and
 4. A **Live Data Sync Terminal** modal will appear, displaying the live execution logs (OAuth handshakes, API scopes, and telemetry ingestion).
 5. Once complete, a **Raw Data Preview** table will display a sample of the ingested users, devices, or tickets.
 
-![Data Sync Terminal](./assets/screenshots/data-sync-terminal.png)
-*(Screenshot Placeholder: The modal showing the streaming terminal logs and the Raw Data Preview table)*
-
 ---
 
 ## 5. Webhooks & Alerting
@@ -130,9 +124,6 @@ WorkplacePulse can autonomously dispatch alerts to your communication platforms 
 3. Use the **Simulation Mode** tab to test payload delivery.
 4. The **Delivery Audit Trail** logs the success or failure of all dispatched alerts.
 
-![Webhook Hub](./assets/screenshots/webhook-hub.png)
-*(Screenshot Placeholder: The Webhook Hub modal showing registered destinations or the audit trail)*
-
 ---
 
 ## 6. Live Support & Troubleshooting
@@ -142,9 +133,6 @@ If you encounter issues, navigate to the **Support** view via the sidebar.
 *   **Knowledge Base:** Browse common FAQs regarding connectors, security isolation, and report generation.
 *   **Ticket Submission:** Open a direct ITSM ticket for human escalation.
 *   **Live Chatbot:** Interact with "Alex", the telemetry-grounded AI support assistant. (Note: If your API key is connected, this chat is powered by live Gemini AI. If not, it runs in a simulated fallback mode).
-
-![Support Chat](./assets/screenshots/support-chat.png)
-*(Screenshot Placeholder: The Support view showing the chatbot interface and FAQ accordions)*
 
 ---
 
