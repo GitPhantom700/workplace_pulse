@@ -354,6 +354,13 @@ Each scenario module is equipped with a specialized, automated runbook designed 
 
 The **Data Sources** view (accessible via the sidebar) allows IT administrators to manage third-party integrations across Okta, Figma, Jamf Pro, Jira, and Zoom.
 
+<br>
+
+<img src="./assets/screenshots/data-sources-overview.png" width="720" alt="Data Sources & Integrations Hub" />
+
+<br>
+<br>
+
 1. Click on **Data Sources** in the left navigation menu.
 2. You will see connection cards for all supported enterprise platforms.
 3. Click **Connect / Sync** on any integration to launch the **Live Data Sync Terminal**.
