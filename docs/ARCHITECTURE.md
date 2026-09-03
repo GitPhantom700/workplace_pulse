@@ -42,8 +42,8 @@ The enterprise deployment spans three specialized Google Cloud / Firebase projec
         v                                              v                                              v
 +-------------------------------+             +-------------------------------+             +-------------------------------+
 |    Security & Auth Gate       |             |   Gemini AI Copilot Engine    |             |  Tenant Isolation & Database  |
-| - Firebase Admin SDK Token    |             | - Gemini 3.6 Flash Primary    |             | - Scoped /users/{userId}/...  |
-|   Verification Middleware     |             | - Flash Lite / Pro Fallbacks  |             | - Immutable Cloud Firestore   |
+| - Firebase Admin SDK Token    |             | - Gemini 3.5 Flash Lite (1st) |             | - Scoped /users/{userId}/...  |
+|   Verification Middleware     |             | - 3.6 Flash / Flash Fallbacks |             | - Append-only Cloud Firestore |
 | - Cloud Secret Manager ADC    |             | - Vertex AI Enterprise Rung   |             | - Audit Logs & SIEM Scopes    |
 |   Dynamic Secret Fetching     |             | - Multi-Turn Role Prompts     |             | - Runbook Execution Logs      |
 +-------------------------------+             +-------------------------------+             +-------------------------------+
@@ -53,10 +53,15 @@ The enterprise deployment spans three specialized Google Cloud / Firebase projec
 
 ## Production Model Fallback Ladder
 
-1. **Rung 1 (Primary GA):** `gemini-3.6-flash` (via Google AI Studio key in Secret Manager).
-2. **Rung 2 (Fast Fallback):** `gemini-flash-lite-latest` (Sub-second low-latency failover).
+Rungs are ordered by free-tier daily request headroom (RPD), not by model capability.
+
+1. **Rung 1 (Primary):** `gemini-3.5-flash-lite` (via Google AI Studio key in Secret Manager) — highest free-tier headroom at 500 RPD.
+2. **Rung 2 (Fast Fallback):** `gemini-flash-lite-latest` (same model family via moving alias).
 3. **Rung 3 (Secondary Fallback):** `gemini-flash-latest`.
-4. **Rung 4 (Enterprise Fallback):** `gemini-2.5-flash` (Vertex AI SDK via ADC in `us-central1`).
+4. **Rung 4 (Capability Rung):** `gemini-3.6-flash` — placed last because its free-tier quota is 20 RPD; resets at midnight Pacific.
+5. **Rung 5 (Enterprise Fallback):** `gemini-2.5-flash` (Vertex AI SDK via ADC in `us-central1`) — no free-tier request cap.
+
+If every live rung is exhausted, the service returns a deterministic simulation response grounded in `data_engine.py` rather than failing.
 
 ---
 

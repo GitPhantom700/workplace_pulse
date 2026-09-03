@@ -717,11 +717,13 @@ def generate_multi_turn_forecast(
     system_instruction = _build_system_instruction(scenario_id, grounding_context)
 
     # Verified callable Gemini models per client surface
+    # Ordered by free-tier daily headroom (RPD), not model capability.
+    # Verified callable 2026-09-03 against generativelanguage.googleapis.com.
     api_key_models = [
-        "gemini-3.6-flash",
-        "gemini-flash-lite-latest",
-        "gemini-flash-latest",
-        "gemini-pro-latest",
+        "gemini-3.5-flash-lite",     # Primary: 500 RPD free tier - most headroom
+        "gemini-flash-lite-latest",  # Alias, same family - verified serving in production
+        "gemini-flash-latest",       # Flash-class fallback
+        "gemini-3.6-flash",          # Last: 20 RPD only, resets midnight Pacific
     ]
     vertex_models = [
         "gemini-2.5-flash",
