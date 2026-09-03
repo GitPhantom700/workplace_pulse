@@ -30,7 +30,7 @@ When you first navigate to the platform, you will be presented with the **Pre-Lo
 
 1. **Explore Sandbox:** Note the **Demo Mode: ON** toggle in the top right corner. This allows you to explore the dashboard using simulated dummy data without connecting live telemetry.
 2. **Switch to Live Mode:** To connect to your live enterprise data, toggle Demo Mode to **OFF**. 
-3. **Authenticate:** Click the **Sign in with Google** button in the top right corner. This will trigger the secure authentication popup.
+3. Click the **Sign in with Google** button in the top right corner. This will trigger the secure authentication popup.
 
 <br>
 
@@ -266,7 +266,62 @@ By default, the platform runs with a resilient multi-client ladder. To test with
 
 <br>
 
-## 4. Managing Data Sources
+## 4. Autonomous Incident Runbooks & Remediation
+
+> **💡 Purpose & Significance:**  
+> AI insights are ineffective if remediation requires manual ticket ping-pong. WorkplacePulse bridges predictive analytics directly into automated ITIL workflows. With 1-click execution, IT leads can trigger automated role transitions in Okta, maintenance quarantines in Jamf, or SOX emergency bypasses in Jira—reducing Mean Time to Resolution (MTTR) from hours to seconds while logging immutable audit trails to Cloud Firestore.
+
+<br>
+
+At the bottom of each scenario dashboard, an active **Sentinel Autonomous Remediation** card presents a pre-configured, context-aware runbook ready for one-click execution:
+
+<br>
+
+### Pre-Built Runbook Catalog Across All 3 Modules:
+
+#### 1. SaaS FinOps: Okta SCIM License Deprovisioner (`act_saas_reclaim_01`)
+* **Target System:** Okta Universal Directory / SCIM 2.0 API
+* **Action:** Scans simulated SaaS directories for inactive seats (>60 days), revokes provisioned entitlements via SCIM 2.0 without disrupting user file permissions, and notifies department managers.
+* **Projected Impact:** Recovers up to **$56,400.00/yr** in recurring SaaS waste across Figma, Zoom, and Notion.
+
+<br>
+
+![Okta SCIM Runbook](./assets/screenshots/runbook-saas-reclaim.png)
+
+<br>
+<br>
+
+#### 2. Hardware Lifecycle: Jamf Pro Battery Quarantine & Refresh (`act_hardware_quarantine_02`)
+* **Target System:** Jamf Pro MDM / Apple Device Enrollment
+* **Action:** Automatically flags endpoint devices with battery cycles >800 or health <75%, creates warranty RMA tickets in ERP, and pushes maintenance profiles via MDM.
+* **Projected Impact:** Mitigates **42 potential catastrophic battery swelling failures** and initiates warranty depot replacements.
+
+<br>
+<br>
+
+#### 3. ITSM Surge: Emergency SOX Fast-Track Approval Matrix (`act_itsm_sox_fasttrack_03`)
+* **Target System:** Jira Service Management / ServiceNow
+* **Action:** Activates a 72-hour pre-approved dual-signer matrix for Month-End Close access requests, unblocking accounting staff.
+* **Projected Impact:** Reduces Financial Close MTTR from **3.8 hours to 12 minutes** during Days -3 to +3 of Month-End.
+
+<br>
+<br>
+
+### 4-Stage Execution Pipeline:
+When you click **`🚀 Execute Runbook & Dispatch Alert`**:
+1. **Verification & Authorization:** Validates the user's active session and RBAC execution entitlements.
+2. **Automated API Trigger:** Executes the targeted SCIM, MDM, or ITSM API transaction in memory.
+3. **Immutable Audit Logging:** Persists structured execution details (timestamps, affected users/devices, dollar ROI) to Cloud Firestore under `/users/{userId}/runbook_logs/`.
+4. **Webhook Alert Dispatch:** Automatically formats and signs outbound incident summaries to your configured Slack, Discord, and Teams channels.
+
+<br>
+<br>
+
+---
+
+<br>
+
+## 5. Managing Data Sources
 
 > **💡 Purpose & Significance:**  
 > Enterprise transparency requires proving where data originates. The Data Sources hub and Live Sync Terminal provide full visibility into the ingestion pipeline, ensuring compliance officers and security teams can verify data provenance, API scopes, and encryption protocols.
@@ -287,7 +342,7 @@ The **Data Sources** view (accessible via the sidebar) allows IT administrators 
 
 <br>
 
-## 5. Webhooks & Alerting
+## 6. Webhooks & Alerting
 
 > **💡 Purpose & Significance:**  
 > Insights are useless if they remain trapped in a dashboard. The Webhook Engine closes the loop by automatically dispatching formatted, actionable alerts to incident response channels, enabling engineers to approve 1-click license reclaims or shift adjustments without leaving Slack.
@@ -309,7 +364,7 @@ WorkplacePulse autonomously bridges predictive intelligence into your team's eve
 
 <br>
 
-## 6. Live Support & Troubleshooting
+## 7. Live Support & Troubleshooting
 
 > **💡 Purpose & Significance:**  
 > Reduces Tier-1 IT helpdesk burden by resolving common user queries autonomously while providing a clear, auditable escalation path for enterprise procurement and security inquiries.
@@ -329,7 +384,7 @@ The **Support & Help** section provides self-service onboarding assistance and d
 
 <br>
 
-## 7. Generating Executive Reports
+## 8. Generating Executive Reports
 
 > **💡 Purpose & Significance:**  
 > IT and FinOps managers spend hours manually aggregating data and formatting slide decks for executive reviews. The Executive Report generator automates this entire process in one click, producing audit-ready financial summaries for quarterly budget approvals and executive sign-offs.
