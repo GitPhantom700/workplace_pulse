@@ -168,6 +168,14 @@ The **Detailed Telemetry Matrix** in each module includes a forward-looking **Q4
 <br>
 
 *   **Hardware Lifecycle Velocity:** Projects quarterly failure rates across laptop batches to calculate exact CapEx refresh budgets before hardware fails in the field.
+
+<br>
+
+![Hardware Degradation Forecast Matrix](./assets/screenshots/hardware-matrix-forecast.png)
+
+<br>
+<br>
+
 *   **ITSM Surge Multiplier:** Quantifies projected ticket surge multipliers (e.g., `⚡ 7.0x Surge` in ERP access) to schedule engineer shifts and prevent SLA breaches.
 *   **Micro-Sparklines:** Inline SVG Bézier curves visually indicate trajectory at a glance (🔴 High Risk Spike, 🟠 Moderate Growth, ⚪ Stable, 🟢 Optimized).
 
