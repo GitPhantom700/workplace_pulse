@@ -31,6 +31,7 @@ from database import (
     get_user_webhooks,
     get_webhook_by_id,
     delete_user_webhook,
+    save_webhook_delivery_log,
     get_user_webhook_logs,
     get_user_runbook_logs
 )

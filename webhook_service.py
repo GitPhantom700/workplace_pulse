@@ -397,7 +397,8 @@ async def dispatch_webhook_with_retry(
     # 1. Check for Simulated Sandbox / Demo URLs
     simulated_keywords = (
         "example.com", "mock", "testserver", "localhost", "127.0.0.1", "demo", 
-        "test", "dummy", "xxx", "0000", "placeholder", "t00000000", "123456789", "***"
+        "test", "dummy", "xxx", "0000", "placeholder", "t00000000", "123456789", "***",
+        "your_workspace", "your_webhook", "your_", "workspace"
     )
     is_simulated = any(kw in url.lower() for kw in simulated_keywords)
 
