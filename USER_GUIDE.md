@@ -234,6 +234,14 @@ By default, the platform runs with a resilient multi-client ladder. To test with
 <br>
 
 3. Enter your **Gemini API Key** and click **Connect**.
+
+<br>
+
+![Gemini API Key Connected](./assets/screenshots/byok-key-connected.png)
+
+<br>
+<br>
+
 4. The system validates your key in session memory and switches the telemetry badges to <span style="color:green">Live Data</span>.
 
 <br>
