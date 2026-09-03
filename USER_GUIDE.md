@@ -216,6 +216,14 @@ WorkplacePulse integrates directly with Google's Gemini AI to offer strategic re
 By default, the platform runs with a resilient multi-client ladder. To test with your personal Google AI Studio credentials:
 
 1. Locate the **Gemini Copilot** panel on the right side of the dashboard.
+
+<br>
+
+![Gemini Copilot Panel](./assets/screenshots/gemini-copilot-panel.png)
+
+<br>
+<br>
+
 2. Expand the **Gemini API Key (BYOK)** drawer.
 3. Enter your **Gemini API Key** and click **Connect**.
 4. The system validates your key in session memory and switches the telemetry badges to <span style="color:green">Live Data</span>.
