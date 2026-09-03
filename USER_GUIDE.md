@@ -49,14 +49,25 @@ The main dashboard presents an aggregated view of your enterprise's IT health.
 ### Key Performance Indicators (KPIs)
 At the top of the dashboard, you will find real-time KPI metrics assessing:
 *   **Idle SaaS Capital:** Wasted spend on unused licenses.
+
+    ![Idle SaaS Capital](./assets/screenshots/kpi-idle-saas-capital.png)
+
 *   **Support Ticket Surge:** Volume of active ITSM escalations.
+
+    ![Support Ticket Surge](./assets/screenshots/kpi-itsm-ticket-surge.png)
+
 *   **Hardware Degradation:** Fleet health and end-of-life device counts.
+
+    ![Hardware Degradation](./assets/screenshots/kpi-hardware-degradation.png)
 
 <br>
 
 ### Interactive Telemetry Scenarios
 You can filter the data visualizations using the left-hand **Scenario Navigation** bar:
 *   **SaaS FinOps (Okta/Figma/Zoom):** Visualizes license utilization versus spend.
+
+    ![SaaS FinOps Telemetry](./assets/screenshots/saas-finops-telemetry.png)
+
 *   **Hardware Lifecycle (Jamf):** Maps battery degradation and OS compliance.
 
     ![Hardware Lifecycle (Jamf)](./assets/screenshots/hardware-lifecycle-jamf.png)
