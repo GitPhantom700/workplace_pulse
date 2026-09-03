@@ -251,11 +251,24 @@ By default, the platform runs with a resilient multi-client ladder. To test with
 <br>
 <br>
 
-5. **Ask Grounded Operational Questions:** Type an inquiry into the chat box (e.g., *"Can you forecast Zoom pro demand for the next three months?"*) or select a suggested prompt pill. Gemini analyzes the active telemetry context to deliver a structured assessment with actionable recommendations.
+5. **Ask Grounded Operational Questions:** Type an inquiry into the chat box (e.g., *"Can you forecast Zoom pro demand for the next three months?"*) or select a suggested prompt pill. Gemini analyzes the active telemetry context in real time.
 
 <br>
 
-![Gemini Copilot Query Example](./assets/screenshots/copilot-query-example.png)
+*Submitting your inquiry and streaming AI inference state:*
+
+<br>
+
+![Gemini Copilot Query - Thinking](./assets/screenshots/copilot-query-thinking.png)
+
+<br>
+<br>
+
+*Structured FinOps demand forecast and recommendations response:*
+
+<br>
+
+![Gemini Copilot Query - Completed Assessment](./assets/screenshots/copilot-query-response.png)
 
 <br>
 <br>
