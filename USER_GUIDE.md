@@ -255,20 +255,9 @@ By default, the platform runs with a resilient multi-client ladder. To test with
 
 <br>
 
-*Submitting your inquiry and streaming AI inference state:*
-
-<br>
-
-![Gemini Copilot Query - Thinking](./assets/screenshots/copilot-query-thinking.png)
-
-<br>
-<br>
-
-*Structured FinOps demand forecast and recommendations response:*
-
-<br>
-
-![Gemini Copilot Query - Completed Assessment](./assets/screenshots/copilot-query-response.png)
+| 1. Submitting Inquiry (Thinking State) | 2. Completed FinOps Telemetry Assessment |
+| :---: | :---: |
+| ![Gemini Copilot Query - Thinking](./assets/screenshots/copilot-query-thinking.png) | ![Gemini Copilot Query - Completed Assessment](./assets/screenshots/copilot-query-response.png) |
 
 <br>
 <br>
