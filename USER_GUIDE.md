@@ -414,6 +414,14 @@ WorkplacePulse autonomously bridges predictive intelligence into your team's eve
 <br>
 
 3. Outgoing alert notifications sent to Slack, Teams, or Discord are formatted as interactive rich cards (with buttons and impact metrics) and cryptographically signed with an `X-Pulse-Signature: sha256=<hex>` HMAC-SHA256 header for enterprise security verification.
+
+<br>
+
+<img src="./assets/screenshots/webhook-test-ping-success.png" width="560" alt="Webhook Test Ping Dispatch & Audit" />
+
+<br>
+<br>
+
 4. Inspect the **Delivery Audit Trail** to view execution timestamps and HTTP delivery response codes.
 5. Use the **Simulation Mode** tab to test payload delivery.
 
