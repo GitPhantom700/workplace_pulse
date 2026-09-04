@@ -22,7 +22,7 @@ Thank you for your interest in contributing to **WorkplacePulse**! We welcome bu
 
 ## 📜 Coding Guidelines
 
-* **Python 3.11+:** Adhere to Google Python Style Guide with strict type hints.
+* **Python 3.9+ (3.11 in production):** Adhere to Google Python Style Guide with strict type hints. The production container runs `python:3.11-slim` and CI targets 3.11; the bundled local virtualenv is 3.9.
 * **Zero Hardcoded Secrets:** Always utilize Cloud Secret Manager or environment variables. Never commit credentials.
 * **Hermetic Tests:** Ensure all new features have unit and contract tests in `tests/`.
 
