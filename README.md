@@ -36,6 +36,7 @@
 * [🏛️ **System Architecture & Google Cloud Stack**](#️-system-architecture--google-cloud-stack)
 * [🏆 **"Accelerate AI with Cloud Run" Compliance Matrix**](#-accelerate-ai-with-cloud-run-compliance-matrix)
 * [🌟 **Standout Features: Autonomous Runbooks & Webhooks**](#-standout-features-autonomous-runbooks--multi-platform-webhook-engine)
+* [🧠 **Custom AI Instructions & Grounding Architecture**](#-custom-ai-instructions--grounding-architecture)
 * [📊 **Available Scenario Presets & Synthetic Telemetry**](#-available-scenario-presets--synthetic-telemetry)
 * [⚙️ **Environment Configuration (`.env`)**](#️-environment-configuration-env)
 * [🧪 **Automated Testing & Verification Suite**](#-automated-testing--verification-suite)
@@ -361,6 +362,64 @@ To satisfy enterprise operational demands, WorkplacePulse integrates an automate
 * **Discord Rich Embeds**: Generates rich Discord webhook embeds with color-coded severity bars and timestamped audit details.
 * **Microsoft Teams Cards**: Outputs Office 365 Connector card payloads with structured sections.
 * **Generic HMAC-SHA256 Webhooks**: Signs outbound payloads with an `X-Pulse-Signature: sha256=<hex>` header for zero-trust integration with custom enterprise SIEMs, Splunk, or PagerDuty.
+
+<br>
+
+---
+
+<br>
+
+## 🧠 Custom AI Instructions & Grounding Architecture
+
+To guarantee deterministic financial and operational analysis, WorkplacePulse rejects generic conversational prompting in favor of a **domain-scoped, programmatically grounded AI architecture** defined in `ai_service.py` and `data_engine.py`:
+
+<br>
+
+### 1. Specialized Persona Engineering (`ai_service.py`)
+Rather than utilizing a single monolithic system prompt, WorkplacePulse enforces strict operational role boundaries through four discrete personas:
+* **`SAAS_FINOPS_PERSONA`**: Senior IT FinOps Analyst scoped to Okta Universal Directory login telemetry, SaaS seat utilization metrics, automated SCIM 2.0 role transitions, and annual software contract renewals.
+* **`HARDWARE_LIFECYCLE_PERSONA`**: Enterprise Endpoint Engineering Architect scoped to Jamf Pro MDM hardware health, thermal degradation, battery cycle thresholds (>800 cycles), warranty expirations, and fleet CapEx refresh forecasting.
+* **`ITSM_SURGE_PERSONA`**: IT Service Management (ITSM) Operations Lead scoped to Jira Service Management / ServiceNow incident queues, Month-End Financial Close access bottlenecks, Mean Time to Resolution (MTTR), and shift-staffing models.
+* **`SUPPORT_PERSONA` (Alex)**: Senior Support AI Specialist scoped to platform onboarding, identity verification troubleshooting, support ticket dispatch, and cross-module guidance.
+
+*Why Role Separation Matters:* In multi-pillar enterprise platforms, monolithic system prompts blur domain vocabulary—causing ITSM queues to be misanalyzed with FinOps formulas or hardware safety hazards to be treated as software licenses. Discrete persona prompts guarantee domain-appropriate reasoning and vocabulary.
+
+<br>
+
+### 2. Programmatic Grounding Context (`data_engine.py`)
+To prevent hallucinations, the platform dynamically generates serialized telemetry payloads for every monitored entity:
+* **`saas_finops` (~2,052 characters / ~410 tokens):** Programmatically iterates through all 7 monitored SaaS applications (`Figma Enterprise`, `Zoom Pro`, `GitHub Enterprise`, `Notion Team`, `Salesforce Sales Cloud`, `Miro Business`, `Datadog Infrastructure`), injecting exact totals, 30-day active logins, >60-day dormant seats, unit costs, annualized potential waste, utilization percentages, and Okta SSO configuration states.
+* **`hardware_lifecycle` (~1,475 characters / ~295 tokens):** Programmatically iterates through all 4 hardware fleet models (`MacBook Pro 13"`, `MacBook Pro 14"`, `MacBook Pro 16"`, `Dell XPS 15`), detailing unit counts, battery-critical devices (>800 cycles), warranty expirations, projected Q4 failures, replacement budgets, and Jamf compliance percentages.
+* **`itsm_surge` (~1,731 characters / ~346 tokens):** Programmatically iterates through all 5 incident queues (`Financial Close & ERP Access`, `SSO & MFA`, `Hardware Swaps`, `Software Provisioning`, `eDiscovery`), detailing baseline volumes, projected month-end surge spikes, open backlogs, MTTR hours, escalation risk scores, and root-cause bottlenecks.
+
+> [!NOTE]
+> **Architectural Evolution:** Early prototypes used a 5-line prose summary naming only Figma and Notion. When queried about GitHub or Datadog, the model had no telemetry to ground on and extrapolated ungrounded figures. Replacing narrative summaries with full programmatic serialization across all items resolved this completely while keeping the grounding payload compact (<2,100 characters / <450 tokens).
+
+<br>
+
+### 3. Anti-Fabrication & Strict Grounding Directives
+Every persona and system instruction contains an explicit `STRICT GROUNDING DIRECTIVE` and `STRICT ANTI-FABRICATION DIRECTIVE`:
+* **Zero Numeric Extrapolation:** The model is strictly prohibited from inventing, estimating, or calculating license counts, hardware quantities, failure rates, ticket volumes, or financial figures absent from the grounding telemetry.
+* **Explicit Unmonitored Refusal:** If a user queries an unmonitored vendor or tool (e.g., *"What is our Slack Enterprise waste?"*), the model is instructed to state plainly and directly that the application is not in the monitored dataset rather than fabricating metrics.
+* **No Leading Caveats:** Models must answer directly with quantified analysis rather than leading with generic disclaimers or apologies, preserving executive clarity.
+
+<br>
+
+### 4. Validated Recommendation Pipeline (`main.py`)
+For board-ready executive summaries (`/api/forecast/recommendations`), the backend builds numerical constraints programmatically from `ScenarioDataPayload` and executes deterministic programmatic verification via `_validate_recommendations()`:
+* **Schema Enforcement (All Scenarios):** Validates that exactly 3 recommendations are generated across all three scenarios, each conforming to the required schema (`tag`, `tagColor`, `title`, `desc`, `impact`, `impactColor`, `actionText`).
+* **Financial Ceiling Assertion (`saas_finops`):** For the SaaS FinOps scenario, regex-parses all monetary values in the generated `impact` fields and asserts that total claimed savings do not exceed `MAX_FINOPS_RECOVERY_PCT` (75% of total identified waste in the active telemetry). Non-monetary scenarios (`hardware_lifecycle`, `itsm_surge`) are validated against their respective operational metrics and schema structure.
+* **Honest Provenance Tagging:** If dynamic inference fails validation or formatting checks, the backend falls back to calibrated static defaults and returns `"is_live": false` with `"source": "static_fallback"`, guaranteeing the UI never presents unverified AI outputs as live telemetry.
+
+<br>
+
+### 5. Multi-Tier Model Fallback Ladder
+Live AI generation routes through the cascading multi-tier model fallback ladder documented in the [Compliance Matrix](#-accelerate-ai-with-cloud-run-compliance-matrix) (`gemini-3.5-flash-lite` → `gemini-flash-lite-latest` → `gemini-flash-latest` → `gemini-3.6-flash` → Vertex AI `gemini-2.5-flash`/`gemini-2.5-pro` → dynamic simulation fallback).
+
+<br>
+
+### 6. Development Tooling
+This project and its programmatic AI architecture were developed using **Google Antigravity**, with system prompts, grounding context serializers, and validation guardrails engineered directly in Python source code (`ai_service.py`, `data_engine.py`, `main.py`).
 
 <br>
 
