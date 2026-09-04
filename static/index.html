@@ -1532,44 +1532,58 @@
         function updateKpiTiles(scenarioId, data = null) {
             let tiles = [];
 
+            const safeNum = (val, fallback = 0) => {
+                const n = Number(val);
+                return (!isNaN(n) && isFinite(n)) ? n : fallback;
+            };
+
             if (scenarioId === 'saas_finops' && data && data.saas_metrics && data.saas_metrics.length > 0) {
-                const totalWaste = data.saas_metrics.reduce((acc, m) => acc + (m.annual_projected_waste_usd || 0), 0);
-                const totalInactive = data.saas_metrics.reduce((acc, m) => acc + (m.inactive_seats || 0), 0);
-                const sortedApps = [...data.saas_metrics].sort((a, b) => (b.annual_projected_waste_usd || 0) - (a.annual_projected_waste_usd || 0));
-                const topApp = sortedApps[0] || { app_name: 'Figma', annual_projected_waste_usd: 58500 };
-                const topAppShort = topApp.app_name.split(' ')[0];
+                const totalWaste = data.saas_metrics.reduce((acc, m) => acc + safeNum(m.annual_potential_savings), 0);
+                const totalInactive = data.saas_metrics.reduce((acc, m) => acc + safeNum(m.inactive_60d_plus), 0);
+                const sortedApps = [...data.saas_metrics].sort((a, b) => safeNum(b.annual_potential_savings) - safeNum(a.annual_potential_savings));
+                const topApp = sortedApps[0] || { app_name: 'Figma', annual_potential_savings: 58500, inactive_60d_plus: 65 };
+                const topAppShort = (topApp.app_name || 'Figma').split(' ')[0];
+                const topAppWaste = safeNum(topApp.annual_potential_savings, 58500);
+                const topAppInactive = safeNum(topApp.inactive_60d_plus, 65);
 
                 tiles = [
                     { label: 'Idle SaaS Capital',  value: `$${Math.round(totalWaste).toLocaleString('en-US')}`, sub: 'Wasted spend on unused licenses',       icon: '💸' },
                     { label: 'Inactive Seats',      value: `${totalInactive.toLocaleString('en-US')}`,           sub: 'Users idle 60+ days across all apps',   icon: '👤' },
-                    { label: 'Top Risk App',        value: topAppShort,                                  sub: `$${Math.round(topApp.annual_projected_waste_usd).toLocaleString('en-US')} annual waste · +35% trend`, icon: '⚠️' },
+                    { label: 'Top Risk App',        value: topAppShort,                                  sub: `$${Math.round(topAppWaste).toLocaleString('en-US')} annual waste · ${topAppInactive} idle seats`, icon: '⚠️' },
                 ];
             } else if (scenarioId === 'hardware_lifecycle' && data && data.hardware_metrics && data.hardware_metrics.length > 0) {
-                const totalFleet = data.hardware_metrics.reduce((acc, m) => acc + (m.total_units || 0), 0);
-                const totalBatteryCritical = data.hardware_metrics.reduce((acc, m) => acc + (m.battery_critical_units || 0), 0);
-                const totalProjectedFailures = data.hardware_metrics.reduce((acc, m) => acc + (m.projected_failures_next_quarter || 0), 0);
-                const totalCapex = data.hardware_metrics.reduce((acc, m) => acc + (m.estimated_replacement_budget_usd || 0), 0);
-                const sortedModels = [...data.hardware_metrics].sort((a, b) => (b.battery_critical_units || 0) - (a.battery_critical_units || 0));
-                const topModel = sortedModels[0] || { model_name: 'MacBook Pro 13"', battery_critical_units: 42 };
-                const topModelShort = topModel.model_name.replace(' (M1, 2020)', '').replace(' (Windows 11)', '');
+                const totalFleet = data.hardware_metrics.reduce((acc, m) => acc + safeNum(m.total_units), 0);
+                const totalBatteryCritical = data.hardware_metrics.reduce((acc, m) => acc + safeNum(m.battery_critical_units), 0);
+                const totalProjectedFailures = data.hardware_metrics.reduce((acc, m) => acc + safeNum(m.projected_failures_next_quarter), 0);
+                const totalCapex = data.hardware_metrics.reduce((acc, m) => acc + safeNum(m.estimated_replacement_budget_usd), 0);
+                const sortedModels = [...data.hardware_metrics].sort((a, b) => safeNum(b.battery_critical_units) - safeNum(a.battery_critical_units));
+                const topModel = sortedModels[0] || { model_name: 'MacBook Pro 13"', battery_critical_units: 42, total_units: 140, out_of_warranty_units: 140 };
+                const topModelShort = (topModel.model_name || 'MacBook Pro 13"').replace(' (M1, 2020)', '').replace(' (Windows 11)', '');
+                const topModelOowPct = safeNum(topModel.total_units) > 0 
+                    ? Math.round((safeNum(topModel.out_of_warranty_units) / topModel.total_units) * 100) 
+                    : 100;
+                const batteryPct = totalFleet > 0 ? ((totalBatteryCritical / totalFleet) * 100).toFixed(1) : '16.4';
 
                 tiles = [
-                    { label: 'Battery Critical',      value: `${totalBatteryCritical} units`,   sub: `${((totalBatteryCritical / totalFleet) * 100).toFixed(1)}% of fleet (>800 cycles)`, icon: '🔋' },
+                    { label: 'Battery Critical',      value: `${totalBatteryCritical} units`,   sub: `${batteryPct}% of fleet (>800 cycles)`, icon: '🔋' },
                     { label: 'Projected Q4 Failures', value: `${totalProjectedFailures} units`, sub: `$${Math.round(totalCapex).toLocaleString('en-US')} CapEx refresh budget required`, icon: '💻' },
-                    { label: 'Top Hazard Fleet',      value: topModelShort,                     sub: `${topModel.battery_critical_units} critical units · 100% OOW`, icon: '⚠️' },
+                    { label: 'Top Hazard Fleet',      value: topModelShort,                     sub: `${safeNum(topModel.battery_critical_units)} critical units · ${topModelOowPct}% OOW`, icon: '⚠️' },
                 ];
             } else if (scenarioId === 'itsm_surge' && data && data.itsm_metrics && data.itsm_metrics.length > 0) {
-                const totalNormal = data.itsm_metrics.reduce((acc, m) => acc + (m.historical_daily_avg || 0), 0);
-                const totalSurge = data.itsm_metrics.reduce((acc, m) => acc + (m.month_end_surge_daily_avg || 0), 0);
+                const totalNormal = data.itsm_metrics.reduce((acc, m) => acc + safeNum(m.historical_daily_avg), 0);
+                const totalSurge = data.itsm_metrics.reduce((acc, m) => acc + safeNum(m.month_end_surge_daily_avg), 0);
                 const surgePct = totalNormal > 0 ? Math.round(((totalSurge - totalNormal) / totalNormal) * 100) : 173;
-                const sortedQueues = [...data.itsm_metrics].sort((a, b) => (b.escalation_risk_score_1_to_10 || 0) - (a.escalation_risk_score_1_to_10 || 0));
+                const sortedQueues = [...data.itsm_metrics].sort((a, b) => safeNum(b.escalation_risk_score_1_to_10) - safeNum(a.escalation_risk_score_1_to_10));
                 const topQueue = sortedQueues[0] || { category: 'Financial Close & ERP Access', month_end_surge_daily_avg: 42, average_resolution_time_hrs: 3.8, escalation_risk_score_1_to_10: 9 };
-                const erpQueue = data.itsm_metrics.find(m => m.category.includes('ERP')) || topQueue;
+                const erpQueue = data.itsm_metrics.find(m => (m.category || '').includes('ERP')) || topQueue;
+                const mttrHrs = safeNum(erpQueue.average_resolution_time_hrs, 3.8);
+                const surgeVol = safeNum(erpQueue.month_end_surge_daily_avg, 42);
+                const riskScore = safeNum(erpQueue.escalation_risk_score_1_to_10, 9);
 
                 tiles = [
                     { label: 'Month-End Surge Volume', value: `${totalSurge}/day`,                       sub: `+${surgePct}% fleet-wide increase over ${totalNormal}/day baseline`, icon: '🎫' },
-                    { label: 'ERP Access MTTR',        value: `${erpQueue.average_resolution_time_hrs} hrs`, sub: 'Manual SOX dual-approval bottleneck', icon: '⏱️' },
-                    { label: 'Top Risk Queue',         value: 'ERP Access',                              sub: `${erpQueue.month_end_surge_daily_avg} tickets/day · Risk ${erpQueue.escalation_risk_score_1_to_10}/10`, icon: '🚨' },
+                    { label: 'ERP Access MTTR',        value: `${mttrHrs} hrs`,                           sub: 'Manual SOX dual-approval bottleneck', icon: '⏱️' },
+                    { label: 'Top Risk Queue',         value: 'ERP Access',                              sub: `${surgeVol} tickets/day · Risk ${riskScore}/10`, icon: '🚨' },
                 ];
             } else {
                 // Initial defaults matching data_engine.py fixtures before network resolution
@@ -1577,7 +1591,7 @@
                     saas_finops: [
                         { label: 'Idle SaaS Capital',  value: '$170,700', sub: 'Wasted spend on unused licenses',       icon: '💸' },
                         { label: 'Inactive Seats',      value: '482',      sub: 'Users idle 60+ days across all apps',   icon: '👤' },
-                        { label: 'Top Risk App',        value: 'Figma',    sub: '$58,500 annual waste · +35% trend',     icon: '⚠️' },
+                        { label: 'Top Risk App',        value: 'Figma',    sub: '$58,500 annual waste · 65 idle seats',  icon: '⚠️' },
                     ],
                     hardware_lifecycle: [
                         { label: 'Battery Critical',      value: '86 units', sub: '16.4% of fleet (>800 cycles)',       icon: '🔋' },
