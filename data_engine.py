@@ -116,12 +116,29 @@ def generate_saas_finops_scenario() -> ScenarioDataPayload:
         ]
     }
 
+    # NOTE: Telemetry list format ('  * {name} ({cat}): ...') is parsed by _generate_smart_simulation_response in ai_service.py.
+    # Keep this layout synchronized across both files if modified.
+    app_lines = []
+    for m in metrics:
+        sso_str = "Configured" if m.okta_sso_configured else "Not Configured"
+        app_lines.append(
+            f"  * {m.app_name} ({m.category}): {m.total_licenses} total licenses, "
+            f"{m.active_last_30d} active (last 30d), {m.inactive_60d_plus} inactive (>60d idle), "
+            f"${m.cost_per_seat_monthly:.2f}/seat/mo (${m.cost_per_seat_monthly * 12:.2f}/seat/yr), "
+            f"${m.annual_potential_savings:,.2f}/yr potential waste, "
+            f"Utilization: {m.utilization_rate_pct}%, Okta SSO: {sso_str}"
+        )
+    app_breakdown = "\n".join(app_lines)
+    total_inactive = sum(m.inactive_60d_plus for m in metrics)
+
     grounding_text = (
-        f"SYNTHETIC SAAS AUDIT TELEMETRY:\n"
+        f"SYNTHETIC SAAS AUDIT TELEMETRY (OKTA SSO & SCIM):\n"
         f"- Total Applications Monitored: {len(metrics)}\n"
+        f"- Total Inactive / Idle Seats Across Fleet: {total_inactive} seats\n"
         f"- Projected Annual License Waste Across Fleet: ${total_annual_waste:,.2f}\n"
-        f"- Highest Waste App: Figma Enterprise (65 inactive licenses = ${(65 * 75 * 12):,.2f}/yr) & Notion Team (140 inactive = ${(140 * 15 * 12):,.2f}/yr)\n"
-        f"- Okta SSO Coverage: 85% of core apps configured with SCIM automatic deprovisioning.\n"
+        f"- Highest Waste App: Figma Enterprise (65 inactive licenses = $58,500.00/yr)\n"
+        f"- Detailed Application Inventory & Metrics:\n{app_breakdown}\n"
+        f"- Targeted Remediation Runbook: 'Okta SCIM License Deprovisioner' (act_saas_reclaim_01) targets 365 idle seats across Figma (65), Zoom (160), and Notion (140) to reclaim $118,260.00/yr.\n"
         f"- Action Needed: Reclaim inactive licenses prior to upcoming Q4 annual contract renewals."
     )
 
@@ -180,12 +197,24 @@ def generate_hardware_lifecycle_scenario() -> ScenarioDataPayload:
         ]
     }
 
+    fleet_lines = []
+    for m in metrics:
+        fleet_lines.append(
+            f"  * {m.model_name} (OS: {m.os_version}): {m.total_units} units total, "
+            f"{m.battery_critical_units} battery critical (>800 cycles or <75% health), "
+            f"{m.out_of_warranty_units} out of warranty, {m.projected_failures_next_quarter} projected Q4 failures, "
+            f"${m.estimated_replacement_budget_usd:,.2f} replacement budget, Jamf Compliance: {m.jamf_compliance_rate_pct}%"
+        )
+    fleet_breakdown = "\n".join(fleet_lines)
+
     grounding_text = (
         f"SYNTHETIC HARDWARE FLEET & JAMF MDM TELEMETRY:\n"
         f"- Total Monitored Endpoints: {sum(m.total_units for m in metrics)} devices\n"
+        f"- Battery Critical Units (>800 cycles or capacity <75%): {sum(m.battery_critical_units for m in metrics)} units\n"
         f"- Projected Q4 Hardware Replacements Due to Battery Degradation/Aging: {sum(m.projected_failures_next_quarter for m in metrics)} units\n"
         f"- Estimated CapEx Refresh Budget Required: ${total_capex_required:,.2f}\n"
-        f"- Critical Cluster: 2020 M1 13-inch fleet has 30% battery degradation rate and 100% warranty expiration.\n"
+        f"- Detailed Hardware Fleet Inventory by Model:\n{fleet_breakdown}\n"
+        f"- Targeted Remediation Runbook: 'Jamf Pro Battery Quarantine & Depot Refresh' (act_hardware_quarantine_02) flags 42 MacBook Pro 13\" (M1) swelling units for depot refresh.\n"
         f"- Compliance Risk: Dell XPS fleet lagging in Jamf/Intune compliance at 88%."
     )
 
@@ -239,12 +268,25 @@ def generate_itsm_surge_scenario() -> ScenarioDataPayload:
         ]
     }
 
+    itsm_lines = []
+    for m in metrics:
+        itsm_lines.append(
+            f"  * {m.category}: {m.historical_daily_avg}/day baseline, "
+            f"{m.month_end_surge_daily_avg}/day month-end surge, {m.current_open_backlog} open backlog, "
+            f"{m.average_resolution_time_hrs} hrs MTTR, Escalation Risk: {m.escalation_risk_score_1_to_10}/10, "
+            f"Primary Bottleneck: {m.primary_bottleneck}"
+        )
+    itsm_breakdown = "\n".join(itsm_lines)
+
     grounding_text = (
         f"SYNTHETIC ITSM INCIDENT & SERVICE DESK TELEMETRY:\n"
         f"- Target Period: Upcoming Month-End Financial Close (Days -3 to +3)\n"
-        f"- Total Projected Surge Volume: ~{sum(m.month_end_surge_daily_avg for m in metrics)} tickets/day (vs {sum(m.historical_daily_avg for m in metrics)}/day normal)\n"
+        f"- Total Standard Baseline Volume: {sum(m.historical_daily_avg for m in metrics)} tickets/day\n"
+        f"- Total Projected Month-End Surge Volume: ~{sum(m.month_end_surge_daily_avg for m in metrics)} tickets/day (vs {sum(m.historical_daily_avg for m in metrics)}/day normal)\n"
         f"- High-Risk Incident Category: 'Financial Close & ERP Access' spikes 700% from 6 to 42 tickets/day with a 3.8-hour MTTR.\n"
+        f"- Detailed Incident Category Breakdown:\n{itsm_breakdown}\n"
         f"- Critical Bottleneck: SOX dual-approvals stall accounting workflows during reconciliation cutoff.\n"
+        f"- Targeted Remediation Runbook: 'Emergency SOX Fast-Track Dual-Signer Approval Matrix' (act_itsm_sox_fasttrack_03) activates 72h pre-approved workflow reducing Close MTTR from 3.8 hours to 12 minutes.\n"
         f"- Action Needed: Deploy pre-authorized emergency approval runbooks and allocate 2 dedicated Tier-2 shifts for Finance systems."
     )
 

@@ -47,6 +47,8 @@ SAAS_FINOPS_PERSONA = """
 You are a Senior IT FinOps Analyst AI for an enterprise organization.
 Your objective is to analyze Okta Single-Sign On (SSO) login telemetry and SaaS assigned license datasets to identify wasted spend and optimize annual contract renewals.
 Provide structured, highly analytical recommendations. Focus on concrete ROI and 'zombie' accounts (inactive > 60 days).
+- STRICT GROUNDING DIRECTIVE: You MUST answer numerical, inventory, and cost questions strictly using the exact figures provided in the GROUNDING TELEMETRY DATA below. NEVER invent, extrapolate, or fabricate license counts, active users, idle seats, seat costs, or dollar amounts not present in the telemetry.
+- If asked about an application, software product, or vendor that is not in the telemetry data (e.g., Slack, Asana, AWS), explicitly and plainly state that it is not present in the active monitored telemetry dataset, rather than inventing figures.
 """
 
 # Task 19
@@ -54,6 +56,8 @@ ITSM_SURGE_PERSONA = """
 You are a seasoned IT Service Management (ITSM) Operations Lead.
 Your objective is to analyze ServiceNow/Jira incident queues and predict service desk bottlenecks, especially during high-stress periods like Month-End Financial Close.
 Focus on Mean Time to Resolution (MTTR), SLA risks, and proactive shift-staffing recommendations.
+- STRICT GROUNDING DIRECTIVE: You MUST answer numerical, ticket volume, MTTR, and bottleneck questions strictly using the exact figures provided in the GROUNDING TELEMETRY DATA below. NEVER invent, extrapolate, or fabricate ticket volumes, resolution hours, risk scores, or queue categories not present in the telemetry.
+- If asked about a queue, category, or workflow not in the telemetry data, explicitly and plainly state that it is not present in the active incident dataset.
 """
 
 # Task 20
@@ -61,6 +65,8 @@ HARDWARE_LIFECYCLE_PERSONA = """
 You are an Enterprise Endpoint Engineering Architect.
 Your objective is to analyze Jamf Pro / Intune mobile device management (MDM) hardware health telemetry. 
 Focus on identifying battery swelling risks (cycle counts > 800), warranty expiration exposures, and forecasting the required CapEx budget for upcoming hardware refresh cycles.
+- STRICT GROUNDING DIRECTIVE: You MUST answer numerical, inventory, and cost questions strictly using the exact figures provided in the GROUNDING TELEMETRY DATA below. NEVER invent, extrapolate, or fabricate device counts, battery degradation metrics, failure rates, warranty states, or CapEx figures not present in the telemetry.
+- If asked about a device model or hardware asset not in the telemetry data, explicitly and plainly state that it is not present in the active monitored fleet dataset.
 """
 
 SUPPORT_PERSONA = """
@@ -102,12 +108,13 @@ def _build_system_instruction(scenario_id: str, grounding_context: str) -> str:
 
     guidance_rules = (
         "\n[CONVERSATIONAL & GUIDANCE DIRECTIVES]\n"
-        "1. Directly and immediately answer the operational inquiry with deep, quantified financial analytics, tables, and next actions referencing the telemetry data.\n"
-        "2. Never lead with disclaimers, preamble, or generic caveats. Focus 100% on delivering high-value business insights.\n"
-        "3. If the user query is vague, generic, or non-contextual (e.g., 'what do you do?', 'what is happening today?', 'help me', 'tell me something', 'what is this?'), "
+        "1. Directly answer the operational inquiry with deep, quantified financial analytics, tables, and next actions referencing the exact figures from the telemetry data.\n"
+        "2. STRICT ANTI-FABRICATION DIRECTIVE: Never invent, extrapolate, or calculate numerical figures for applications, devices, or categories absent from the grounding context. If the user asks about an item not present in the telemetry (e.g., Slack, Asana, AWS, unlisted hardware models), state plainly and directly that it is not present in the active monitored telemetry dataset, rather than fabricating figures.\n"
+        "3. Never lead with disclaimers, preamble, apologies, or generic caveats. Deliver high-value business insights immediately.\n"
+        "4. If the user query is vague, generic, or non-contextual (e.g., 'what do you do?', 'what is happening today?', 'help me', 'tell me something', 'what is this?'), "
         "politely introduce your specialized role for this module and advise the user on how to prompt effectively, offering 3 to 4 concrete, actionable example prompts.\n"
-        "4. Always format your output with clean Markdown bolding, tables, bullet points, and headers.\n"
-        "5. DISCLAIMER: State clearly if asked that this is a synthetic forecast based on simulated parameters.\n"
+        "5. Always format your output with clean Markdown bolding, tables, bullet points, and headers.\n"
+        "6. DISCLAIMER: State clearly if asked that this is a synthetic forecast based on simulated parameters.\n"
     )
 
     return f"{persona}{security_guardrails}\n[GROUNDING TELEMETRY DATA:]\n{grounding_context}\n{guidance_rules}"
@@ -203,8 +210,34 @@ def _generate_smart_simulation_response(scenario_id: str, user_message: str, gro
     # If data_engine.py fixtures are updated, ensure these fallback strings are kept in sync.
 
     if scenario_id == "saas_finops":
-        # 1. Slack / Alert / Block Kit (Specific check FIRST)
-        if any(w in msg_low for w in ["slack", "notification", "block", "kit", "alert", "json"]):
+        # Check if query targets a specific monitored application dynamically from grounding_context.
+        # NOTE: Matches the '  * {name} ({cat}): ...' line format generated in data_engine.py. Keep in sync.
+        for line in grounding_context.splitlines():
+            line_str = line.strip()
+            if line_str.startswith("* ") and "(" in line_str and ":" in line_str:
+                app_part = line_str[2:].split("(")[0].strip()
+                if app_part.lower() in msg_low:
+                    return (
+                        f"### 📊 {app_part} Telemetry & Utilization Audit\n\n"
+                        f"Based on real-time **Okta Universal Directory** telemetry for **{app_part}**:\n\n"
+                        f"- {line_str[2:]}\n\n"
+                        f"You can trigger automated SCIM deprovisioning or role transition directly from the **SaaS FinOps** dashboard."
+                    )
+
+        # Unmonitored application inquiry (e.g., Slack)
+        if "slack" in msg_low and not any(w in msg_low for w in ["block", "kit", "webhook", "dispatch", "payload", "channel", "alert"]):
+            monitored_apps = [
+                l.strip()[2:].split("(")[0].strip()
+                for l in grounding_context.splitlines()
+                if l.strip().startswith("* ") and "(" in l
+            ]
+            app_list_str = ", ".join(monitored_apps) if monitored_apps else "monitored enterprise integrations"
+            return (
+                f"**Slack Enterprise** is not present in the active monitored SaaS telemetry dataset. "
+                f"The current fleet monitors: {app_list_str}."
+            )
+        # 1. Slack / Alert / Block Kit (Specific check)
+        elif any(w in msg_low for w in ["notification", "block kit", "alert payload", "dispatch", "hmac"]) or ("slack" in msg_low and any(w in msg_low for w in ["alert", "payload", "block", "kit", "webhook"])):
             return (
                 "Here is the formatted Slack Block Kit alert payload for the **SaaS FinOps** incident:\n\n"
                 "```json\n"
@@ -229,7 +262,7 @@ def _generate_smart_simulation_response(scenario_id: str, user_message: str, gro
                 "Dispatched to registered enterprise Slack channels with **HMAC-SHA256** signature validation."
             )
         # 2. Runbook / Risk Mitigation Policy
-        elif any(w in msg_low for w in ["runbook", "mitigat", "policy", "scim", "deprovision", "step", "how"]):
+        elif any(w in msg_low for w in ["runbook", "mitigat", "scim", "deprovision"]) or ("remediat" in msg_low and "how" in msg_low):
             return (
                 "### 📄 ITIL Automated Remediation Runbook: SaaS FinOps\n\n"
                 "**Runbook ID:** `RBK-SAAS-FINOPS-2026`  \n"
