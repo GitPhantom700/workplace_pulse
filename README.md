@@ -515,7 +515,7 @@ gcloud run deploy workplace-pulse-app \
 
 * **Multi-Tenant Data Isolation (SOC 2 CC6.2):** All Firestore persistence operations are strictly scoped under `/users/{uid}/*` based on validated Firebase Auth Bearer JWTs. The underlying Firestore database operates in locked default-deny mode against direct untrusted client connections.
 * **Secret Management (SOC 2 CC6.3):** Zero hardcoded credentials. All server-side API keys and credentials are dynamically resolved at runtime from Google Cloud Secret Manager via Application Default Credentials (ADC).
-* **Rate Limiting Notice:** Per-UID application-layer rate limiting on `/api/forecast/chat` is not implemented. Guest sign-in issues unlimited Firebase tokens, so a determined user could exhaust the server-side Gemini quota. This deployment mitigates that with a Cloud Run max-instance cap and an API quota ceiling; per-user throttling is the correct next step.
+* **Rate Limiting Notice:** Per-UID application-layer rate limiting on `/api/forecast/chat` is not implemented. Guest sign-in issues unlimited Firebase tokens, so a determined user could exhaust the server-side Gemini quota. This deployment mitigates that with a Cloud Run max-instance cap, and the Gemini API free tier imposes its own per-model daily request ceiling; per-user throttling is the correct next step.
 * **Local Development Runtime:** The bundled virtualenv targets Python 3.9 while the production container runs `python:3.11-slim`. The hermetic test suite passes locally on 3.9 and in CI on 3.11; aligning local tooling to 3.11 is a known next step.
 
 <br>
