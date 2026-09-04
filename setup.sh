@@ -126,7 +126,7 @@ setup_env() {
             echo "PORT=8080" >> .env
             echo "DEMO_MODE=true" >> .env
             echo "GEMINI_API_KEY=" >> .env
-            echo "GOOGLE_CLOUD_PROJECT=workplace-pulse-dev" >> .env
+            echo "GOOGLE_CLOUD_PROJECT=your-gcp-project-id" >> .env
             echo "ALLOWED_ORIGINS=http://localhost:8080,http://127.0.0.1:8080" >> .env
             echo "WEBHOOK_SIGNING_SECRET=pulse_dev_webhook_signing_secret" >> .env
             log_success "Generated default .env file."

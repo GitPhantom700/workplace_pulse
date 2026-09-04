@@ -77,8 +77,9 @@ If you are exploring this application, here is the fastest way to experience all
 
 <br>
 
-5. **📑 Generate a Board-Ready Executive Report (Sidebar > Executive Report):**
-   * Click **`Executive Report`** and click **`⬇️ Download PDF`** to generate a pre-formatted C-suite report containing Chart.js graphs, AI recommendations, and audit logs.
+5. **📑 Generate a Board-Ready Executive Report (Runbook Terminal > View Executive Report):**
+   * Click **`Execute Runbook & Dispatch Alert`** on any scenario (e.g., SaaS FinOps), then click **`📄 View Executive Report`** in the Sentinel Execution Log Stream header.
+   * Review the dynamic post-mortem report (complete with Chart.js telemetry charts, Gemini AI strategic recommendations, and SOC 2 CC6.1–CC6.3 compliance evidence), then click **`🖨️ Print / PDF`** or **`📥 Download (.md)`** to export an audit-ready artifact.
 
 <br>
 
@@ -98,10 +99,11 @@ To protect corporate data and ensure 100% deterministic testability without requ
                                                                        |
 [Jamf Pro MDM Telemetry]    ---> Battery cycle count (>800)   ---> CapEx Replacement
 [Jira Service Management]   ---> MTTR & Month-End Backlogs    ---> SLA Risk Scoring
-                                                                                                   [Serialized Grounding Context]
-                                                                        |
-                                                                        v
-                                                   [Google Gemini 3.5 Flash Lite / Fallback Copilot]
+                                                                       |
+                                                        [Serialized Grounding Context]
+                                                                       |
+                                                                       v
+                                               [Google Gemini 3.5 Flash Lite / Fallback Copilot]
 ```
 
 <br>
@@ -122,7 +124,7 @@ To protect corporate data and ensure 100% deterministic testability without requ
 
 ### 3. ITSM Incident Surge Model (`itsm_surge`)
 * **Real-World Equivalent:** ServiceNow / Jira Service Management incident queues.
-* **Formulas:** +42% ticket surge modeling during Month-End close cutoff, Mean Time to Resolution (MTTR) risk scoring ($1\text{–}10$), and SOX dual-approval bottleneck discovery.
+* **Formulas:** +173% fleet-wide surge modeling (48 → 131 tickets/day) and 700% spike in the ERP queue specifically (6 → 42 tickets/day), Mean Time to Resolution (MTTR) risk scoring (3.8 hrs ERP baseline), and SOX dual-approval bottleneck discovery.
 * **Autonomous Remediation:** Pre-stages Tier-2 Identity Engineers and triggers temporary emergency RBAC bypass runbooks.
 
 <br>
@@ -198,7 +200,7 @@ WorkplacePulse closes the operational loop with an **Autonomous Remediation & At
 <br>
 
 ### 📑 Executive Incident Post-Mortem Features:
-* **Official ITIL Attestation Banner:** Generates unique tracking reference IDs (`INC-SAAS-928411`) with exact UTC completion timestamps.
+* **Official ITIL Attestation Banner:** Generates unique tracking reference IDs (`INC-SAAS_FINOPS-368359`) with exact UTC completion timestamps.
 * **SOC 2 Type II Trust Services Criteria Table:** Automatically certifies compliance evidence across `SOC2-CC6.1` (IAM & Auth), `SOC2-CC6.2` (Multi-Tenant Data Isolation & ADC Scoping), and `SOC2-CC6.3` (Secret Protection).
 * **AI-Driven Strategic Recommendations:** Features Gemini AI strategic policies and one-click `⚡ Apply Policy` controls.
 * **Multi-Modal Export:** Export audit-ready reports instantly as formatted Markdown (`.md`) or print-optimized executive PDFs.
@@ -222,7 +224,7 @@ cd workplace_pulse
 chmod +x setup.sh
 ./setup.sh
 ```
-Open **[http://localhost:8080](http://localhost:8080)** in your browser. The dashboard automatically boots with an active Google SSO session simulation and interactive synthetic telemetry!
+Open **[http://localhost:8080](http://localhost:8080)** in your browser. The dashboard loads with interactive synthetic telemetry and charts immediately visible; click **Continue as Guest** (or **Sign in with Google**) in the top header to enable the Gemini Copilot, Runbook execution, and Webhook dispatching!
 
 <br>
 
@@ -323,7 +325,7 @@ sequenceDiagram
 
 ## 🏆 "Accelerate AI with Cloud Run" Compliance Matrix
 
-WorkplacePulse is built from the ground up to exceed all criteria of the [Google Cloud GenAI Academy — Accelerate AI with Cloud Run Challenge](https://hack2skill.com/event/apac-genaiacademy?tab=cohort3&utm_source=hack2skill&utm_medium=homepage):
+The table below maps each challenge requirement of the [Google Cloud GenAI Academy — Accelerate AI with Cloud Run Challenge](https://hack2skill.com/event/apac-genaiacademy?tab=cohort3&utm_source=hack2skill&utm_medium=homepage) to its architectural implementation and source files:
 
 <br>
 
@@ -348,7 +350,7 @@ To satisfy enterprise operational demands, WorkplacePulse integrates an automate
 <br>
 
 ### 1. Pre-Built Autonomous Runbook Catalog (`runbook_service.py`)
-* **`act_saas_reclaim_01` (Okta SCIM License Deprovisioner)**: Automatically queries Okta SSO access logs, identifies 90-day inactive SaaS seats (Figma, Salesforce, Zoom), schedules automated deprovisioning, and yields immediate CapEx/OpEx savings.
+* **`act_saas_reclaim_01` (Okta SCIM License Deprovisioner)**: Automatically queries Okta SSO access logs, identifies >60-day inactive SaaS seats across Figma, Zoom, and Notion, revokes provisioned entitlements via SCIM 2.0 without disrupting document access, and recovers up to $118,260.00/yr in recurring waste.
 * **`act_hardware_quarantine_02` (Jamf Pro MDM Maintenance)**: Scans MDM telemetry for battery degradation (cycles >800) and warranty expiration, automatically places degraded devices into maintenance quarantine, and submits bulk hardware refresh purchase orders.
 * **`act_itsm_sox_fasttrack_03` (Emergency SOX Bypass for ITSM Surge)**: Forecasts month-end ERP access bottlenecks, generates pre-approved temporary role-based access control (RBAC) tokens, and logs append-only audit trails for compliance.
 
@@ -402,9 +404,9 @@ cp .env.example .env
 | `PORT` | Uvicorn server HTTP binding port | `8080` | Dynamic `$PORT` (injected by Cloud Run) |
 | `DEMO_MODE` | Enables instant authenticated sandbox mode without live Firebase | `true` | `false` |
 | `GEMINI_API_KEY` | Google AI Studio API key (local fallback) | *(empty / sandbox)* | Managed via Cloud Secret Manager |
-| `GOOGLE_CLOUD_PROJECT` | GCP Project ID for Secret Manager & Firestore | `workplace-pulse-dev` | `$GOOGLE_CLOUD_PROJECT` |
-| `GCP_PROJECT_ID` | Alias for GCP Project ID | `workplace-pulse-dev` | `$GOOGLE_CLOUD_PROJECT` |
-| `FIREBASE_PROJECT_ID` | Firebase Project ID linked to GCP | `workplace-pulse-dev` | `$FIREBASE_PROJECT_ID` |
+| `GOOGLE_CLOUD_PROJECT` | GCP Project ID for Secret Manager & Firestore | `your-gcp-project-id` | `workplacepulse` |
+| `GCP_PROJECT_ID` | Alias for GCP Project ID | `your-gcp-project-id` | `workplacepulse` |
+| `FIREBASE_PROJECT_ID` | Firebase Project ID linked to GCP Auth | `your-firebase-project-id` | `workplacepulse-dev` |
 | `ALLOWED_ORIGINS` | Comma-separated list of allowed CORS origins | `http://localhost:8080,http://127.0.0.1:8080` | Cloud Run service domain URL |
 | `WEBHOOK_SIGNING_SECRET` | Secret key used for HMAC-SHA256 webhook signatures | `pulse_dev_webhook_signing_secret` | Secure high-entropy random string |
 | `FIRESTORE_EMULATOR_HOST`| Local Firestore emulator host (e.g. `localhost:8085`) | *(commented out)* | *(unused in production)* |
@@ -514,6 +516,7 @@ gcloud run deploy workplace-pulse-app \
 * **Multi-Tenant Data Isolation (SOC 2 CC6.2):** All Firestore persistence operations are strictly scoped under `/users/{uid}/*` based on validated Firebase Auth Bearer JWTs. The underlying Firestore database operates in locked default-deny mode against direct untrusted client connections.
 * **Secret Management (SOC 2 CC6.3):** Zero hardcoded credentials. All server-side API keys and credentials are dynamically resolved at runtime from Google Cloud Secret Manager via Application Default Credentials (ADC).
 * **Rate Limiting Notice:** Per-UID application-layer rate limiting on `/api/forecast/chat` is not implemented. Guest sign-in issues unlimited Firebase tokens, so a determined user could exhaust the server-side Gemini quota. This deployment mitigates that with a Cloud Run max-instance cap and an API quota ceiling; per-user throttling is the correct next step.
+* **Local Development Runtime:** The bundled virtualenv targets Python 3.9 while the production container runs `python:3.11-slim`. The hermetic test suite passes locally on 3.9 and in CI on 3.11; aligning local tooling to 3.11 is a known next step.
 
 <br>
 
@@ -566,7 +569,7 @@ PORT=8081 docker compose up
 <br>
 
 ### Q3: Can I test the application without any Google Cloud project or billing?
-**Solution**: Yes! Leave `DEMO_MODE=true` in your `.env` file (the default). The application simulates authenticated user sessions, isolates mock data in memory, and allows exploring all scenarios and UI controls with zero setup.
+**Solution**: Yes! When running locally (`DEMO_MODE=true` in `.env`), you can explore all telemetry scenarios and data models with zero cloud configuration. To interact with protected features (Gemini Copilot, Runbook execution, Webhooks), click **Continue as Guest** in the top header to issue an instant Firebase anonymous session, or **Sign in with Google**.
 
 <br>
 

@@ -21,7 +21,7 @@ services:
       - ENV=development
       - DEMO_MODE=${DEMO_MODE:-true}
       - GEMINI_API_KEY=${GEMINI_API_KEY:-}
-      - GOOGLE_CLOUD_PROJECT=${GOOGLE_CLOUD_PROJECT:-workplace-pulse-dev}
+      - GOOGLE_CLOUD_PROJECT=${GOOGLE_CLOUD_PROJECT:-your-gcp-project-id}
       - ALLOWED_ORIGINS=http://localhost:8080,http://127.0.0.1:8080
       - WEBHOOK_SIGNING_SECRET=${WEBHOOK_SIGNING_SECRET:-pulse_dev_webhook_signing_secret}
       # To route to local firestore emulator if enabled:
