@@ -18,7 +18,7 @@
 
 ## 🌐 Live Production Deployment
 
-* **Live Cloud Run Application:** [https://workplace-pulse-app-996129350542.us-central1.run.app](https://workplace-pulse-app-996129350542.us-central1.run.app)
+* **Live Cloud Run Application:** [https://workplace-pulse-app-269979669794.us-central1.run.app](https://workplace-pulse-app-269979669794.us-central1.run.app)
 * **GitHub Source Repository:** [https://github.com/GitPhantom700/workplace_pulse](https://github.com/GitPhantom700/workplace_pulse)
 
 <br>
@@ -463,9 +463,9 @@ cp .env.example .env
 | `PORT` | Uvicorn server HTTP binding port | `8080` | Dynamic `$PORT` (injected by Cloud Run) |
 | `DEMO_MODE` | Enables instant authenticated sandbox mode without live Firebase | `true` | `false` |
 | `GEMINI_API_KEY` | Google AI Studio API key (local fallback) | *(empty / sandbox)* | Managed via Cloud Secret Manager |
-| `GOOGLE_CLOUD_PROJECT` | GCP Project ID for Secret Manager & Firestore | `your-gcp-project-id` | `workplacepulse` |
-| `GCP_PROJECT_ID` | Alias for GCP Project ID | `your-gcp-project-id` | `workplacepulse` |
-| `FIREBASE_PROJECT_ID` | Firebase Project ID linked to GCP Auth | `your-firebase-project-id` | `workplacepulse-dev` |
+| `GOOGLE_CLOUD_PROJECT` | GCP Project ID for Secret Manager & Firestore | `your-gcp-project-id` | `workplace-pulse-ch2026` |
+| `GCP_PROJECT_ID` | Alias for GCP Project ID | `your-gcp-project-id` | `workplace-pulse-ch2026` |
+| `FIREBASE_PROJECT_ID` | Firebase Project ID linked to GCP Auth | `your-firebase-project-id` | `workplace-pulse-ch2026` |
 | `ALLOWED_ORIGINS` | Comma-separated list of allowed CORS origins | `http://localhost:8080,http://127.0.0.1:8080` | Cloud Run service domain URL |
 | `WEBHOOK_SIGNING_SECRET` | Secret key used for HMAC-SHA256 webhook signatures | `pulse_dev_webhook_signing_secret` | Secure high-entropy random string |
 | `FIRESTORE_EMULATOR_HOST`| Local Firestore emulator host (e.g. `localhost:8085`) | *(commented out)* | *(unused in production)* |

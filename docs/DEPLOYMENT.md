@@ -166,13 +166,13 @@ gcloud run deploy workplace-pulse-app \
 
 **Expected Output:**
 ```text
-Deploying container to Cloud Run service [workplace-pulse-app] in project [workplacepulse] region [us-central1]
+Deploying container to Cloud Run service [workplace-pulse-app] in project [workplace-pulse-ch2026] region [us-central1]
 ✓ Deploying... Done.
   ✓ Creating Revision...
   ✓ Routing traffic...
 Done.
 Service [workplace-pulse-app] revision [workplace-pulse-app-XXXXX-XXX] has been deployed and is serving 100 percent of traffic.
-Service URL: https://workplace-pulse-app-996129350542.us-central1.run.app
+Service URL: https://workplace-pulse-app-269979669794.us-central1.run.app
 ```
 
 ### Deployment Flags Explained:

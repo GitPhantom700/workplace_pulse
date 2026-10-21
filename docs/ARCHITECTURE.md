@@ -2,20 +2,14 @@
 
 WorkplacePulse is an autonomous Enterprise IT Operations & Predictive FinOps Command Center deployed on Google Cloud Run.
 
-## Multi-Project Cloud Topology
+## Cloud Topology
 
-The enterprise deployment spans three specialized Google Cloud / Firebase projects to enforce principle of least privilege and strict boundary segregation:
+The deployment runs in a single Google Cloud project, `workplace-pulse-ch2026` (Project #`269979669794`), with Firebase attached to the same project so that ID tokens and the backend share one audience:
 
-1. **Google Cloud Project `workplacepulse` (Project #`996129350542`):**
-   * **Cloud Run:** Hosts the containerized FastAPI backend service (`workplace-pulse-app`) in `us-central1`.
-   * **Cloud Firestore (Native Mode):** Stores tenant-isolated audit logs, runbook execution histories, and webhook registries at `projects/workplacepulse/databases/(default)`.
-   * **Cloud Secret Manager:** Securely stores production secrets (`GEMINI_API_KEY`) accessed via runtime Application Default Credentials (ADC) by `996129350542-compute@developer.gserviceaccount.com`.
-
-2. **Firebase Project `workplacepulse-dev` (Project #`872061791801`):**
-   * **Firebase Authentication:** Handles enterprise Google OAuth 2.0 and Anonymous Guest identity verification, issuing signed Firebase ID tokens (JWTs).
-
-3. **Generative Language API Key (Project #`912878440808`):**
-   * Dedicated Google AI Studio key provisioned in Secret Manager for high-throughput production inference across the Gemini ladder.
+1. **Cloud Run:** Hosts the containerized FastAPI backend service (`workplace-pulse-app`) in `us-central1`.
+2. **Cloud Firestore (Native Mode):** Stores tenant-isolated audit logs, runbook execution histories, and webhook registries at `projects/workplace-pulse-ch2026/databases/(default)`.
+3. **Cloud Secret Manager:** Stores production secrets (`GEMINI_API_KEY`), read at runtime via Application Default Credentials (ADC) by `269979669794-compute@developer.gserviceaccount.com`.
+4. **Firebase Authentication:** Handles Google OAuth 2.0 and Anonymous Guest identity verification, issuing signed Firebase ID tokens (JWTs).
 
 ---
 
@@ -32,7 +26,7 @@ The enterprise deployment spans three specialized Google Cloud / Firebase projec
                           v                                                         v
              +---------------------------+                             +---------------------------+
              |   Firebase Auth Service   |                             |   Cloud Run Container     |
-             | (workplacepulse-dev)      |                             | (workplacepulse)          |
+             | (workplace-pulse-ch2026)  |                             | (workplace-pulse-ch2026)  |
              +-------------+-------------+                             +-------------+-------------+
                            | Bearer JWT                                              |
                            +---------------------------------------------------------+
