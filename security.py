@@ -20,8 +20,13 @@ logger = logging.getLogger("WorkplacePulse.Security")
 try:
     if not firebase_admin._apps:
         # Initializing without explicit creds forces Firebase to use ADC automatically
-        # Explicitly setting projectId to workplacepulse-dev to match the frontend's tokens
-        firebase_admin.initialize_app(options={'projectId': 'workplacepulse-dev'})
+        # Project ID must match the audience of the frontend's Firebase tokens
+        _firebase_project = (
+            os.environ.get("FIREBASE_PROJECT_ID")
+            or os.environ.get("GOOGLE_CLOUD_PROJECT")
+            or "workplace-pulse-ch2026"
+        )
+        firebase_admin.initialize_app(options={'projectId': _firebase_project})
 except Exception as e:
     logger.warning(f"Firebase Admin SDK initialization deferred or failed: {e}")
 

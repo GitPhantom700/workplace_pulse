@@ -783,7 +783,7 @@ def generate_multi_turn_forecast(
         except Exception as e:
             logger.warning(f"Failed to create API key client: {e}")
     try:
-        vertex_proj = os.environ.get("GOOGLE_CLOUD_PROJECT") or os.environ.get("GCP_PROJECT") or "workplacepulse"
+        vertex_proj = os.environ.get("GOOGLE_CLOUD_PROJECT") or os.environ.get("GCP_PROJECT") or "workplace-pulse-ch2026"
         clients_to_try.append(("VERTEX_AI", genai.Client(vertexai=True, project=vertex_proj, location="us-central1"), vertex_models))
     except Exception as e:
         logger.warning(f"Failed to create Vertex AI client: {e}")
