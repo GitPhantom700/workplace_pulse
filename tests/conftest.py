@@ -20,6 +20,8 @@ os.environ.setdefault("GEMINI_API_KEY", "test-mock-gemini-api-key-12345")
 os.environ.setdefault("DEMO_MODE", "true")
 os.environ.setdefault("GOOGLE_CLOUD_PROJECT", "test-pulse-project")
 os.environ.setdefault("ENV", "test")
+os.environ.setdefault("CHAT_RATE_PER_MIN", "0")
+os.environ.setdefault("CHAT_RATE_PER_DAY", "0")
 
 # ---------------------------------------------------------
 # Mock Classes for Hermetic Testing

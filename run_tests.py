@@ -23,6 +23,8 @@ os.environ["GEMINI_API_KEY"] = "test-mock-gemini-api-key-12345"
 os.environ["DEMO_MODE"] = "true"
 os.environ["GOOGLE_CLOUD_PROJECT"] = "test-pulse-project"
 os.environ["ENV"] = "test"
+os.environ["CHAT_RATE_PER_MIN"] = "0"
+os.environ["CHAT_RATE_PER_DAY"] = "0"
 
 # Import conftest to initialize mocks and fixtures
 import tests.conftest as conftest
@@ -41,6 +43,7 @@ TEST_MODULES = [
     ("Adversarial AI Service Resilience Tests", "tests.test_adversarial_ai_resilience"),
     ("Challenger 1: Adversarial Security & Webhook Verification", "tests.test_adversarial_security_and_webhooks"),
     ("Challenger 2: Multi-Tenant Isolation & Edge Cases", "tests.test_adversarial_multitenancy_and_edgecases"),
+    ("Per-User Rate Limiting Tests", "tests.test_rate_limit"),
 ]
 
 

@@ -467,6 +467,8 @@ cp .env.example .env
 | `GCP_PROJECT_ID` | Alias for GCP Project ID | `your-gcp-project-id` | `workplace-pulse-ch2026` |
 | `FIREBASE_PROJECT_ID` | Firebase Project ID linked to GCP Auth | `your-firebase-project-id` | `workplace-pulse-ch2026` |
 | `ALLOWED_ORIGINS` | Comma-separated list of allowed CORS origins | `http://localhost:8080,http://127.0.0.1:8080` | Cloud Run service domain URL |
+| `CHAT_RATE_PER_MIN` | Per-user Gemini requests allowed per minute (`0` = off) | `10` | `10` |
+| `CHAT_RATE_PER_DAY` | Per-user Gemini requests allowed per day (`0` = off) | `100` | `100` |
 | `WEBHOOK_SIGNING_SECRET` | Secret key used for HMAC-SHA256 webhook signatures | `pulse_dev_webhook_signing_secret` | Secure high-entropy random string |
 | `FIRESTORE_EMULATOR_HOST`| Local Firestore emulator host (e.g. `localhost:8085`) | *(commented out)* | *(unused in production)* |
 
@@ -574,7 +576,7 @@ gcloud run deploy workplace-pulse-app \
 
 * **Multi-Tenant Data Isolation (SOC 2 CC6.2):** All Firestore persistence operations are strictly scoped under `/users/{uid}/*` based on validated Firebase Auth Bearer JWTs. The underlying Firestore database operates in locked default-deny mode against direct untrusted client connections.
 * **Secret Management (SOC 2 CC6.3):** Zero hardcoded credentials. All server-side API keys and credentials are dynamically resolved at runtime from Google Cloud Secret Manager via Application Default Credentials (ADC).
-* **Rate Limiting Notice:** Per-UID application-layer rate limiting on `/api/forecast/chat` is not implemented. Guest sign-in issues unlimited Firebase tokens, so a determined user could exhaust the server-side Gemini quota. This deployment mitigates that with a Cloud Run max-instance cap, and the Gemini API free tier imposes its own per-model daily request ceiling; per-user throttling is the correct next step.
+* **Rate Limiting:** `/api/forecast/chat` and `/api/forecast/recommendations` share a per-UID sliding-window limit (default 10 requests/minute and 100/day, returning HTTP 429 with `Retry-After`). Tune with `CHAT_RATE_PER_MIN` and `CHAT_RATE_PER_DAY` (`0` disables a window). State is in-memory per Cloud Run instance, so the effective ceiling is the limit times the running instances, and guest sign-in can mint fresh UIDs; per-IP limits or Firebase App Check are the next hardening step. The Cloud Run max-instance cap and the Gemini free-tier daily ceiling remain as backstops.
 * **Local Development Runtime:** The bundled virtualenv targets Python 3.9 while the production container runs `python:3.11-slim`. The hermetic test suite passes locally on 3.9 and in CI on 3.11; aligning local tooling to 3.11 is a known next step.
 
 <br>

@@ -25,6 +25,7 @@ from data_engine import (
 )
 from ai_service import generate_multi_turn_forecast
 from security import verify_firebase_token
+from rate_limit import enforce_gemini_rate_limit
 from database import (
     save_forecast_log,
     save_webhook_config,
@@ -191,7 +192,7 @@ from typing import Optional
 @app.post("/api/forecast/chat", tags=["Forecasting"])
 async def forecast_chat(
     payload: ForecastChatRequest,
-    user_token: dict = Depends(verify_firebase_token),
+    user_token: dict = Depends(enforce_gemini_rate_limit),
     x_gemini_api_key: Optional[str] = Header(None)
 ):
     """
@@ -511,7 +512,7 @@ class RecommendationsRequest(BaseModel):
 @app.post("/api/forecast/recommendations", tags=["Forecasting"])
 async def get_recommendations(
     payload: RecommendationsRequest,
-    user_token: dict = Depends(verify_firebase_token),
+    user_token: dict = Depends(enforce_gemini_rate_limit),
     x_gemini_api_key: Optional[str] = Header(None)
 ):
     from data_engine import get_scenario_by_id
